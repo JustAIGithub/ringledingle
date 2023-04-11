@@ -1,7 +1,9 @@
 import requests
 import json
-from apps.home.creds import DUCK_KEY, DUCK_SECRET
-
+try:
+    from apps.home.creds import DUCK_KEY, DUCK_SECRET
+except:
+    print("No creds file")
 # import os, uberduck
 import requests
 from pydub import AudioSegment
