@@ -42,3 +42,4 @@ pydub==0.25.1
 librosa==0.10.0.post2
 pyphen==0.14.0
 sseclient==0.0.27
+sendgrid==6.10.0
