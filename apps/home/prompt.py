@@ -11,7 +11,7 @@ import openai
 if API_KEY is None:
     try:
         from apps.home.user import person, google_it
-        from apps.home.database import get_conversation
+        # from apps.home.database import get_conversation
         from apps.home.creds import *
     except:
         try:
@@ -27,8 +27,8 @@ def ai_response(prompt, networking = False, temperature =.5):
     temperature = temperature
   
     # PREPRIME WITH MESSAGES
-    messages = get_conversation(5, 'db','user_responses')
-    messages.append({"role": "user", "content": prompt})
+    # messages = get_conversation(5, 'db','user_responses')
+    messages = [{"role": "user", "content": prompt}]
     # NOW RUN THE PROMPT:
     response = openai.ChatCompletion.create( 
     model="gpt-3.5-turbo-0301",
