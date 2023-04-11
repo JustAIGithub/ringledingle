@@ -1,7 +1,7 @@
 FROM python:3.9
 
 # Install necessary packages
-RUN apt-get update && \
+RUN apt-get update -y && \
     apt-get install -y --no-install-recommends ffmpeg ffprobe && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
