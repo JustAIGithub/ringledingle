@@ -40,3 +40,4 @@ azure-cognitiveservices-speech==1.26.0
 flask-paginate==2022.1.8
 pydub==0.25.1
 librosa==0.10.0.post2
+pyphen==0.14.0
