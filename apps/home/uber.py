@@ -68,7 +68,7 @@ def uberduck_audio_segment(speech, voice, duration):
         # "duration": [duration]
     }
     response = requests.post(url, json=payload, auth=auth)
-    AudioSegment.converter = "ffmpeg.exe"
+    # AudioSegment.converter = "ffmpeg.exe"
     audio_segment = AudioSegment.from_file(BytesIO(response.content), format="wav")
     return audio_segment
 
