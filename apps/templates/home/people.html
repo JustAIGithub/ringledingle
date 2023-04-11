@@ -1,0 +1,98 @@
+
+
+
+{% extends "layouts/base.html" %}
+
+
+{% block title %} People {% endblock %} 
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+{% block content %}
+<!-- Push to talk button: Make it so that when the entity is selected 
+  (NOT AFTER SPEECH COMPLETE), the person's profile will come up and we can edit the 
+  relevant info -->
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card ">
+      <div class="card-header">
+
+        <h4 class="card-title"> People</h4>
+        {% if qTerm is not none %}
+        <i>Results for <b>"{{qTerm}}"</b>:</i>
+        {% endif %}
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+              
+          <table class="table tablesorter " id="people">
+            <thead class=" text-primary">
+              {% set it = data['People'].__iter__() %}
+              {% set next = it.__next__() %}
+              <tr>
+                <th>Name</th>
+                
+              </tr>
+            </thead>
+ 
+              {% for name, person in data['People'].items() %}
+              <div >
+              <tr style="max-width: 80vw;">
+                <td class="name" name="{{name}}" contenteditable>{{ name }}</td>
+                <td class="more">View More</td>
+                
+
+                {% for field, value in person.items() %}
+           
+                <td class="expand" name="{{name}}" object="{{object_id}}" oldfield="{{field}}"  style="display: none;" contenteditable>
+                  <i class="remove-field tim-icons icon-simple-remove" style="padding:2px; padding-right:10px"></i>
+                  {% if (value, list) %} 
+                  {{field}} : {{value}}{{list}}
+                  {% else %}
+                  {{ value }}
+                  {% endif %}
+                  
+                    
+                    
+                </td>
+                {% endfor %}
+
+                <!-- <td class="expand" style="display: none;" contenteditable></td>  -->
+                <td class="expand" style="display: none;"><a href="/notes?s={{ name }}">View Notes</a> | <a href="" class="usereditbutton" data-toggle="modal" data-target="#edituser">Edit User</a></td>
+              </tr>
+            </div>
+          {% endfor %}  {# Add this line to close the inner for loop #}
+           
+            </tbody>
+                
+     
+      </table>
+    </div>
+      </div>
+    </div>
+
+  </div>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <div>
+    {% for message in messages %}
+        
+    <div class="alert alert-warning" style="display:inline-block"> 
+      <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+        <i class="tim-icons icon-simple-remove"></i>
+      </button>
+      <span><b>Warning:</b> {{ message }}</span>
+    </div>
+    {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+</div>
+<intro-popup>
+  <span slot="priming-body">You'll be able to control this web app faster with voice.</span>
+</intro-popup>
+
+{% endblock content %}

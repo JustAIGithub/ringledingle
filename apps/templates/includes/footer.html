@@ -1,0 +1,34 @@
+{% if current_user.is_authenticated %}
+<div id="spinner" class="spinner" style="display: none;"></div>
+{% endif %}
+      
+      <footer class="footer">
+        <div class="container-fluid">
+          <ul class="nav">
+            <li class="nav-item">
+              <a target="_blank" rel="noopener noreferrer"
+                 href="" class="nav-link">
+                Ringle Dingle
+              </a>
+            </li>
+            <li>
+              <!-- Note and Help Buttons -->
+            <div class="text-center" style="display:inline-block">
+                <a href="" id="newnote" class="btn btn-default btn-rounded" data-toggle="modal" data-target="#addnotes">Home</a>
+              </div>
+              <div class="text-center" style="display:inline-block">
+                <a href="" id="newperson" class="btn btn-default btn-rounded" data-toggle="modal" data-target="#addperson">Demo</a>
+              </div>
+              <div class="text-center" style="display:inline-block">
+                <a href="" id="newhelp" class="btn btn-default btn-rounded" data-toggle="modal" data-target="#addhelp">About</a>
+              </div>
+              <!-- End note and help -->
+            </li>
+          </ul>
+          <div class="copyright">
+            &copy; <a target="_blank" rel="sponsored noopener noreferrer" 
+                      href="https://github.com/apiispanen">Networker</a> 
+            - coded by <a target="_blank" rel="noopener noreferrer" href="https://appseed.us">Drew Piispanen</a>
+          </div>
+        </div>
+      </footer>

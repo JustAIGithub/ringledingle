@@ -1,0 +1,55 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %} 
+
+{% block stylesheets %}{% endblock %}
+
+{% block content %}
+
+<body>
+  <main>
+    <section>
+      <div class="group">
+        <label>Preprompt</label>
+        <div class="inputContainer">
+          <select id="brand">
+            <option value="">General (Default)</option>
+            <option value="Pretend that you're my assistant: ">Assistant</option>
+            <option value="Pretend that you're my friend: ">Friend</option>
+            <option value="Pretend that you're my therapist: ">Therapist</option>
+            <option value="Pretend that you're a philosopher: ">Philosopher</option>
+            <option value="Pretend that you're my colleague: ">Colleague</option>
+            <option value="Pretend that you're my brain: ">Brain</option>
+          </select>
+        </div>
+        <p class="tiny">Preprompt is, "Pretend that you're my..."</p>
+      </div>
+
+      <div class="group">
+        <label>Prompt</label>
+        <div class="inputContainer" id="prompt">
+          <grammarly-editor-plugin>
+            <textarea type="text" placeholder="You can alternatively insert prompt here - press enter when done"></textarea>
+          </grammarly-editor-plugin>
+        </div>
+      </div>
+
+      <div class="group">
+        <label>Response</label>
+        <div class="inputContainer" id="response">
+           <textarea type="text" disabled></textarea>
+          </div>
+          <p class="tiny">Push mic or spacebar to talk. <br> Prompt can be entered into manually.</p>
+          <a href="/about"><h4>About</h4></a>
+      </div>
+    </section>
+  </main>
+
+
+</body>
+
+{% endblock content %}
+
+{% block javascripts %}
+
+{% endblock javascripts %}

@@ -1,0 +1,38 @@
+import os
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail, Attachment, FileContent, FileName, FileType, Disposition
+import base64
+
+def send_email(to_email='apiispanen@berkeley.edu', attachment=None):
+    try:
+        from apps.home.creds import SENDGRID_KEY
+    except:
+        SENDGRID_KEY = os.getenv('SENDGRID_KEY')
+    message = Mail(
+        from_email='appiispanen@gmail.com',
+        to_emails=to_email,
+        subject='Your RingleDingle in this Thingle',
+        html_content='<strong>Ringles are great, especially with Dingles. Happy whatever day. Add some Ringle to your Dingle.</strong>')
+    
+    if attachment:
+        with open('apps/static/media/output.mp3', 'rb') as f:
+            data = f.read()
+            f.close()
+        encoded_file = base64.b64encode(data).decode()
+
+        attachedFile = Attachment(
+            FileContent(encoded_file),
+            FileName('ringledingle.mp3'),
+            FileType('audio/mpeg'),
+            Disposition('attachment')
+        )
+        message.attachment = attachedFile
+
+    try:
+        sg = SendGridAPIClient(SENDGRID_KEY)
+        response = sg.send(message)
+        print(response.status_code)
+        print(response.body)
+        print(response.headers)
+    except Exception as e:
+        print(e)

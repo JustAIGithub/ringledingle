@@ -1,0 +1,59 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Tables {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="card ">
+      <div class="card-header">
+        <h4 class="card-title">Notes for UID:{{user_id}}<br>
+          {% if qTerm is defined %} Search Term: {{qTerm}}{% endif %}</h4>
+        <div class="dropdown">
+          <button type="button" class="btn btn-link dropdown-toggle btn-icon" data-toggle="dropdown" aria-expanded="false">
+            <i class="tim-icons icon-settings-gear-63"></i></button>
+          <div class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenuLink" x-placement="bottom-end" style="position: absolute; transform: translate3d(-123px, 21px, 0px); top: 0px; left: 0px; will-change: transform;">
+            <a class="dropdown-item" href="#pablo">Info</a>
+            <a class="dropdown-item" href="#pablo">Update</a>
+            <a class="dropdown-item" href="#pablo">Search</a>
+          </div>
+        </div>
+
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+              
+          <table class="table tablesorter " id="">
+            <thead class=" text-primary">
+              <p class=>All logged activity for user will be displayed</p>
+              <tr>
+                <th>Timestamp</th>
+                <th>Note</th>
+                <th>Person</th>
+              </thead>
+              <tbody>
+              </tr>
+              {% if length ==  0 %}
+              <tr><td><p class>No Notes here - add one by saying "Note"</p></tr></td>
+              {% endif %}
+              {% for note in noteprompts %}
+              <tr name="user_responses" value="{{note['_id']}}" >
+              <td>{{ note['timestamp'] }}</td><td>{{ note['prompt']|safe }}</td><td><i class="tim-icons icon-user"></i>{{ note['person'] }}</td><td class="delete-button"> <i class="tim-icons icon-simple-remove"></i></td></tr>
+              {% endfor %}
+           
+            </tbody>
+                
+     
+      </table>
+    </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

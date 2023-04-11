@@ -1,0 +1,4 @@
+[[deployments]]
+name = "production"
+image = "Dockerfile" # Railway will automatically detect and use the Dockerfile
+command = "gunicorn run:app" # Replace this with the appropriate command to start your application
