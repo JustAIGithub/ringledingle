@@ -10,9 +10,9 @@ from flask import session
 import openai
 if API_KEY is None:
     try:
-        from apps.home.creds import *
         from apps.home.user import person, google_it
         from apps.home.database import get_conversation
+        from apps.home.creds import *
     except:
         try:
             from creds import *
