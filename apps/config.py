@@ -46,6 +46,7 @@ class ProductionConfig(Config):
     #     config('DB_NAME', default='railway')
     # )
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
+    print(f"************** DATABASE URL: {SQLALCHEMY_DATABASE_URI} **************")
 
 
 class DebugConfig(Config):
