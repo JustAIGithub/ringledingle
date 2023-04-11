@@ -1,14 +1,19 @@
 import requests
 import json
-try:
-    from apps.home.creds import DUCK_KEY, DUCK_SECRET
-except:
-    print("No creds file")
 # import os, uberduck
 import requests
 from pydub import AudioSegment
 from io import BytesIO
 import os
+
+
+DUCK_KEY = os.getenv('DUCK_KEY')
+DUCK_SECRET = os.getenv('DUCK_SECRET')
+if DUCK_KEY is None:
+    try:
+        from apps.home.creds import DUCK_KEY, DUCK_SECRET
+    except:
+        print("No creds file")
 
 # WORKING WITH THE UBER DUCK API
 
@@ -18,8 +23,6 @@ url = "https://api.uberduck.ai/reference-audio"
 # Replace these with your own values from your creds.py file
 api_key = DUCK_KEY
 api_secret = DUCK_SECRET
-os.environ['DUCK_KEY'] = DUCK_KEY
-os.environ['DUCK_SECRET'] = DUCK_SECRET
 
 auth=(DUCK_KEY, DUCK_SECRET)
 
