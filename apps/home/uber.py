@@ -13,7 +13,10 @@ if DUCK_KEY is None:
     try:
         from apps.home.creds import DUCK_KEY, DUCK_SECRET
     except:
-        print("No creds file")
+        try:
+            from creds import DUCK_KEY, DUCK_SECRET
+        except:
+            print("No creds file")
 
 # WORKING WITH THE UBER DUCK API
 
@@ -23,6 +26,7 @@ url = "https://api.uberduck.ai/reference-audio"
 # Replace these with your own values from your creds.py file
 api_key = DUCK_KEY
 api_secret = DUCK_SECRET
+
 
 auth=(DUCK_KEY, DUCK_SECRET)
 
@@ -39,24 +43,35 @@ def get_voices(auth=auth):
     return response.json()
 
 def get_voice_id(voice, auth=auth):
-    url = f"https://api.uberduck.ai/voices?mode=tts-all&language=english"
-    response = requests.get(url, auth=auth)
+    url = f'https://api.uberduck.ai/voice-data?name={voice}&architecture=tacotron2'
+    headers = {
+    "accept": "application/json",
+    }
+    # url = f"https://api.uberduck.ai/voices?mode=tts-all&language=english"
+    response = requests.get(url, auth=auth, headers=headers)
     # NEED TO FIND THE RESPONSE THAT HAS THE VOICE NAME
-    voice_object = [x for x in response.json() if x['name'] == voice][0]
+    # voice_object = [x for x in response.json() if x['name'] == voice][0]
 
-    return voice_object
-
-# # # print(get_voice('spongebob'))
-# print([voice['name'] for voice in get_voices()])
-# # put all voice names in C:\Users\appii\Google Drive\Projects\music-player\voice-names.txt:
-# with open('voice-names.txt', 'w') as f:
-#     for voice in get_voices():
-#         f.write(voice['name'] + "\n")
+    return response.text
 
 
+print(get_voice_id('eminem'))
+print(get_voice_id('biggie-smalls'))
+print(get_voice_id('rizzo-the-rat'))
+print(get_voice_id('yoda'))
+print(get_voice_id('johnny-cash'))
+print(get_voice_id('snoop-dogg'))
+print(get_voice_id('spongebob'))
+print(get_voice_id('shrek'))
+print(get_voice_id('donkey'))
+print(get_voice_id('tyler-the-creator'))
+print(get_voice_id('2pac'))
 
-def uberduck_audio_segment(speech, voice, duration):
-    auth = (os.getenv('DUCK_KEY'), os.getenv('DUCK_SECRET'))
+
+
+def uberduck_audio_segment(speech, voice, duration, auth=auth):
+    # auth = (os.getenv('DUCK_KEY'), os.getenv('DUCK_SECRET'))
+
     # print("AUTH:",auth)
 
     url = "https://api.uberduck.ai/speak-synchronous"
@@ -145,7 +160,7 @@ def uberduck_audio_segment(speech, voice, duration):
 # Example usage
 # voice = 'spongebob'  # Replace with a voice from the list of available voices
 # speech = 'Hello, world!'
-# # audio_segment = uberduck_audio_segment(speech, voice)
+# audio_segment = uberduck_audio_segment(speech, voice, 0)
 # audio_segment = speak(speech, voice)
 
 # print(audio_segment)

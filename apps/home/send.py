@@ -3,7 +3,7 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail, Attachment, FileContent, FileName, FileType, Disposition
 import base64
 
-def send_email(to_email='apiispanen@berkeley.edu', attachment=None):
+def send_email(to_email='apiispanen@berkeley.edu', attachment=None, lyrics=None):
     try:
         from apps.home.creds import SENDGRID_KEY
     except:
@@ -12,7 +12,7 @@ def send_email(to_email='apiispanen@berkeley.edu', attachment=None):
         from_email='appiispanen@gmail.com',
         to_emails=to_email,
         subject='Your RingleDingle in this Thingle',
-        html_content='<strong>Ringles are great, especially with Dingles. Happy whatever day. Add some Ringle to your Dingle.</strong>')
+        html_content=f'<strong>Ringles are great, especially with Dingles. Happy whatever day. Add some Ringle to your Dingle.</strong><br><br>Lyrics:{lyrics}')
     
     if attachment:
         with open('apps/static/media/output.mp3', 'rb') as f:

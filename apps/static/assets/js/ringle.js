@@ -59,24 +59,31 @@ ringlesubmit.addEventListener("click", function(event) {
   // var audioSrc = document.getElementById("myAudio").getElementsByTagName("source")[0].src;
   console.log("SENDING A RAP REQUEST");
   console.log("Sending request for a rap to voice: ".concat(singer));
-  var resultPromise = make_rap("Can you please make a 45 second, 4-4 rap about the following, in between deliminiters STARTRAP and ENDRAP (respond with lyrics ONLY, no 'Verse 1:' Labeling either):".concat(raplyrics.value), input_file=input_file, voice=singer, email=email);
-  resultPromise.then(function(result) {
-  console.log(result);
-  var start = result.indexOf("STARTRAP") + 8; // Find the index of "STARTRAP" and add its length
-  var end = result.indexOf("ENDRAP");
-  var rapText = result.substring(start, end).trim(); // Extract the text between the delimiters
-  document.getElementById("play").innerHTML = "Play Rap"
 
-  response.value = rapText;
+  var resultPromise = make_rap("Generate 12 lines of rap lyrics in iambic tetrameter. Each line should have eight syllables and follow a consistent rhythm of alternating unstressed and stressed syllables (an iambic foot). Make the rap in the style of ".concat(singer).concat(" about the following, in between deliminiters STARTRAP and ENDRAP (respond with lyrics ONLY, no 'Verse 1:' Labeling either): ").concat(raplyrics.value), input_file=input_file, voice=singer, email=email);
+  resultPromise.then(function(result) {
+
+    console.log(result);
+    var start = result.indexOf("STARTRAP") + 8;
+    var end = result.indexOf("ENDRAP");
+
+    if (start === 7 || end === -1) {
+      showErrorModal('An error occurred while generating the rap lyrics.');
+      return;
+    }
+
+    var rapText = result.substring(start, end).trim();
+    document.getElementById("play").innerHTML = "Play Rap"
+    response.value = rapText;
+  }).catch(function(error) {
+    showErrorModal('An error occurred: ' + error.message);
+  });
+
+
   });
 
   
   // END SUBMIT RAP BUTTON
-
-
-});
-
-
 
 
 // **********************************************
@@ -84,8 +91,8 @@ ringlesubmit.addEventListener("click", function(event) {
 
 function make_rap(words, input_file, voice, email="", show_response=true) {
   if(ask_question_running){
-    console.log("ask q already running");
-    return;
+    console.log("Ringle Dingle is already running");
+    return Promise.reject(new Error("Ringle Dingle is already running"));
   }
   ask_question_running = true;
   
@@ -119,4 +126,74 @@ function make_rap(words, input_file, voice, email="", show_response=true) {
 }
 
 
+
+
 // **********************************************
+
+// Error handling
+// Error handling
+function showErrorModal(message) {
+  // Create a modal overlay
+  const modalOverlay = document.createElement('div');
+  modalOverlay.style.position = 'fixed';
+  modalOverlay.style.top = 0;
+  modalOverlay.style.left = 0;
+  modalOverlay.style.width = '100%';
+  modalOverlay.style.height = '100%';
+  modalOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+  modalOverlay.style.display = 'flex';
+  modalOverlay.style.justifyContent = 'center';
+  modalOverlay.style.alignItems = 'center';
+  modalOverlay.style.zIndex = 1000;
+
+  // Create a modal to display the error message
+  const modal = document.createElement('div');
+  modal.style.backgroundColor = 'white';
+  modal.style.padding = '20px';
+  modal.style.borderRadius = '10px';
+  modal.style.textAlign = 'center';
+  modal.style.color = 'black';
+  modal.style.width = '80%';
+  modal.style.maxWidth = '400px';
+
+  // Add error message
+  const errorMessage = document.createElement('p');
+  errorMessage.textContent = message;
+  modal.appendChild(errorMessage);
+  document.getElementById('spinner').style.display = 'none';
+
+
+  // Add an 'OK' button to close the modal
+  const okButton = document.createElement('button');
+  okButton.textContent = 'OK';
+  okButton.style.backgroundColor = '#504caf';
+  okButton.style.color = 'white';
+  okButton.style.border = 'none';
+  okButton.style.padding = '10px 20px';
+  okButton.style.fontSize = '16px';
+  okButton.style.cursor = 'pointer';
+  okButton.style.borderRadius = '5px';
+  okButton.style.marginTop = '10px';
+  okButton.addEventListener('click', () => {
+    document.body.removeChild(modalOverlay);
+  });
+
+  modal.appendChild(okButton);
+  modalOverlay.appendChild(modal);
+  document.body.appendChild(modalOverlay);
+}
+
+
+// Display sample lyrics on hover
+airesponseTextArea.addEventListener('mouseover', () => {
+  if (!airesponseTextArea.value) {
+    airesponseTextArea.value = 'Sample lyrics:\nLine 1\nLine 2\nLine 3\n...';
+  }
+});
+
+airesponseTextArea.addEventListener('mouseout', () => {
+  if (airesponseTextArea.value.startsWith('Sample lyrics:')) {
+    airesponseTextArea.value = '';
+  }
+});
+

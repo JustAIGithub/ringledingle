@@ -98,8 +98,8 @@ def make_rap():
     end_index = lyrics.find("ENDRAP")
     rap_lyrics = lyrics[start_index:end_index].strip()
 
-    rap_on_phrases(f'apps/static/media/{input_file}', f'apps/static/media/{output_file}', rap_lyrics, start_lag=12, rap_speed_factor=1.2, music_volume=10, silence_thresh=-60, overlap=.15, voice=voice, beats_in_between=1)
-    send_email(to_email=email, attachment=f'apps/static/media/{output_file}')
+    rap_on_phrases(f'apps/static/media/{input_file}', f'apps/static/media/{output_file}', rap_lyrics, start_lag=8, rap_speed_factor=1.3, music_volume=10, silence_thresh=-60, overlap=.1, voice=voice, beats_in_between=1)
+    send_email(to_email=email, attachment=f'apps/static/media/{output_file}', lyrics=lyrics)
     # user_id = session.get("_user_id")
     # print("AI response Completed.")
     return jsonify({ "airesponse":lyrics})

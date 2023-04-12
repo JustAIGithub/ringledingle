@@ -3,7 +3,10 @@ from pydub import AudioSegment
 from pydub.generators import Sine
 import pyphen
 # from apps.home.azure_test import azure_audio_segment
-from apps.home.uber import uberduck_audio_segment
+try:
+    from apps.home.uber import uberduck_audio_segment
+except:
+    from uber import uberduck_audio_segment
 from pydub.effects import speedup
 from pydub.silence import detect_nonsilent
 import random
@@ -27,7 +30,7 @@ def pitch_shift(audio_segment, shift):
     )
 
 
-def rap_on_phrases(input_file, output_file, lyrics, start_lag=8, lag=1, music_volume=-10, vocal_volume=5, rap_speed_factor=1.2, overlap=0.1, silence_thresh=-60, voice="eminem", beats_in_between=1, beats_per_phrase=2):
+def rap_on_phrases(input_file, output_file, lyrics, start_lag=8, lag=1, music_volume=-10, vocal_volume=5, rap_speed_factor=1.2, overlap=0.1, silence_thresh=-60, voice="eminem", beats_in_between=1, beats_per_phrase=4, beats_per_syllable=0.5):
     try:
         #close input file from its path string
         with open(input_file, 'rb') as f:
@@ -53,7 +56,7 @@ def rap_on_phrases(input_file, output_file, lyrics, start_lag=8, lag=1, music_vo
     output_audio = AudioSegment.silent(duration=len(y) / sr * 1000)
 
     # Split the lyrics into phrases
-    phrases = re.split(r'[\n,]', lyrics.strip())
+    phrases = re.split(r'[\n]', lyrics.strip())
     phrases = [phrase.strip() for phrase in phrases if phrase.strip() != '']
 
     phrase_index = 0
@@ -63,15 +66,18 @@ def rap_on_phrases(input_file, output_file, lyrics, start_lag=8, lag=1, music_vo
         if i >= start_lag and phrase_index < len(phrases) and beat_time >= next_phrase_start:
             phrase = phrases[phrase_index]
 
-            # Calculate the duration based on the tempo and beats_per_phrase
-            duration = beats_per_phrase * (60 / tempo)
+            # Calculate the duration based on the tempo, beats_per_syllable, and number of syllables in the phrase
+            hyphenator = pyphen.Pyphen(lang='en')
+            syllables = sum([len(hyphenator.inserted(word).split('-')) for word in phrase.split()])
+            duration = syllables * beats_per_syllable * (60 / tempo)
+
             print(f"Generating at {beats_per_phrase} beats per phrase, tempo {tempo}".format )
             # Generate spoken audio for the current phrase
             spoken_phrase = uberduck_audio_segment(phrase, voice, duration)
             try:
                 spoken_phrase = speedup(spoken_phrase, playback_speed=rap_speed_factor)
-                # spoken_phrase = strip_silence(spoken_phrase, silence_thresh=silence_thresh)
-                spoken_phrase = random_pitch_shift(spoken_phrase)
+                spoken_phrase = strip_silence(spoken_phrase, silence_thresh=silence_thresh)
+                # spoken_phrase = random_pitch_shift(spoken_phrase)
             except:
                 print("Error with pitch shifting")
             # Overlay the spoken audio on the beat
@@ -98,7 +104,7 @@ def rap_on_phrases(input_file, output_file, lyrics, start_lag=8, lag=1, music_vo
 
 
 # Usage
-input_file = "apps/static/media/rap1.mp3"
+input_file = "apps/static/media/rap2.mp3"
 output_file = "output_audio.mp3"
 
 # lyrics = "hello darkness my old friend I've come to talk with you again"
@@ -110,17 +116,6 @@ output_file = "output_audio.mp3"
 # but RIP to the goat, he's the only one flying
 # """
 
-# lyrics = """
-# The microphone, my closest friend
-# Together, we will never bend
-# I conquer stages, crowds erupt
-# My flow's unique, I won't disrupt
-
-# I rise above, I break the chains
-# My verses free, they heal the pains
-# I'm rapping now, I'm soaring high
-# A lyricist until I die
-# """
 import random
 
 def random_pitch_shift(audio_segment, min_shift=-3, max_shift=3):
@@ -135,7 +130,7 @@ def strip_silence(audio_segment, silence_thresh=-80):
     non_silent_ranges = detect_nonsilent(audio_segment, min_silence_len=60, silence_thresh=silence_thresh)
     if len(non_silent_ranges) > 0:
         start_trim, end_trim = non_silent_ranges[0]
-        return audio_segment[start_trim:end_trim]
+        return audio_segment[start_trim:]
     else:
         return audio_segment
 
@@ -145,4 +140,22 @@ def strip_silence(audio_segment, silence_thresh=-80):
 
 #     print(lyrics)
 # # # "up" will stop at -50 do not go above
-    # rap_on_phrases(input_file, output_file, lyrics, start_lag=8, rap_speed_factor=1.2, music_volume=15, silence_thresh=-60, overlap=0)
+# import prompt
+# lyrics = prompt.ai_response("Generate 12 lines of rap lyrics in iambic tetrameter. Each line should have eight syllables and follow a consistent rhythm of alternating unstressed and stressed syllables (an iambic foot). Make the rap in the style of eminem about the following, in between deliminiters STARTRAP and ENDRAP (respond with lyrics ONLY, no 'Verse 1:' Labeling either): \nHer name is Rani, she's a doctor with big eyes a beautiful smile but hates chocolate and likes to kill small children.")
+# lyrics = """
+# Rani's a doc with eyes that are big,
+# Her smile is beautiful, but she hates chocolate, dig?
+# She's got a dark side that nobody sees,
+# Likes to kill small kids and do as she please.
+
+# She walks around with a stethoscope in hand,
+# But don't be fooled by her medical brand.
+# Rani's got secrets that nobody knows,
+# Her twisted desires will leave you froze.
+
+# A doctor by day and killer at night,
+# Don't cross her path or you'll feel her might.
+# Rani's the queen of the medical scene,
+# But beware of the darkness that lies in between.
+# """
+# rap_on_phrases(input_file, output_file, lyrics, start_lag=12, rap_speed_factor=1.2, music_volume=16, silence_thresh=-60, overlap=0, beats_per_phrase=4, beats_in_between=1)
