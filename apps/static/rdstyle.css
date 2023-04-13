@@ -319,3 +319,9 @@ padding:5px
     width: 100%;
   }
 }
+footer div{
+  padding:10px; text-decoration: none;
+}
+footer * {
+  list-style-type: none
+}

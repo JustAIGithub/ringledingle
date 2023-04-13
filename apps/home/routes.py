@@ -94,10 +94,11 @@ def make_rap():
     session['audio_saved'] = True
 
     lyrics = ai_response(words)
-    start_index = lyrics.find("STARTRAP") + len("STARTRAP")
-    end_index = lyrics.find("ENDRAP")
+    # lyrics = "STARTPOEM\nI love Nancy she's so delicious ENDPOEM"
+    start_index = lyrics.find("STARTPOEM") + len("STARTPOEM")
+    end_index = lyrics.find("ENDPOEM")
     rap_lyrics = lyrics[start_index:end_index].strip()
-    rap_lyrics = "I'd like to read to you a poem today:\n"+ rap_lyrics 
+    rap_lyrics = "Hello, I'd like to tell you a poem I wrote today:\n"+ rap_lyrics 
     make_narration(f'apps/static/media/{input_file}', f'apps/static/media/{output_file}', rap_lyrics,voice=voice)
     send_email(to_email=email, attachment=f'apps/static/media/{output_file}', lyrics=rap_lyrics)
     # user_id = session.get("_user_id")

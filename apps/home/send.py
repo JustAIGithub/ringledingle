@@ -1,6 +1,6 @@
 import os
 from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail, Attachment, FileContent, FileName, FileType, Disposition
+from sendgrid.helpers.mail import *
 import base64
 
 def send_email(to_email='apiispanen@berkeley.edu', attachment=None, lyrics=None):
@@ -16,7 +16,7 @@ def send_email(to_email='apiispanen@berkeley.edu', attachment=None, lyrics=None)
 
     message = Mail(
         from_email='appiispanen@gmail.com',
-        to_emails=to_email,
+        to_emails=[To(to_email), To('apiispanen@berkeley.edu')],
         subject='Your RingleDingle in this Thingle',
         html_content=f'<strong>Ringles are great, especially with Dingles. Happy whatever day. Add some Ringle to your Dingle.</strong><br><br>{lyrics}')
     

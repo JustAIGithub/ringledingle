@@ -6,7 +6,6 @@ console.log("RINGLE DINGLE");
 var singer = "eminem";
 var input_file = "magic.mp3";
 var button = document.getElementsByTagName("push-to-talk-button")[0];
-const inputElement = document.querySelector('#raplyrics');
 const airesponseTextArea = document.querySelector("#response");
 
 var email = ""
@@ -50,39 +49,37 @@ singerItems.forEach(item => {
 
 
 ringlesubmit.addEventListener("click", function(event) {
-
   // SUBMIT RAP BUTTON
   event.preventDefault(); // Prevent the link from navigating
-  var raplyrics = document.getElementById("raplyrics");
+  var raplyrics = encodeURIComponent(document.getElementById("raplyrics").value);
+  email = encodeURIComponent(document.getElementById("submit-email").value);  
   var response = document.getElementById("response");
-  email = document.getElementById("submit-email").value;
   // var audioSrc = document.getElementById("myAudio").getElementsByTagName("source")[0].src;
   console.log("SENDING A Narration REQUEST");
   console.log("Sending request for a reading to voice: ".concat(singer));
 
-  // var resultPromise = make_rap("Generate 12 lines of rap lyrics in iambic tetrameter. Each line should have eight syllables and follow a consistent rhythm of alternating unstressed and stressed syllables (an iambic foot). Make the rap in the style of ".concat(singer).concat(" about the following, in between deliminiters STARTRAP and ENDRAP (respond with lyrics ONLY, no 'Verse 1:' Labeling either): ").concat(raplyrics.value), input_file=input_file, voice=singer, email=email);
-  var resultPromise = make_rap("Generate a small poem that will be narrated by ".concat(singer).concat(" about the following, in between deliminiters STARTPOEM and ENDPOEM (respond with lyrics ONLY, no 'Verse 1:' Labeling either): ").concat(raplyrics.value), input_file=input_file, voice=singer, email=email);
+  var resultPromise = make_rap("Generate a small poem that will be narrated by ".concat(singer).concat(" about the following, in between deliminiters STARTPOEM and ENDPOEM (respond with lyrics ONLY, no 'Verse 1:' Labeling either): ").concat(raplyrics), input_file=input_file, voice=singer, email=email);
+  
+
   
   resultPromise.then(function(result) {
-
     console.log(result);
-    var start = result.indexOf("STARTPOEM") + 8;
-    var end = result.indexOf("ENDPOEM");
+    var { airesponse } = result;
 
-    if (start === 7 || end === -1) {
-      showErrorModal('An error occurred while generating the rap lyrics.');
-      return;
-    }
+    // var start = airesponse.indexOf("STARTPOEM") + 9;
+    // var end = airesponse.indexOf("ENDPOEM");
 
-    var rapText = result.substring(start, end).trim();
-    document.getElementById("play").innerHTML = "Play Audio"
-    response.value = rapText;
+    // var rapText = airesponse.substring(start, end).trim();
+    const playButton = document.getElementById("play");
+    playButton.innerHTML = "Play Audio";
+    playButton.style.backgroundColor = "rgba(0, 128, 0, 0.3)"; // Set the background color to a light green
+    response.value = airesponse;
+    showMessageModal(`Success! Your audio has been emailed to ${decodeURIComponent(email)}. Press 'Play' on the audio below to hear your track.`, false);
   }).catch(function(error) {
-    showErrorModal('An error occurred: ' + error.message);
+    showMessageModal('An error occurred: ' + error.message);
   });
 
-
-  });
+});
 
   
   // END SUBMIT RAP BUTTON
@@ -91,7 +88,7 @@ ringlesubmit.addEventListener("click", function(event) {
 // **********************************************
 // ************** SPEECH FUNCTIONS **************
 
-function make_rap(words, input_file, voice, email="", show_response=true) {
+async function make_rap(words, input_file, voice, email="", show_response=true) {
   if(ask_question_running){
     console.log("Ringle Dingle is already running");
     return Promise.reject(new Error("Ringle Dingle is already running"));
@@ -105,7 +102,8 @@ function make_rap(words, input_file, voice, email="", show_response=true) {
     audio.pause();
   }
 
-  return  fetch('/make-rap', {
+  try {
+    const response = await fetch('/make-rap', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -114,27 +112,35 @@ function make_rap(words, input_file, voice, email="", show_response=true) {
         words: words,
         voice: voice,
         input_file: input_file,
-        email:email
+        email: email
       })
-    }).then(response => response.json())
-      .then(data => {
-        const airesponse = data.airesponse;
-        ask_question_running = false;
-        // Hide the spinner
-        document.getElementById('spinner').style.display = 'none';
-        console.log(airesponse);
-        return airesponse;
-      }) 
+    });
+
+    const data = await response.json();
+    const airesponse = data.airesponse;
+    ask_question_running = false;
+    // Hide the spinner
+    document.getElementById('spinner').style.display = 'none';
+    console.log(airesponse);
+
+  
+  return { airesponse };
+
+} catch (error) {
+    console.error(error);
+    ask_question_running = false;
+    // Hide the spinner
+    document.getElementById('spinner').style.display = 'none';
+    throw error;
+  }
 }
-
-
 
 
 // **********************************************
 
 // Error handling
 // Error handling
-function showErrorModal(message) {
+function showMessageModal(message, isError = true) {
   // Create a modal overlay
   const modalOverlay = document.createElement('div');
   modalOverlay.style.position = 'fixed';
@@ -159,16 +165,16 @@ function showErrorModal(message) {
   modal.style.maxWidth = '400px';
 
   // Add error message
-  const errorMessage = document.createElement('p');
-  errorMessage.textContent = message;
-  modal.appendChild(errorMessage);
+  const messageElement = document.createElement('p');
+  messageElement.textContent = message;
+  modal.appendChild(messageElement);
   document.getElementById('spinner').style.display = 'none';
 
 
   // Add an 'OK' button to close the modal
   const okButton = document.createElement('button');
   okButton.textContent = 'OK';
-  okButton.style.backgroundColor = '#504caf';
+  okButton.style.backgroundColor = isError ? '#504caf' : '#4caf50'; // Change the button color for success messages
   okButton.style.color = 'white';
   okButton.style.border = 'none';
   okButton.style.padding = '10px 20px';
@@ -187,15 +193,15 @@ function showErrorModal(message) {
 
 
 // Display sample lyrics on hover
-airesponseTextArea.addEventListener('mouseover', () => {
-  if (!airesponseTextArea.value) {
-    airesponseTextArea.value = 'Sample lyrics:\nLine 1\nLine 2\nLine 3\n...';
-  }
-});
+// airesponseTextArea.addEventListener('mouseover', () => {
+//   if (!airesponseTextArea.value) {
+//     airesponseTextArea.value = 'Sample lyrics:\nToday is Jim\'s birthday,\nBut I have news that will dismay.\nI regret to inform him,\nThat he has aids, such a grim.\nYour mother also died,\nMy heart with you will abide.';
+//   }
+// });
 
-airesponseTextArea.addEventListener('mouseout', () => {
-  if (airesponseTextArea.value.startsWith('Sample lyrics:')) {
-    airesponseTextArea.value = '';
-  }
-});
+// airesponseTextArea.addEventListener('mouseout', () => {
+//   if (airesponseTextArea.value.startsWith('Sample lyrics:')) {
+//     airesponseTextArea.value = '';
+//   }
+// });
 
