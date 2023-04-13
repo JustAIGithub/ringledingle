@@ -1,0 +1,116 @@
+{% extends "layouts/base.html" %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+
+</style>
+{% block content %}
+<div class="row ringedingle">
+  
+  <div class="col-md-12">
+    <div class="card ">
+      <div class="card-header">
+        <h4 class="card-title"> Ringle Dingle</h4>
+        <p style="text-align: center;">Custom Rap E-Greetings</p>
+
+        <div class="card-body song-style" style="text-align: center;">
+        <!-- SONG STYLE -->
+          <h4>Step 1: Select a style</h4>
+            <a class="dropdown-item" value="rap1.mp3">Intense</a>
+            <a class="dropdown-item" value="rap2.mp3">Funky</a>
+            <a class="dropdown-item" value="rap3.mp3">Throwback</a>
+          </div>
+          <div class="card-body singer" style="text-align: center;">
+            <!-- SONG STYLE -->
+              <h4>Step 2: Select a singer</h4>
+                <a class="dropdown-item" value="eminem">Eminem</a>
+                <a class="dropdown-item" value="2pac">2Pac</a>
+                <a class="dropdown-item" value="biggie-smalls">The Notorious B.I.G.</a>
+                <a class="dropdown-item" value="snoop-dogg">Snoop Dogg</a>
+                <a class="dropdown-item" value="alan-rickman">Alan Rickman</a>
+                <a class="dropdown-item" value="arnold-schwarzenegger">Arnold Schwarzenegger</a>
+                <a class="dropdown-item" value="bugs-bunny">Bugs Bunny</a>
+                <a class="dropdown-item" value="dory">Dory</a>
+                <a class="dropdown-item" value="shrek">Shrek</a>                
+                <a class="dropdown-item" value="sandy-cheeks">Sandy Cheeks</a>
+                <a class="dropdown-item" value="rizzo-the-rat">Rizzo the Rat</a>
+              </div>
+
+        <!-- LYRIC GENERATION -->
+      </div>
+          <!-- DREW PASTE -->
+
+          <div >
+            <h4>Step 3: Enter a email to send to</h4>
+
+            <form style="text-align: center;">
+          
+              <div class="user-box">
+                <input type="text" id="submit-email" name="" required="">
+                <label>Email to send to</label>
+              </div>
+              <h4>Step 4: Enter facts about the person you're sending this to.</h4>
+
+              <div class="user-box">
+                <textarea id="raplyrics" placeholder="This is Tony - he's a nice librarian - but he murders people at night and keeps severed heads in his pantry.">
+                </textarea>
+                <label>Spit some facts</label>
+              </div>
+              <div id="submit-box">
+              <a href="#" id="ringlesubmit">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <div id="spinner" class="spinner" style="display: none; text-align: center; background-color: aquamarine; border-radius: 50%;"></div>
+                <p style="font-size: 24px;">Step 5: Submit</p> <p class="tiny">(Lyrics and song will generate below)</p> 
+              </a>
+            </div>
+            </form>
+           
+          <!-- DREW PASTE END -->
+
+          <div style="text-align: center;" id="results" style="display: none">
+            <h3>YOUR RESULTS</h3>
+            <textarea name="" id="response" cols="30" rows="10" style="text-align: center; display: inline-block;"></textarea>
+
+
+
+          <div style="text-align:center;  padding:20px">
+
+            <audio id="myAudio" style="text-align: center; width:100vw;">
+              <source src="{{ url_for('static', filename='media/output.mp3') }}" type="audio/mpeg">
+            </audio>
+            <button id="play" onclick="playAudio()" style="text-align: center; padding:20px">Play</button>
+            <button onclick="stopAudio()" style="text-align: center; padding:20px">Stop</button>
+            </div>
+
+            
+          </div>
+ 
+      </div>
+    </div>
+    
+
+
+</div>
+<script>
+  var audio = document.getElementById("myAudio");
+
+  function playAudio() {
+    audio.play();
+  }
+
+  function stopAudio() {
+    audio.pause();
+    audio.currentTime = 0;
+  }
+</script>
+</div>
+
+
+</div>
+
+{% endblock content %}
+

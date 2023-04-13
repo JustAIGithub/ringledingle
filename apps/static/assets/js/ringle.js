@@ -4,7 +4,7 @@
 ask_question_running = false;
 console.log("RINGLE DINGLE");
 var singer = "eminem";
-var input_file = "rap1.mp3";
+var input_file = "magic.mp3";
 var button = document.getElementsByTagName("push-to-talk-button")[0];
 const inputElement = document.querySelector('#raplyrics');
 const airesponseTextArea = document.querySelector("#response");
@@ -57,15 +57,17 @@ ringlesubmit.addEventListener("click", function(event) {
   var response = document.getElementById("response");
   email = document.getElementById("submit-email").value;
   // var audioSrc = document.getElementById("myAudio").getElementsByTagName("source")[0].src;
-  console.log("SENDING A RAP REQUEST");
-  console.log("Sending request for a rap to voice: ".concat(singer));
+  console.log("SENDING A Narration REQUEST");
+  console.log("Sending request for a reading to voice: ".concat(singer));
 
-  var resultPromise = make_rap("Generate 12 lines of rap lyrics in iambic tetrameter. Each line should have eight syllables and follow a consistent rhythm of alternating unstressed and stressed syllables (an iambic foot). Make the rap in the style of ".concat(singer).concat(" about the following, in between deliminiters STARTRAP and ENDRAP (respond with lyrics ONLY, no 'Verse 1:' Labeling either): ").concat(raplyrics.value), input_file=input_file, voice=singer, email=email);
+  // var resultPromise = make_rap("Generate 12 lines of rap lyrics in iambic tetrameter. Each line should have eight syllables and follow a consistent rhythm of alternating unstressed and stressed syllables (an iambic foot). Make the rap in the style of ".concat(singer).concat(" about the following, in between deliminiters STARTRAP and ENDRAP (respond with lyrics ONLY, no 'Verse 1:' Labeling either): ").concat(raplyrics.value), input_file=input_file, voice=singer, email=email);
+  var resultPromise = make_rap("Generate a small poem that will be narrated by ".concat(singer).concat(" about the following, in between deliminiters STARTPOEM and ENDPOEM (respond with lyrics ONLY, no 'Verse 1:' Labeling either): ").concat(raplyrics.value), input_file=input_file, voice=singer, email=email);
+  
   resultPromise.then(function(result) {
 
     console.log(result);
-    var start = result.indexOf("STARTRAP") + 8;
-    var end = result.indexOf("ENDRAP");
+    var start = result.indexOf("STARTPOEM") + 8;
+    var end = result.indexOf("ENDPOEM");
 
     if (start === 7 || end === -1) {
       showErrorModal('An error occurred while generating the rap lyrics.');
@@ -73,7 +75,7 @@ ringlesubmit.addEventListener("click", function(event) {
     }
 
     var rapText = result.substring(start, end).trim();
-    document.getElementById("play").innerHTML = "Play Rap"
+    document.getElementById("play").innerHTML = "Play Audio"
     response.value = rapText;
   }).catch(function(error) {
     showErrorModal('An error occurred: ' + error.message);

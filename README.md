@@ -3,7 +3,7 @@ RingleDingle is a music e-greeting card for your friends and family member. Tell
 <br><br>
 
 ## Here's how it works:
-1. Go to [RingleDingle's Site](ringledingle.up.railway.app)
+1. Go to [RingleDingle's Site](https://ringledingle.up.railway.app/)
 2. Fill out the information in the brief form
 3. Hit submit and wait
    1. (optional) file a complaint about waiting too long to apiispanen@berkeley.edu
@@ -14,4 +14,4 @@ RingleDingle is a music e-greeting card for your friends and family member. Tell
 
 If you like what you see, [fork over some cash](https://www.buymeacoffee.com/droopycodes) so I can afford to breathe the tax-heavy Northeastern USA air.
 
-RingleDingle was coded by Professor Doctor Scholar Drew Piispanen in 2023. Someday my father will finally respect me.
+RingleDingle was coded by Professor Doctor Scholar Drew Piispanen in 2023. <br><br><br><br>Someday my father will finally respect me.

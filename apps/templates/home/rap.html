@@ -11,21 +11,21 @@
   <div class="col-md-12">
     <div class="card ">
       <div class="card-header">
-        <h4 class="card-title"> Ringle Dingle</h4>
-        <p style="text-align: center;">Custom Rap E-Greetings</p>
-
+        <div class = "card-body" style="padding-top:50px">
+        <h1 class="card-title">Ringle Dingle</h1>
+        <p style="text-align: center;">AI-Narrated Custom E-Greetings</p>
+        </div>
         <div class="card-body song-style" style="text-align: center;">
         <!-- SONG STYLE -->
-          <h4>Step 1: Select a style</h4>
-            <a class="dropdown-item" value="rap1.mp3">Intense</a>
-            <a class="dropdown-item" value="rap2.mp3">Funky</a>
-            <a class="dropdown-item" value="rap3.mp3">Throwback</a>
+          <h4>Step 1: Select a background</h4>
+          <a class="dropdown-item" value="magic.mp3">Magical</a>
+          <a class="dropdown-item" value="motiv.mp3">Thoughtful</a>
+          <a class="dropdown-item" value="sad.mp3">Sad</a>
           </div>
           <div class="card-body singer" style="text-align: center;">
-            <!-- SONG STYLE -->
-              <h4>Step 2: Select a singer</h4>
+            <!-- SONG STYLE --><hr>
+              <h4>Step 2: Select a Narrator</h4>
                 <a class="dropdown-item" value="eminem">Eminem</a>
-                <a class="dropdown-item" value="2pac">2Pac</a>
                 <a class="dropdown-item" value="biggie-smalls">The Notorious B.I.G.</a>
                 <a class="dropdown-item" value="snoop-dogg">Snoop Dogg</a>
                 <a class="dropdown-item" value="alan-rickman">Alan Rickman</a>
@@ -40,7 +40,7 @@
         <!-- LYRIC GENERATION -->
       </div>
           <!-- DREW PASTE -->
-
+          <hr>
           <div >
             <h4>Step 3: Enter a email to send to</h4>
 
@@ -49,35 +49,33 @@
               <div class="user-box">
                 <input type="text" id="submit-email" name="" required="">
                 <label>Email to send to</label>
-              </div>
+              </div><hr>
               <h4>Step 4: Enter facts about the person you're sending this to.</h4>
-
+              <label>Just a few words about their name, what event this is for, and some fun facts you want to include. Nothing fancy.</label>
               <div class="user-box">
                 <textarea id="raplyrics" placeholder="This is Tony - he's a nice librarian - but he murders people at night and keeps severed heads in his pantry.">
                 </textarea>
-                <label>Spit some facts</label>
+                
               </div>
-          
+              <div id="submit-box">
               <a href="#" id="ringlesubmit">
                 <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
-                <div id="spinner" class="spinner" style="display: none; text-align: center;"></div>
+                <div id="spinner" class="spinner" style="display: none; text-align: center; background-color: aquamarine; border-radius: 50%;"></div>
                 <p style="font-size: 24px;">Step 5: Submit</p> <p class="tiny">(Lyrics and song will generate below)</p> 
               </a>
+            </div>
             </form>
-   
-            
            
           <!-- DREW PASTE END -->
 
-          <div style="text-align: center;">
+          <div style="text-align: center;" id="results" style="display: none">
             <h3>YOUR RESULTS</h3>
             <textarea name="" id="response" cols="30" rows="10" style="text-align: center; display: inline-block;"></textarea>
 
 
-          </div>
 
           <div style="text-align:center;  padding:20px">
 
@@ -87,6 +85,9 @@
             <button id="play" onclick="playAudio()" style="text-align: center; padding:20px">Play</button>
             <button onclick="stopAudio()" style="text-align: center; padding:20px">Stop</button>
             </div>
+
+            
+          </div>
  
       </div>
     </div>

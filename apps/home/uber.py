@@ -54,20 +54,7 @@ def get_voice_id(voice, auth=auth):
 
     return response.text
 
-
-print(get_voice_id('eminem'))
-print(get_voice_id('biggie-smalls'))
-print(get_voice_id('rizzo-the-rat'))
-print(get_voice_id('yoda'))
-print(get_voice_id('johnny-cash'))
-print(get_voice_id('snoop-dogg'))
-print(get_voice_id('spongebob'))
-print(get_voice_id('shrek'))
-print(get_voice_id('donkey'))
-print(get_voice_id('tyler-the-creator'))
-print(get_voice_id('2pac'))
-
-
+# print(get_voice_id('eminem'))
 
 def uberduck_audio_segment(speech, voice, duration, auth=auth):
     # auth = (os.getenv('DUCK_KEY'), os.getenv('DUCK_SECRET'))

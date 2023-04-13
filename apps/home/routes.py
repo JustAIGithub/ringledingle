@@ -10,7 +10,7 @@ from bson.objectid import ObjectId
 from datetime import datetime
 import os
 # from stt import speech_to_text
-from apps.home.rap import rap_on_phrases
+from apps.home.audiobook import make_narration
 from apps.home.prompt import ai_response
 from apps.home.send import send_email
 from flask import Flask, request, render_template, jsonify, flash, redirect, url_for
@@ -69,6 +69,10 @@ app.config["CACHE_TYPE"] = "null"
 #     session['respond'] = True
 #     return render_template('voice.html')
 
+@blueprint.route('/demo')
+def demo():
+    return render_template('home/rap.html')
+
 # OBJECT ID IS DESIGNATED
 @blueprint.route('/rap')
 def rap():
@@ -77,32 +81,28 @@ def rap():
     else:
         return render_template('home/rap.html')
 
-@blueprint.route('/demo')
-def demo():
-    return 'HELLO DADDY'
-
 
 @blueprint.route('/make-rap', methods=['POST', 'GET'])
-@login_required
 def make_rap():
     words = request.json['words']
     voice = request.json['voice']
     email = request.json['email']
+    # email = 'apiispanen@berkeley.edu'
     input_file = request.json['input_file']
     output_file = "output.mp3"
     # mark the function as called
     session['audio_saved'] = True
-    
+
     lyrics = ai_response(words)
     start_index = lyrics.find("STARTRAP") + len("STARTRAP")
     end_index = lyrics.find("ENDRAP")
     rap_lyrics = lyrics[start_index:end_index].strip()
-
-    rap_on_phrases(f'apps/static/media/{input_file}', f'apps/static/media/{output_file}', rap_lyrics, start_lag=8, rap_speed_factor=1.3, music_volume=10, silence_thresh=-60, overlap=.1, voice=voice, beats_in_between=1)
-    send_email(to_email=email, attachment=f'apps/static/media/{output_file}', lyrics=lyrics)
+    rap_lyrics = "I'd like to read to you a poem today:\n"+ rap_lyrics 
+    make_narration(f'apps/static/media/{input_file}', f'apps/static/media/{output_file}', rap_lyrics,voice=voice)
+    send_email(to_email=email, attachment=f'apps/static/media/{output_file}', lyrics=rap_lyrics)
     # user_id = session.get("_user_id")
     # print("AI response Completed.")
-    return jsonify({ "airesponse":lyrics})
+    return jsonify({ "airesponse":rap_lyrics})
 
 
 # RETURNS RESPONSE
