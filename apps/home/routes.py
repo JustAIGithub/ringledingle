@@ -100,9 +100,10 @@ def make_rap():
     rap_lyrics = lyrics[start_index:end_index].strip()
     rap_lyrics = "Hello, I'd like to tell you a poem I wrote today:\n"+ rap_lyrics 
     make_narration(f'apps/static/media/{input_file}', f'apps/static/media/{output_file}', rap_lyrics,voice=voice)
-    send_email(to_email=email, attachment=f'apps/static/media/{output_file}', lyrics=rap_lyrics)
+
+    send_email(to_email=email, attachment=f'apps/static/media/{output_file}', lyrics=rap_lyrics) 
     # user_id = session.get("_user_id")
-    # print("AI response Completed.")
+    print("Ringle has been Dingled.")
     return jsonify({ "airesponse":rap_lyrics})
 
 

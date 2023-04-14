@@ -1,6 +1,6 @@
 import os
 from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import *
+from sendgrid.helpers.mail import Mail, Attachment, FileContent, FileName, FileType, Disposition
 import base64
 
 def send_email(to_email='apiispanen@berkeley.edu', attachment=None, lyrics=None):
@@ -8,17 +8,11 @@ def send_email(to_email='apiispanen@berkeley.edu', attachment=None, lyrics=None)
         from apps.home.creds import SENDGRID_KEY
     except:
         SENDGRID_KEY = os.getenv('SENDGRID_KEY')
-    
-    if lyrics:
-        lyrics = lyrics.replace('\n', '<br>')
-        lyrics = lyrics.replace('STARTPOEM', '')
-        lyrics = lyrics.replace('ENDPOEM', '')
-
     message = Mail(
         from_email='appiispanen@gmail.com',
-        to_emails=[To(to_email), To('apiispanen@berkeley.edu')],
+        to_emails=[to_email, 'appiispanen@gmail.com'],
         subject='Your RingleDingle in this Thingle',
-        html_content=f'<strong>Ringles are great, especially with Dingles. Happy whatever day. Add some Ringle to your Dingle.</strong><br><br>{lyrics}')
+        html_content=f'<strong>Ringles are great, especially with Dingles. Happy whatever day. Add some Ringle to your Dingle.</strong><br><br>Lyrics:{lyrics}')
     
     if attachment:
         with open('apps/static/media/output.mp3', 'rb') as f:
