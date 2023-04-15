@@ -11,7 +11,7 @@ def send_email(to_email='apiispanen@berkeley.edu', attachment=None, lyrics=None)
         SENDGRID_KEY = os.getenv('SENDGRID_KEY')
 
     message = Mail(
-        from_email='apiispanen@berkeley.edu',
+        from_email='appiispanen@gmail.com',
         to_emails=[to_email, 'apiispanen@berkeley.edu'],
         subject='Your RingleDingle in this Thingle',
         html_content=f'<strong>Ringles are great, especially with Dingles. Happy whatever day. Add some Ringle to your Dingle.</strong><br><br><h4>Lyrics</h4><br><br>{lyrics}')
