@@ -22,6 +22,8 @@ from flask_login import (
     login_user,
     logout_user
 )
+import datetime
+from urllib.parse import unquote
 
 
 @blueprint.route('/index')
@@ -81,12 +83,11 @@ def rap():
     else:
         return render_template('home/rap.html')
 
-
 @blueprint.route('/make-rap', methods=['POST', 'GET'])
 def make_rap():
-    words = request.json['words']
+    words = unquote(request.json['words'])
     voice = request.json['voice']
-    email = request.json['email']
+    email = unquote(request.json['email'])
     # email = 'apiispanen@berkeley.edu'
     input_file = request.json['input_file']
     output_file = "output.mp3"
@@ -94,7 +95,7 @@ def make_rap():
     session['audio_saved'] = True
 
     lyrics = ai_response(words)
-    # lyrics = "STARTPOEM\nI love Nancy she's so delicious ENDPOEM"
+    # lyrics = "STARTPOEM\nMy dad has a cantaloupe on his chest,\nA strange sight indeed, but he's not distressed.\nIt sits atop him like a crown,\nA fruit that's ripe and orangey-brown.\nENDPOEM"
     start_index = lyrics.find("STARTPOEM") + len("STARTPOEM")
     end_index = lyrics.find("ENDPOEM")
     rap_lyrics = lyrics[start_index:end_index].strip()
@@ -102,6 +103,7 @@ def make_rap():
     make_narration(f'apps/static/media/{input_file}', f'apps/static/media/{output_file}', rap_lyrics,voice=voice)
 
     send_email(to_email=email, attachment=f'apps/static/media/{output_file}', lyrics=rap_lyrics) 
+    log_info(email)
     # user_id = session.get("_user_id")
     print("Ringle has been Dingled.")
     return jsonify({ "airesponse":rap_lyrics})
@@ -165,6 +167,13 @@ def repurpose():
     }
     return jsonify(response_data)
 
+
+def log_info(email):
+    now = datetime.datetime.now()
+    log_time = now.strftime("%Y-%m-%d %H:%M:%S")
+    ip_address = request.remote_addr
+    with open('message_log.txt', 'a') as file:
+        file.write(f"{log_time} - IP: {ip_address}, Email: {email}\n")
 
 
 if __name__ == '__main__':
