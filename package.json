@@ -1,18 +1,18 @@
 {
-    "name": "black-dashboard-flask",
-    "mastertemplate": "boilerplate-code-flask-dashboard",
-    "version": "1.0.4",
-    "description": "Template project - Flask Boilerplate Code ",
+    "name": "ringledingle",
+    "mastertemplate": "ringledingle",
+    "version": "1.2",
+    "description": "RingleDingle V1",
     "scripts": {},
     "repository": {
         "type": "git",
-        "url": "https://github.com/creativetimofficial/black-dashboard-flask"
+        "url": "https://github.com/apiispanen/ringledingle"
     },
     "bugs": {
-        "url": "https://github.com/creativetimofficial/black-dashboard-flask/issues",
-        "email": "support@appseed.us"
+        "url": "https://github.com/apiispanen/ringledingle/issues",
+        "email": "apiispanen@berkeley.edu"
     },
-    "author": "Creative-Tim / AppSeed.us",
+    "author": "Droopy Codes",
     "engines": {
         "node": ">=10.0.0"
     },

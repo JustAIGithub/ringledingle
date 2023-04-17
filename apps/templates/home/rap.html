@@ -9,21 +9,47 @@
 
 <div class="row ringedingle">
   
-  <div class="col-md-12">
     <div class="card ">
       <div class="card-header">
         <div class = "card-body" style="padding-top:50px">
         <h1 class="card-title">Ringle Dingle</h1>
-        <p style="text-align: left;">AI-Narrated E-Greeting Poems</p>
+        <p style="text-align: left; display:inline; float:left">AI-Narrated E-Greeting Poems</p><p id="demo-opener">View a Demo</p>
         </div>
         <div class="card-body song-style" style="text-align: center;">
         <!-- SONG STYLE -->
-          <h4>Step 1: Select a background</h4>
+        
+        <div id="demo" style="display:none">
+          <h3>User Entered:</h3>
+          <p>Voice: Allan Rickman</p>
+          <p>"Tell Jim the 38 year old man happy birthday, and make sure he knows that I'm still thinking about him despite his cold, dead heart. Also, end the last line informing him that this poem is from Drew."</p>
+          <h3>RingleDingle's Result:</h3>
+          <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1494194230&color=%233c7698&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true"></iframe><div style="font-size: 10px; line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;">
+          <p>Lyrics: <br>Jim, another year has passed, <br>
+            And though your heart may seem like glass,<br>
+            Know that I still think of you,<br>
+            Despite the coldness you imbue.<br>
+            <br><br>
+            Happy birthday, my dear old friend,<br>
+            May this day bring joy without end.<br>
+            And though your heart may never thaw,<br>
+            I'll love you still, forevermore.<br>
+            
+            This poem comes from Drew, so true,<br>
+            To remind you that I'm thinking of you.</p>
+            <p>(Mp3 and lyrics will be emailed to the recipient)</p>          
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <div class="card-body singer" style="text-align: center;">
+        <h4>Step 1: Select a background</h4>
           <a class="dropdown-item" value="magic.mp3">Magical</a>
           <a class="dropdown-item" value="motiv.mp3">Thoughtful</a>
           <a class="dropdown-item" value="sad.mp3">Sad</a>
-          </div>
-          <div class="card-body singer" style="text-align: center;">
+      </div>
+
+        <div class="card-body singer" style="text-align: center;">
             <!-- SONG STYLE --><hr>
               <h4>Step 2: Select a Narrator</h4>
                 <a class="dropdown-item" value="alan-rickman">Alan Rickman</a>
@@ -42,25 +68,27 @@
               </div>
 
         <!-- LYRIC GENERATION -->
-      </div>
-          <!-- DREW PASTE -->
-          <hr>
-          <div >
-            <h4>Step 3: Enter a email to send to</h4>
+   
+            <!-- DREW PASTE -->
+            <hr>
+            <div class="card-body singer" style="text-align: center;">
+              <h4>Step 3: Enter an email to send to.</h4>          
+                <div class="user-box">
+                  <input type="text" id="submit-email" name="" required="">
+                  <label>Email to send to</label>
+                </div><hr>
+            </div>
 
-            <form style="text-align: center;">
-          
-              <div class="user-box">
-                <input type="text" id="submit-email" name="" required="">
-                <label>Email to send to</label>
-              </div><hr>
+            <div class="card-body singer" style="text-align: center;">
               <h4>Step 4: Enter facts about the person you're sending this to.</h4>
               <label>Just a few words about their name, what event this is for, and some fun facts you want to include. Nothing fancy.</label>
               <div class="user-box">
                 <textarea id="raplyrics" placeholder="Today is Tony's birthday - he's a nice librarian, but he murders people at night and keeps severed heads in his pantry. Please include the words 'You stink' at the end, and make sure he knows it's from Drew."></textarea>
-                
               </div>
-              <div id="submit-box">
+            </div>
+
+
+            <div id="submit-box">
               <a href="#" id="ringlesubmit">
                 <span></span>
                 <span></span>
@@ -70,26 +98,21 @@
                 <p style="font-size: 24px;">Step 5: Submit</p> <p class="tiny">(Lyrics and song will generate below)</p> 
               </a>
             </div>
-            </form>
+          
+        
            
           <!-- DREW PASTE END -->
 
-          <div style="text-align: center;" id="results" style="display: none">
+          <div style="text-align: center; display: none" id="results">
             <h3>YOUR RESULTS</h3>
             <textarea name="" id="response" cols="30" rows="10" style="text-align: center; display: inline-block;"></textarea>
-
-
-
           <div style="text-align:center;  padding:20px">
-
             <audio id="myAudio" style="text-align: center; width:100vw;">
               <source src="{{ url_for('static', filename='media/output.mp3') }}" type="audio/mpeg">
             </audio>
             <button id="play" onclick="playAudio()" style="text-align: center; padding:20px">Play</button>
             <button onclick="stopAudio()" style="text-align: center; padding:20px">Stop</button>
             </div>
-
-            
           </div>
  
       </div>
@@ -112,8 +135,6 @@
 </script>
 </div>
 
-
-</div>
 
 {% endblock content %}
 

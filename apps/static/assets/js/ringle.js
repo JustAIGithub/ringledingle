@@ -10,6 +10,18 @@ const airesponseTextArea = document.querySelector("#response");
 
 var email = ""
 var ringlesubmit = document.getElementById("ringlesubmit");
+// Get the submit-box element
+const submitBox = document.getElementById('submit-box');
+// Get the <p> element inside the submit-box element
+const submitText = submitBox.querySelector('p');
+
+  $('#demo-opener').click(function() {
+    $('#demo').slideToggle();
+    // Make demo opener text to "Hide Demo":
+    $('#demo-opener').text() == "Hide Demo"
+
+  });
+
 
 // SELECT THE MUSIC
 const musicItems = document.querySelectorAll('.song-style a');
@@ -75,6 +87,8 @@ ringlesubmit.addEventListener("click", function(event) {
     playButton.style.backgroundColor = "rgba(0, 128, 0, 0.3)"; // Set the background color to a light green
     response.value = airesponse;
     showMessageModal(`Success! Your audio has been emailed to ${decodeURIComponent(email)}. Press 'Play' on the audio below to hear your track.`, false);
+    $('#results').slideToggle();
+
   }).catch(function(error) {
     showMessageModal('An error occurred: ' + error.message);
   });
@@ -97,6 +111,8 @@ async function make_rap(words, input_file, voice, email="", show_response=true) 
   
   // Show the spinner
   document.getElementById('spinner').style.display = 'block';
+  // Change the text of the <p> element
+  submitText.textContent = 'Song is generating, it may take a couple minutes...';
 
   if (audio && !audio.paused) {
     audio.pause();
@@ -122,6 +138,7 @@ async function make_rap(words, input_file, voice, email="", show_response=true) 
     // Hide the spinner
     document.getElementById('spinner').style.display = 'none';
     console.log(airesponse);
+    submitText.textContent = 'Step 5: Submit';
 
   
   return { airesponse };
@@ -131,6 +148,7 @@ async function make_rap(words, input_file, voice, email="", show_response=true) 
     ask_question_running = false;
     // Hide the spinner
     document.getElementById('spinner').style.display = 'none';
+    submitText.textContent = 'Error in the request. Please try again or refresh the page.';
     throw error;
   }
 }
