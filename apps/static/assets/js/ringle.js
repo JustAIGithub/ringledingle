@@ -3,7 +3,7 @@
 // ************** SPEECH FUNCTIONS **************
 ask_question_running = false;
 console.log("RINGLE DINGLE");
-var singer = "eminem";
+var singer = "alan-rickman";
 var input_file = "magic.mp3";
 var button = document.getElementsByTagName("push-to-talk-button")[0];
 const airesponseTextArea = document.querySelector("#response");
@@ -70,7 +70,7 @@ ringlesubmit.addEventListener("click", function(event) {
   console.log("SENDING A Narration REQUEST");
   console.log("Sending request for a reading to voice: ".concat(singer));
 
-  var resultPromise = make_rap("Generate a small poem that will be narrated by ".concat(singer).concat(" about the following, in between deliminiters STARTPOEM and ENDPOEM (respond with lyrics ONLY, no 'Verse 1:' Labeling either): ").concat(raplyrics), input_file=input_file, voice=singer, email=email);
+  var resultPromise = make_rap("Generate a poem that will be narrated by ".concat(singer).concat(" about the following, in between deliminiters STARTPOEM and ENDPOEM (respond with lyrics ONLY, no 'Verse 1:' Labeling either): ").concat(raplyrics), input_file=input_file, voice=singer, email=email);
   
 
   
@@ -80,12 +80,13 @@ ringlesubmit.addEventListener("click", function(event) {
 
     // var start = airesponse.indexOf("STARTPOEM") + 9;
     // var end = airesponse.indexOf("ENDPOEM");
-
+    document.getElementById("myAudio").innerHTML = document.getElementById("myAudio").innerHTML;
     // var rapText = airesponse.substring(start, end).trim();
     const playButton = document.getElementById("play");
     playButton.innerHTML = "Play Audio";
     playButton.style.backgroundColor = "rgba(0, 128, 0, 0.3)"; // Set the background color to a light green
     response.value = airesponse;
+    
     showMessageModal(`Success! Your audio has been emailed to ${decodeURIComponent(email)}. Press 'Play' on the audio below to hear your track.`, false);
     $('#results').slideToggle();
 

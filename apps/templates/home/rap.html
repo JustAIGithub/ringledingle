@@ -60,7 +60,7 @@
                 <a class="dropdown-item" value="betty-white">Betty White</a>
                 <a class="dropdown-item" value="eminem-arpa2">Eminem</a>
                 <a class="dropdown-item" value="shrek">Shrek</a>                
-                <a class="dropdown-item" value="frenchy">The French Narrator</a>
+                <a class="dropdown-item" value="johnny-cash">Johnny Cash</a>
                 <a class="dropdown-item" value="rizzo-the-rat">Rizzo the Rat</a>
                 <a class="dropdown-item" value="spongebob-vocodes">Spongebob</a>
                 <a class="dropdown-item" value="ariel">Ariel</a>
@@ -125,6 +125,7 @@
   var audio = document.getElementById("myAudio");
 
   function playAudio() {
+    audio.load();
     audio.play();
   }
 

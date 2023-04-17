@@ -16,7 +16,7 @@ import re
 import requests
 
 
-def make_narration(input_file, output_file, lyrics, start_lag=8, music_volume=20, vocal_volume=0, voice="eminem", silence_thresh=-60, spacing=1):
+def make_narration(input_file, output_file, lyrics, start_lag=8, music_volume=20, vocal_volume=0, voice="alan-rickman", silence_thresh=-60, spacing=1):
     try:
         #close input file from its path string
         with open(input_file, 'rb') as f:
