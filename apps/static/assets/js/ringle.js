@@ -42,7 +42,7 @@ musicItems.forEach(item => {
 
 
 // SELECT THE SINGER
-const singerItems = document.querySelectorAll('.singer a');
+const singerItems = document.querySelectorAll('.singer-select a');
 singerItems.forEach(item => {
   item.addEventListener('click', () => {
     // Remove previous selection
