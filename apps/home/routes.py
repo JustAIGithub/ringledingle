@@ -11,7 +11,7 @@ from datetime import datetime
 import os
 # from stt import speech_to_text
 from apps.home.audiobook import make_narration
-from apps.home.prompt import ai_response
+from apps.home.prompt import ai_response, generate_image
 from apps.home.send import send_email
 from flask import Flask, request, render_template, jsonify, flash, redirect, url_for
 from flask import session
@@ -88,6 +88,7 @@ def make_rap():
     words = unquote(request.json['words'])
     voice = request.json['voice']
     email = unquote(request.json['email'])
+    singer_name = request.json['singer_name']
     # email = 'apiispanen@berkeley.edu'
     input_file = request.json['input_file']
     output_file = "output.mp3"
@@ -99,10 +100,18 @@ def make_rap():
     start_index = lyrics.find("STARTPOEM") + len("STARTPOEM")
     end_index = lyrics.find("ENDPOEM")
     rap_lyrics = lyrics[start_index:end_index].strip()
+    title = lyrics[lyrics.find("STARTTITLE") + len("STARTTITLE"):lyrics.find("ENDTITLE")].strip()
     rap_lyrics = "Hello, I'd like to tell you a poem I wrote today:\n"+ rap_lyrics 
     make_narration(f'apps/static/media/{input_file}', f'apps/static/media/{output_file}', rap_lyrics,voice=voice)
+    try:
+        img_url = generate_image(title)
+    except Exception as e:
+        print(f"Error in generating an image: {e}")
+        img_url = "https://ringledingle.com/static/media/ringledingle.png"
 
-    send_email(to_email=email, attachment=f'apps/static/media/{output_file}', lyrics=rap_lyrics) 
+    # print(f"title: {title}, lyrics: {rap_lyrics}, img_url: {img_url}, singer_name: {singer_name}")
+    
+    send_email(to_email=email, attachment=f'apps/static/media/{output_file}', lyrics=rap_lyrics, img_url=img_url, singer_name=singer_name, title=title) 
     log_info(email)
     # user_id = session.get("_user_id")
     print("Ringle has been Dingled.")

@@ -81,14 +81,14 @@ def make_narration(input_file, output_file, lyrics, start_lag=8, music_volume=20
     combined_audio.export(output_file, format="mp3")
     print(f"Narration exported to {output_file}")
 
-# # Usage
-input_file = "apps/static/media/magic.mp3"
-# input_file = "C:/Users/appii/Google Drive/RingleDingle Folder/Background-music/magic.mp3"
-output_file = "output_audio.mp3"
+# # # Usage
+# input_file = "apps/static/media/magic.mp3"
+# # input_file = "C:/Users/appii/Google Drive/RingleDingle Folder/Background-music/magic.mp3"
+# output_file = "output_audio.mp3"
 
-lyrics = """I'm a little teapot, short and stout. 
-Here is my handle, here is my spout. 
-When I get all steamed up, hear me shout. 
-Tip me over and pour me out."""
+# lyrics = """I'm a little teapot, short and stout. 
+# Here is my handle, here is my spout. 
+# When I get all steamed up, hear me shout. 
+# Tip me over and pour me out."""
 
-make_narration(input_file, output_file, lyrics)
+# make_narration(input_file, output_file, lyrics)

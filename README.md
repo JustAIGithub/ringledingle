@@ -16,3 +16,9 @@ RingleDingle is a music e-greeting card for your friends and family member. Tell
 If you like what you see, [fork over some cash](https://www.buymeacoffee.com/droopycodes) so I can afford to breathe the tax-heavy Northeastern USA air.
 
 RingleDingle was coded by Professor Doctor Scholar Drew Piispanen in 2023.<br><br><br><br>(Someday my father will finally respect me.)
+
+
+## Key Edits
+- April 1st week: Ringledingle is deployed on Railway
+- April 17: Ringledingle.com made
+- April 18: Email templates and AI image generation added.

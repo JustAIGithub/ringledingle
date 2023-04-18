@@ -44,3 +44,15 @@ def ai_response(prompt, networking = False, temperature =.5):
     print(f"Prompt:{prompt}")
     print("AI Response:", message)
     return message.strip()
+
+
+def generate_image(prompt):
+    response = openai.Image.create(
+    prompt=prompt,
+    n=1,
+    size="512x512"
+    )
+    print(response['data'][0]['url'])
+    return response['data'][0]['url']
+
+# print(generate_image('a happy dad with a hat'))

@@ -4,6 +4,7 @@
 ask_question_running = false;
 console.log("RINGLE DINGLE");
 var singer = "alan-rickman";
+var singer_name = "Alan Rickman";
 var input_file = "magic.mp3";
 var button = document.getElementsByTagName("push-to-talk-button")[0];
 const airesponseTextArea = document.querySelector("#response");
@@ -56,6 +57,7 @@ singerItems.forEach(item => {
     // Log the value of the clicked item
     console.log(item.getAttribute('value'));
     singer = item.getAttribute('value');
+    singer_name = item.innerText;
   });
 });
 
@@ -68,11 +70,10 @@ ringlesubmit.addEventListener("click", function(event) {
   var response = document.getElementById("response");
   // var audioSrc = document.getElementById("myAudio").getElementsByTagName("source")[0].src;
   console.log("SENDING A Narration REQUEST");
-  console.log("Sending request for a reading to voice: ".concat(singer));
+  console.log("Sending request for a reading to voice: ".concat(singer_name));
+  var resultPromise = make_rap("Generate a poem that will be narrated by ".concat(singer_name).concat(" about the following, in between deliminiters STARTPOEM and ENDPOEM (respond with lyrics ONLY, no 'Verse 1:' Labeling either). Also put the poem title between delimiters STARTTITLE and ENDTITLE: ").concat(raplyrics), input_file=input_file, voice=singer, email=email, singer=singer_name);
+  
 
-  var resultPromise = make_rap("Generate a poem that will be narrated by ".concat(singer).concat(" about the following, in between deliminiters STARTPOEM and ENDPOEM (respond with lyrics ONLY, no 'Verse 1:' Labeling either): ").concat(raplyrics), input_file=input_file, voice=singer, email=email);
-  
-  
   
   resultPromise.then(function(result) {
     console.log(result);
@@ -103,7 +104,7 @@ ringlesubmit.addEventListener("click", function(event) {
 // **********************************************
 // ************** SPEECH FUNCTIONS **************
 
-async function make_rap(words, input_file, voice, email="", show_response=true) {
+async function make_rap(words, input_file, voice, email="", singer="", show_response=true) {
   if(ask_question_running){
     console.log("Ringle Dingle is already running");
     return Promise.reject(new Error("Ringle Dingle is already running"));
@@ -129,7 +130,8 @@ async function make_rap(words, input_file, voice, email="", show_response=true) 
         words: words,
         voice: voice,
         input_file: input_file,
-        email: email
+        email: email,
+        singer_name:singer
       })
     });
 
