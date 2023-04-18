@@ -72,7 +72,7 @@ ringlesubmit.addEventListener("click", function(event) {
 
   var resultPromise = make_rap("Generate a poem that will be narrated by ".concat(singer).concat(" about the following, in between deliminiters STARTPOEM and ENDPOEM (respond with lyrics ONLY, no 'Verse 1:' Labeling either): ").concat(raplyrics), input_file=input_file, voice=singer, email=email);
   
-
+  
   
   resultPromise.then(function(result) {
     console.log(result);
