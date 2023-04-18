@@ -71,7 +71,7 @@ ringlesubmit.addEventListener("click", function(event) {
   // var audioSrc = document.getElementById("myAudio").getElementsByTagName("source")[0].src;
   console.log("SENDING A Narration REQUEST");
   console.log("Sending request for a reading to voice: ".concat(singer_name));
-  var resultPromise = make_rap("Generate a poem that will be narrated by ".concat(singer_name).concat(" about the following, in between deliminiters STARTPOEM and ENDPOEM (respond with lyrics ONLY, no 'Verse 1:' Labeling either). Also put the poem title between delimiters STARTTITLE and ENDTITLE: ").concat(raplyrics), input_file=input_file, voice=singer, email=email, singer=singer_name);
+  var resultPromise = make_rap("Generate a poem that will be narrated by ".concat(singer_name).concat(" about the following, in between deliminiters STARTPOEM and ENDPOEM (respond with lyrics ONLY, no 'Verse 1:' Labeling either). Also put the poem title between delimiters STARTTITLE and ENDTITLE: ").concat(raplyrics), input_file=input_file, voice=singer, email=email, singer_name=singer_name);
   
 
   
@@ -131,7 +131,7 @@ async function make_rap(words, input_file, voice, email="", singer_name="", show
         voice: voice,
         input_file: input_file,
         email: email,
-        singer:singer_name
+        singer_name:singer_name
       })
     });
 
