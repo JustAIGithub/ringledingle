@@ -56,4 +56,4 @@ def generate_image(prompt):
     print(response['data'][0]['url'])
     return response['data'][0]['url']
 
-print(generate_image('a happy dad with a hat'))
+# print(generate_image('a happy dad with a hat'))
