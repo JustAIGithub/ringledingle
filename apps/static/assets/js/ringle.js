@@ -113,7 +113,7 @@ async function make_rap(words, input_file, voice, email="", show_response=true) 
   // Show the spinner
   document.getElementById('spinner').style.display = 'block';
   // Change the text of the <p> element
-  submitText.textContent = 'Song is generating, it may take a couple minutes...';
+  submitText.textContent = 'Audio is generating, it may take a couple minutes...';
 
   if (audio && !audio.paused) {
     audio.pause();

@@ -9,6 +9,9 @@ except:
     from uber import uberduck_audio_segment
 from pydub.effects import speedup
 from pydub.silence import detect_nonsilent
+from pydub import AudioSegment
+from pydub.utils import make_chunks
+
 import random
 import audioop
 import io
@@ -16,7 +19,7 @@ import re
 import requests
 
 
-def make_narration(input_file, output_file, lyrics, start_lag=8, music_volume=20, vocal_volume=0, voice="alan-rickman", silence_thresh=-60, spacing=1):
+def make_narration(input_file, output_file, lyrics, start_lag=8, music_volume=20, vocal_volume=0, voice="alan-rickman", silence_thresh=-60, spacing=1, fade_out_duration=8000):
     try:
         #close input file from its path string
         with open(input_file, 'rb') as f:
@@ -69,19 +72,23 @@ def make_narration(input_file, output_file, lyrics, start_lag=8, music_volume=20
     print("overlaying audio")
     combined_audio = input_audio.overlay(output_audio)
 
+    # Fade out the audio at the end
+    last_phrase_end = (phrase_start - spacing)
+    fade_out_start = last_phrase_end * 1000 + fade_out_duration
+    combined_audio = combined_audio[:fade_out_start].fade_out(duration=fade_out_duration)
+
     # Save the result to a new file
     combined_audio.export(output_file, format="mp3")
     print(f"Narration exported to {output_file}")
 
-
 # # Usage
-# input_file = "apps/static/media/rap2.mp3"
+input_file = "apps/static/media/magic.mp3"
 # input_file = "C:/Users/appii/Google Drive/RingleDingle Folder/Background-music/magic.mp3"
-# output_file = "output_audio.mp3"
+output_file = "output_audio.mp3"
 
-# lyrics = """I'm a little teapot, short and stout. 
-# Here is my handle, here is my spout. 
-# When I get all steamed up, hear me shout. 
-# Tip me over and pour me out."""
+lyrics = """I'm a little teapot, short and stout. 
+Here is my handle, here is my spout. 
+When I get all steamed up, hear me shout. 
+Tip me over and pour me out."""
 
-# make_narration(input_file, output_file, lyrics)
+make_narration(input_file, output_file, lyrics)
