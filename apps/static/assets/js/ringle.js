@@ -55,7 +55,7 @@ singerItems.forEach(item => {
     item.classList.add('selected');
 
     // Log the value of the clicked item
-    console.log(item.getAttribute('value'));
+    console.log(item.getAttribute('value').concat(item.innerText));
     singer = item.getAttribute('value');
     singer_name = item.innerText;
   });
@@ -104,7 +104,7 @@ ringlesubmit.addEventListener("click", function(event) {
 // **********************************************
 // ************** SPEECH FUNCTIONS **************
 
-async function make_rap(words, input_file, voice, email="", singer="", show_response=true) {
+async function make_rap(words, input_file, voice, email="", singer_name="", show_response=true) {
   if(ask_question_running){
     console.log("Ringle Dingle is already running");
     return Promise.reject(new Error("Ringle Dingle is already running"));
@@ -131,7 +131,7 @@ async function make_rap(words, input_file, voice, email="", singer="", show_resp
         voice: voice,
         input_file: input_file,
         email: email,
-        singer_name:singer
+        singer:singer_name
       })
     });
 
