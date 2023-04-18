@@ -3,8 +3,14 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import *
 import base64
 
-def send_email(to_email='apiispanen1@babson.edu', second_email=None, attachment=None, lyrics='No lyrics found', img_url=None, singer_name=None, title=None):
-    email_list = [to_email, Bcc('apiispanen@berkeley.edu')]
+def send_email(to_email='apiispanen1@babson.edu', attachment=None, lyrics='No lyrics found', img_url=None, singer_name=None, title=None):
+    email_list = [Bcc('apiispanen@berkeley.edu')]  # always include a Bcc address
+    if ',' in to_email:
+        # split the comma-separated string into a list of email addresses
+        to_email_list = [e.strip() for e in to_email.split(',')]
+        email_list.extend(to_email_list)
+    else:
+        email_list.append(to_email)
 
     try:
         from apps.home.creds import SENDGRID_KEY
@@ -15,8 +21,6 @@ def send_email(to_email='apiispanen1@babson.edu', second_email=None, attachment=
             SENDGRID_KEY = os.getenv('SENDGRID_KEY')
     print(SENDGRID_KEY)
     # lyrics = lyrics.replace("\n", "<br>")
-    if second_email:
-        email_list.append(second_email ) 
     message = Mail(
         from_email='drew@ringledingle.com',
         to_emails=email_list,
