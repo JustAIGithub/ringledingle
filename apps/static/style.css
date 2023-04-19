@@ -7,7 +7,7 @@ body {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	/* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; */
 	min-height: 100vh;
   --dropdown-handle-size: 0.35rem;  
   background-size: cover;
@@ -101,12 +101,13 @@ width:10%
 
 input, select , textarea{
   box-sizing: border-box;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   border: 1px solid #ccc;
-  padding: 0.5em;
-  border-radius: 0.3em;
+  padding: 0.7em;
+  border-radius: 0.4em;
   background: linear-gradient(#eee, #ffffff 20%);
-  min-width: 20rem;
+  /* min-width: 20rem; */
+  max-width: 275px;
 }
 
 input:focus, select:focus, textarea:focus {
@@ -241,7 +242,7 @@ line-height: 200%;
 #people body{
   background: -webkit-linear-gradient(left, #25c481, #25b7c4);
   background: linear-gradient(to right, #25c481, #25b7c4);
-  font-family: 'Roboto', sans-serif;
+  /* font-family: 'Roboto', sans-serif; */
 }
 #people section{
   margin: 50px;
