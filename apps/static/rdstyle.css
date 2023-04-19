@@ -290,6 +290,12 @@ padding:5px
     width: 300px;
     padding: 20px;
   }
+  #demo{
+    width:100vw;
+    left:-15vw;
+    position:relative;
+    text-align: center;
+  }
 
   /* Adjust the input fields for mobile */
   .login-box .user-box input {
@@ -329,8 +335,8 @@ padding:5px
 
   /* Adjust the ringedingle padding for mobile */
   .ringedingle {
-    padding-left: 10%;
-    padding-right: 10%;
+    padding-left: 10vw;
+    padding-right: 10vw;
   }
 
   /* Adjust the textarea width for mobile */
