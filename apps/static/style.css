@@ -107,7 +107,7 @@ input, select , textarea{
   border-radius: 0.4em;
   background: linear-gradient(#eee, #ffffff 20%);
   /* min-width: 20rem; */
-  max-width: 275px;
+  max-width: 100%;
 }
 
 input:focus, select:focus, textarea:focus {
