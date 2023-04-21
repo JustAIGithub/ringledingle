@@ -111,9 +111,9 @@ def make_rap():
         img_url = "https://ringledingle.com/static/media/ringledingle.png"
 
     # print(f"title: {title}, lyrics: {rap_lyrics}, img_url: {img_url}, singer_name: {singer_name}")
-    
-    send_email(to_email=email, attachment=f'apps/static/media/{output_file}', lyrics=rap_lyrics, img_url=img_url, singer_name=singer_name, title=title) 
     log_info(email)
+
+    send_email(to_email=email, attachment=f'apps/static/media/{output_file}', lyrics=rap_lyrics, img_url=img_url, singer_name=singer_name, title=title) 
     # user_id = session.get("_user_id")
     # print("Ringle has been Dingled. img_url: ", img_url, "title: ", title)
 

@@ -2,6 +2,9 @@ import os
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import *
 import base64
+import requests
+import urllib3
+
 
 def send_email(to_email='apiispanen1@babson.edu', attachment=None, lyrics='No lyrics found', img_url=None, singer_name=None, title=None):
     email_list = [Bcc('apiispanen@berkeley.edu')]  # always include a Bcc address
@@ -19,25 +22,15 @@ def send_email(to_email='apiispanen1@babson.edu', attachment=None, lyrics='No ly
             from creds import SENDGRID_KEY
         except:
             SENDGRID_KEY = os.getenv('SENDGRID_KEY')
-    print(SENDGRID_KEY)
+
+
     # lyrics = lyrics.replace("\n", "<br>")
     message = Mail(
         from_email='drew@ringledingle.com',
         to_emails=email_list,
-        subject='Your RingleDingle in this Thingle'
+        subject='Your RingleDingle in this Thingle',
         # html_content=f'<strong>Ringles are great, especially with Dingles. Happy whatever day. Add some Ringle to your Dingle.</strong><br><br><h4>Lyrics</h4><br><br>{lyrics}',
         )
-    message.reply_to = 'apiispanen@berkeley.edu'
-    # message.add_bcc = "apiispanen@berkeley.edu"
-    message.template_id = 'd-9f8062ae69344b519ad5bf7da5040e0d'
-
-    message.personalizations[0].dynamic_template_data =     {
-        "lyrics": lyrics,
-        "img_url": img_url,
-        "singer_name": singer_name,
-        "title": title
-
-    }
 
     if attachment:
         with open('apps/static/media/output.mp3', 'rb') as f:
@@ -49,18 +42,45 @@ def send_email(to_email='apiispanen1@babson.edu', attachment=None, lyrics='No ly
             FileContent(encoded_file),
             FileName('ringledingle.mp3'),
             FileType('audio/mpeg'),
-            Disposition('attachment')
-        )
-        message.attachment = attachedFile
+            Disposition('attachment'),
+            ContentId('ringledingle')
+                            )
+        message.add_attachment(attachedFile)
     
-    # if img_url:
-    #     attachedFile = Attachment(
-    #         FileContent(img_url),
-    #         FileName('ringledingle.png'),
-    #         FileType('image/png'),
-    #         Disposition('attachment')
-    #     )
-    #     message.attachment = attachedFile
+    if img_url:
+        http = urllib3.PoolManager()
+        response = http.request('GET', img_url)
+
+        if response.status == 200:
+            image_binary = response.data
+            # `image_binary` now contains the binary data of the image
+        else:
+            print('Failed to download image')
+
+        # encode the image
+        encoded_file = base64.b64encode(image_binary).decode()
+        # img_url = f'data:image/png;base64,{encoded_file}'
+        
+        attachedFile2 = Attachment(
+            FileContent(encoded_file),
+            FileName('ringleimage.png'),
+            FileType('image/png'),
+            Disposition('attachment'),
+            ContentId('ringleimage')
+        )
+        attachedFile2.content_id = 'ringleimage'
+        message.add_attachment(attachedFile2)
+
+    message.reply_to = 'apiispanen@berkeley.edu'
+    message.template_id = 'd-9f8062ae69344b519ad5bf7da5040e0d'
+
+    message.personalizations[0].dynamic_template_data =     {
+        "lyrics": lyrics,
+        "img_url": img_url,
+        "singer_name": singer_name,
+        "title": title
+
+    }
 
     try:
         sg = SendGridAPIClient(SENDGRID_KEY)
@@ -73,29 +93,30 @@ def send_email(to_email='apiispanen1@babson.edu', attachment=None, lyrics='No ly
 
 
 
-# img_url = 'https://oaidalleapiprodscus.blob.core.windows.net/private/org-jNnj47oni5w3Xad1a5a6oVvz/user-FWQEWAK741HhjIuROK9YxBW3/img-eK4RWjWAQOjw1Sa9Tndc3LMq.png?st=2023-04-18T15%3A19%3A59Z&se=2023-04-18T17%3A19%3A59Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-04-18T16%3A02%3A25Z&ske=2023-04-19T16%3A02%3A25Z&sks=b&skv=2021-08-06&sig=atNc8nTkgDRya3ddQJ7tk0IghXUKJSNQ2xGBT/q1mV0%3D'
 
-# title = "Tony's Birthday Wishes"
+img_url = 'https://lh6.googleusercontent.com/-qcLTPwh675Y/AAAAAAAAAAI/AAAAAAAACKc/Xgrv1h5ejAw/photo.jpg?sz=64'
 
-# lyrics = """Tony, my dear friend, it's your special day,
-# I hope you have a happy birthday in every way.
-# Even though your friends may not like you,
-# Just know that I'll always be there for you.
+title = "Tony's Birthday Wishes"
 
-# You may be unpopular and alone,
-# But with me by your side, you're never on your own.
-# So blow out the candles and make a wish,
-# I promise to grant it with a hug and a kiss.
+lyrics = """Tony, my dear friend, it's your special day,
+I hope you have a happy birthday in every way.
+Even though your friends may not like you,
+Just know that I'll always be there for you.
 
-# Don't worry about what others say or do,
-# Just focus on the love that surrounds you.
-# On this day, let all your worries fade away,
-# And celebrate another year of being okay.
+You may be unpopular and alone,
+But with me by your side, you're never on your own.
+So blow out the candles and make a wish,
+I promise to grant it with a hug and a kiss.
 
-# Happy birthday Tony, from me to you,
-# May all your dreams and wishes come true."""
+Don't worry about what others say or do,
+Just focus on the love that surrounds you.
+On this day, let all your worries fade away,
+And celebrate another year of being okay.
+
+Happy birthday Tony, from me to you,
+May all your dreams and wishes come true."""
 
 
 
 
-# send_email(second_email='appiispanen@gmail.com', lyrics=lyrics, img_url=img_url, title=title, singer_name='pooh-brock-baker')
+send_email(lyrics=lyrics, img_url=img_url, title=title, singer_name='pooh-brock-baker', attachment=True)
