@@ -37,6 +37,16 @@ body {
   margin-top:40px;
   margin-bottom:40px;
 }
+#playpause button{
+  background-color: #f4f4f4;
+  color:#333;
+  margin-top:40px;
+  margin-bottom:40px;
+  border-radius: 50px;
+  border-color: rgb(80, 79, 79);
+  opacity:.9;
+
+}
 
 .singer{
   display:block

@@ -81,14 +81,29 @@ def make_narration(input_file, output_file, lyrics, start_lag=8, music_volume=20
     combined_audio.export(output_file, format="mp3")
     print(f"Narration exported to {output_file}")
 
-# # # Usage
+# # # # Usage
 # input_file = "apps/static/media/magic.mp3"
 # # input_file = "C:/Users/appii/Google Drive/RingleDingle Folder/Background-music/magic.mp3"
 # output_file = "output_audio.mp3"
 
-# lyrics = """I'm a little teapot, short and stout. 
-# Here is my handle, here is my spout. 
-# When I get all steamed up, hear me shout. 
-# Tip me over and pour me out."""
+# lyrics = """Oh, Mary Jane, you're quite the dame,
+# With your pungent scent and smoky flame.
+# You bring us joy and ease our pain,
+# And help us forget life's mundane.
+
+# From joints to bongs, we love it all,
+# Your sweet embrace never lets us fall.
+# Through laughter and tears, you're always there,
+# A loyal friend beyond compare.
+
+# Some may judge and call you wrong,
+# But we know better, we sing your song.
+# For in your leaves lies a magic power,
+# That can uplift even the darkest hour.
+
+# So here's to you, dear Mary Jane,
+# May your reign forever sustain.
+# We'll keep on toking with pride and glee,
+# For in our hearts, you'll always be."""
 
 # make_narration(input_file, output_file, lyrics)

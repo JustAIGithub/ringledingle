@@ -96,13 +96,14 @@ def make_rap():
     session['audio_saved'] = True
 
     lyrics = ai_response(words)
-    # lyrics = "STARTPOEM\nMy dad has a cantaloupe on his chest,\nA strange sight indeed, but he's not distressed.\nIt sits atop him like a crown,\nA fruit that's ripe and orangey-brown.\nENDPOEM"
+    # lyrics = "STARTTITLE:The one who could ENDTITLE\nSTARTPOEM\nMy dad has a cantaloupe on his chest,\nA strange sight indeed, but he's not distressed.\nIt sits atop him like a crown,\nA fruit that's ripe and orangey-brown.\nENDPOEM"
     start_index = lyrics.find("STARTPOEM") + len("STARTPOEM")
     end_index = lyrics.find("ENDPOEM")
     rap_lyrics = lyrics[start_index:end_index].strip()
     title = lyrics[lyrics.find("STARTTITLE") + len("STARTTITLE"):lyrics.find("ENDTITLE")].strip()
     rap_lyrics = "Hello, I'd like to tell you a poem I wrote today:\n"+ rap_lyrics 
     make_narration(f'apps/static/media/{input_file}', f'apps/static/media/{output_file}', rap_lyrics,voice=voice)
+    
     try:
         img_url = generate_image(title)
     except Exception as e:
@@ -114,9 +115,33 @@ def make_rap():
     send_email(to_email=email, attachment=f'apps/static/media/{output_file}', lyrics=rap_lyrics, img_url=img_url, singer_name=singer_name, title=title) 
     log_info(email)
     # user_id = session.get("_user_id")
-    print("Ringle has been Dingled.")
-    return jsonify({ "airesponse":rap_lyrics})
+    # print("Ringle has been Dingled. img_url: ", img_url, "title: ", title)
 
+    # Pass the image url and title to the front end
+    return jsonify({  "img_url":img_url, "airesponse":rap_lyrics, "title":title})
+
+
+# LOGS EMAILS AND IP ADDRESSES
+def log_info(email):
+    from pymongo import MongoClient
+    # connect to the database
+    if os.environ.get('MONGO_URL'):
+        client = MongoClient(os.environ.get('MONGO_URL'))
+    else:
+        client = MongoClient("mongodb://mongo:3wnvDTLmNvSxf7CgACvt@containers-us-west-129.railway.app:6471")
+    db = client["ringledingle"]
+    collection = db["ringledingle"]
+    # get all emails, if the email is already in the database, don't add it:
+    emails = collection.find()
+    emails = [email['email'] for email in emails]
+
+    if email not in emails:
+        now = datetime.datetime.now()
+        log_time = now.strftime("%Y-%m-%d %H:%M:%S")
+        ip_address = request.remote_addr
+        collection.insert_one({"email": email, "timestamp": log_time, "ip_address": ip_address})
+    else:
+        print("Email already in database.")
 
 # RETURNS RESPONSE
 @blueprint.route("/ask_question", methods=['POST'])
@@ -176,13 +201,6 @@ def repurpose():
     }
     return jsonify(response_data)
 
-
-def log_info(email):
-    now = datetime.datetime.now()
-    log_time = now.strftime("%Y-%m-%d %H:%M:%S")
-    ip_address = request.remote_addr
-    with open('message_log.txt', 'a') as file:
-        file.write(f"{log_time} - IP: {ip_address}, Email: {email}\n")
 
 
 if __name__ == '__main__':

@@ -70,7 +70,11 @@ def uberduck_audio_segment(speech, voice, duration, auth=auth):
         # "duration": [duration]
     }
     response = requests.post(url, json=payload, auth=auth)
+
+    # REMOVE IF NOT LOCAL
     # AudioSegment.converter = "ffmpeg.exe"
+
+
     audio_segment = AudioSegment.from_file(BytesIO(response.content), format="wav")
     return audio_segment
 

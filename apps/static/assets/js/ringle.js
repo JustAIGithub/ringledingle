@@ -64,6 +64,9 @@ singerItems.forEach(item => {
 
 ringlesubmit.addEventListener("click", function(event) {
   // SUBMIT RAP BUTTON
+
+  // close the results div (NOT TOGGLE)
+  $('#results').hide(); 
   event.preventDefault(); // Prevent the link from navigating
   var raplyrics = encodeURIComponent(document.getElementById("raplyrics").value);
   email = encodeURIComponent(document.getElementById("submit-email").value);  
@@ -76,9 +79,26 @@ ringlesubmit.addEventListener("click", function(event) {
 
   
   resultPromise.then(function(result) {
-    console.log(result);
-    var { airesponse } = result;
 
+    console.log(result);
+    console.log(result.airesponse);
+    console.log(result.title);
+    console.log(result.img_url);
+
+
+    // get the title, and img_url from the result:
+
+    var title = result.title;
+    // Add title to the text of <h4 id="title">:
+    document.getElementById("title").innerHTML = title;
+    
+    var img_url = result.img_url;
+    // Add img_url to src of <img src="" id="result-image" alt="result image">:
+    document.getElementById("result-image").src = img_url;
+
+    // Set ai_repsponse to the value of result.airesponse:
+    var airesponse = result.airesponse;
+    
     // var start = airesponse.indexOf("STARTPOEM") + 9;
     // var end = airesponse.indexOf("ENDPOEM");
     document.getElementById("myAudio").innerHTML = document.getElementById("myAudio").innerHTML;
@@ -86,8 +106,9 @@ ringlesubmit.addEventListener("click", function(event) {
     const playButton = document.getElementById("play");
     playButton.innerHTML = "Play Audio";
     playButton.style.backgroundColor = "rgba(0, 128, 0, 0.3)"; // Set the background color to a light green
-    response.value = airesponse;
-    
+    response.innerHTML = airesponse;
+  
+
     showMessageModal(`Success! Your audio has been emailed to ${decodeURIComponent(email)}. Press 'Play' on the audio below to hear your track.`, false);
     $('#results').slideToggle();
 
@@ -144,7 +165,7 @@ async function make_rap(words, input_file, voice, email="", singer_name="", show
     submitText.textContent = 'Step 5: Submit';
 
   
-  return { airesponse };
+  return { airesponse: airesponse, title: data.title, img_url: data.img_url };
 
 } catch (error) {
     console.error(error);

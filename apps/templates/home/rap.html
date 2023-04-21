@@ -100,15 +100,17 @@
                 <p style="font-size: 24px;">Step 5: Submit</p> <p class="tiny">(Lyrics and audio will generate below)</p> 
               </a>
             </div>
-          
-        
+
            
           <!-- DREW PASTE END -->
 
-          <div style="text-align: center; display: none" id="results">
+          <div style="text-align: center; display:none" id="results">
             <h3>YOUR RESULTS</h3>
-            <textarea name="" id="response" cols="30" rows="10" style="text-align: center; display: inline-block;"></textarea>
-          <div style="text-align:center;  padding:20px">
+            <h4 id="title">Title: None</h4>
+            <img src="" id="result-image" alt="RingleDingleResult">
+            <p name="" id="response" cols="30" rows="10" style="text-align: center; display: inline-block;"></p>
+          <div style="text-align:center;  padding:20px" id="playpause">
+            
             <audio id="myAudio" style="text-align: center; width:100vw;">
               <source src="{{ url_for('static', filename='media/output.mp3') }}" type="audio/mpeg">
             </audio>
