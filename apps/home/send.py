@@ -2,7 +2,6 @@ import os
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import *
 import base64
-import requests
 import urllib3
 
 
@@ -94,29 +93,29 @@ def send_email(to_email='apiispanen1@babson.edu', attachment=None, lyrics='No ly
 
 
 
-img_url = 'https://lh6.googleusercontent.com/-qcLTPwh675Y/AAAAAAAAAAI/AAAAAAAACKc/Xgrv1h5ejAw/photo.jpg?sz=64'
+# img_url = 'https://lh6.googleusercontent.com/-qcLTPwh675Y/AAAAAAAAAAI/AAAAAAAACKc/Xgrv1h5ejAw/photo.jpg?sz=64'
 
-title = "Tony's Birthday Wishes"
+# title = "Tony's Birthday Wishes"
 
-lyrics = """Tony, my dear friend, it's your special day,
-I hope you have a happy birthday in every way.
-Even though your friends may not like you,
-Just know that I'll always be there for you.
+# lyrics = """Tony, my dear friend, it's your special day,
+# I hope you have a happy birthday in every way.
+# Even though your friends may not like you,
+# Just know that I'll always be there for you.
 
-You may be unpopular and alone,
-But with me by your side, you're never on your own.
-So blow out the candles and make a wish,
-I promise to grant it with a hug and a kiss.
+# You may be unpopular and alone,
+# But with me by your side, you're never on your own.
+# So blow out the candles and make a wish,
+# I promise to grant it with a hug and a kiss.
 
-Don't worry about what others say or do,
-Just focus on the love that surrounds you.
-On this day, let all your worries fade away,
-And celebrate another year of being okay.
+# Don't worry about what others say or do,
+# Just focus on the love that surrounds you.
+# On this day, let all your worries fade away,
+# And celebrate another year of being okay.
 
-Happy birthday Tony, from me to you,
-May all your dreams and wishes come true."""
-
-
+# Happy birthday Tony, from me to you,
+# May all your dreams and wishes come true."""
 
 
-send_email(lyrics=lyrics, img_url=img_url, title=title, singer_name='pooh-brock-baker', attachment=True)
+
+
+# send_email(lyrics=lyrics, img_url=img_url, title=title, singer_name='pooh-brock-baker', attachment=True)
