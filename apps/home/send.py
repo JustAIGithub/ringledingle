@@ -52,6 +52,15 @@ def send_email(to_email='apiispanen1@babson.edu', attachment=None, lyrics='No ly
             Disposition('attachment')
         )
         message.attachment = attachedFile
+    
+    # if img_url:
+    #     attachedFile = Attachment(
+    #         FileContent(img_url),
+    #         FileName('ringledingle.png'),
+    #         FileType('image/png'),
+    #         Disposition('attachment')
+    #     )
+    #     message.attachment = attachedFile
 
     try:
         sg = SendGridAPIClient(SENDGRID_KEY)
