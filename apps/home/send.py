@@ -23,7 +23,7 @@ def send_email(to_email='apiispanen1@babson.edu', attachment=None, lyrics='No ly
             SENDGRID_KEY = os.getenv('SENDGRID_KEY')
 
 
-    # lyrics = lyrics.replace("\n", "<br>")
+    lyrics = lyrics.replace("\n", "<br>")
     message = Mail(
         from_email='drew@ringledingle.com',
         to_emails=email_list,
@@ -36,7 +36,11 @@ def send_email(to_email='apiispanen1@babson.edu', attachment=None, lyrics='No ly
             data = f.read()
             f.close()
         encoded_file = base64.b64encode(data).decode()
-
+        # Now put the encoded file into an audio source string in html:
+        # audio_player = f'<audio controls><source src="data:audio/mpeg;base64,{encoded_file}" type="audio/mpeg"></audio>'
+        # audio_player = '<audio controls><source src="cid:ringledingle" type="audio/mpeg"/></audio>'
+        # audio_player = encoded_file
+        
         attachedFile = Attachment(
             FileContent(encoded_file),
             FileName('ringledingle.mp3'),
