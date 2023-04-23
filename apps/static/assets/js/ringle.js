@@ -12,6 +12,7 @@ const airesponseTextArea = document.querySelector("#response");
 var email = ""
 var ringlelyrics = document.getElementById("generate-lyrics");
 var ringlesubmit = document.getElementById("ringlesubmit");
+var dalle_request_box = document.getElementById("dalle-request");
 
 // Get the submit-box element
 const submitBox = document.getElementById('submit-box');
@@ -81,7 +82,7 @@ ringlelyrics.addEventListener("click", async function(event) {
   $('#lyric-spinner').show();
   var raplyrics = encodeURIComponent(document.getElementById("raplyrics").value);
 
-  var ai_request = "Generate a poem that will be narrated by ".concat(singer_name).concat(" with the following in between deliminiters STARTPOEM and ENDPOEM (respond with lyrics ONLY, no 'Verse 1:' Labeling either). Also put the poem title between delimiters STARTTITLE and ENDTITLE:").concat(raplyrics);
+  var ai_request = "Generate a poem that will be narrated by ".concat(singer_name).concat(" with the following in between deliminiters STARTPOEM and ENDPOEM (respond with lyrics ONLY, no 'Verse 1:' Labeling either). Also put the poem title between delimiters STARTTITLE and ENDTITLE, and Describe in one sentence what a cover photo would be for the poem (i.e. the string will get processed in DALLE for AI image rendering), and put that prompt string in between the delimiters STARTDALLE and ENDDALLE:\n").concat(raplyrics);
   // ringlelyrics.textContent = 'Words are gathering, it may take a couple minutes...';
 
   console.log(ai_request);
@@ -107,17 +108,21 @@ ringlelyrics.addEventListener("click", async function(event) {
     ringlelyrics.textContent = 'Done! Click to regenerate lyrics';
     var lyrics = data.lyrics;
     var title = data.title;
+    var dalle_request = data.dalle_request;
+    dalle_request_box.innerHTML = dalle_request;
     airesponseTextArea.value = lyrics;
-    document.getElementById("title").innerHTML = "Title: ".concat(title);
+    document.getElementById("title").innerHTML = title;
     
   console.log(lyrics);
 
   // display #results
   $('#results').show();
+  $('#title').focus();
   ask_question_running = false;
   return { lyrics: data.lyrics, title: data.title, img_url: data.img_url };
 
   } catch (error) {
+
     console.error(error);
     ask_question_running = false;
     // Hide the spinner
@@ -176,7 +181,7 @@ ringlesubmit.addEventListener("click", function(event) {
     response.innerHTML = airesponse;
 
     showMessageModal(`Success! Your audio has been emailed to ${decodeURIComponent(email)}. Press 'Play' on the audio below to hear your track.`, false);
-    $('#final-results').slideToggle();
+    $('#final-results').show();
 
   }).catch(function(error) {
     showMessageModal('An error occurred: ' + error.message);
@@ -198,6 +203,8 @@ async function make_rap(words, input_file, voice, email="", singer_name="", titl
   }
   ask_question_running = true;
   
+
+  var dalle_request = dalle_request_box.innerHTML;
   // Show the spinner
   document.getElementById('spinner').style.display = 'block';
   // Change the text of the <p> element
@@ -219,7 +226,8 @@ async function make_rap(words, input_file, voice, email="", singer_name="", titl
         voice: voice,
         input_file: input_file,
         email: email,
-        singer_name:singer_name
+        singer_name:singer_name,
+        dalle_request: dalle_request
       })
     });
 
@@ -229,7 +237,7 @@ async function make_rap(words, input_file, voice, email="", singer_name="", titl
     // Hide the spinner
     document.getElementById('spinner').style.display = 'none';
     console.log(airesponse);
-    submitText.textContent = 'Step 5: Submit';
+    submitText.textContent = 'Click to Regenerate Audio';
 
   
   return { airesponse: airesponse, title: data.title, img_url: data.img_url };

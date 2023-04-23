@@ -83,13 +83,13 @@ def make_poem():
     words = unquote(request.json['words'])
     singer_name = request.json['singer_name']
     lyrics = ai_response(words)
-    # lyrics = "STARTTITLE:The one who could ENDTITLE\nSTARTPOEM\nMy dad has a cantaloupe on his chest,\nA strange sight indeed, but he's not distressed.\nIt sits atop him like a crown,\nA fruit that's ripe and orangey-brown.\nENDPOEM"
 
     poem_lyrics = lyrics[lyrics.find("STARTPOEM") + len("STARTPOEM"):lyrics.find("ENDPOEM")].strip()
-    # dalle_request = lyrics[lyrics.find("STARTDALLE") + len("STARTDALLE:"):lyrics.find("ENDDALLE")].strip()
+    dalle_request = lyrics[lyrics.find("STARTDALLE") + len("STARTDALLE:"):lyrics.find("ENDDALLE")].strip()
+    print("DALLE REQUEST: ", dalle_request)
 
     title = lyrics[lyrics.find("STARTTITLE") + len("STARTTITLE:"):lyrics.find("ENDTITLE")].strip()
-    return jsonify({  "lyrics":poem_lyrics, "title":title, "singer_name":singer_name})
+    return jsonify({  "lyrics":poem_lyrics, "title":title, "singer_name":singer_name, "dalle_request":dalle_request})
 
 
 @blueprint.route('/make-rap', methods=['POST', 'GET'])
@@ -99,7 +99,7 @@ def make_rap():
     title = unquote(request.json['title'])
     email = unquote(request.json['email'])
     singer_name = request.json['singer_name']
-    dalle_request = ai_response("Make a DALLE image prompt for a cover photo of the following poem. Put the prompt in between the delimiters STARTDALLE and ENDDALLE:\n"+words)    # email = 'apiispanen@berkeley.edu'
+    dalle_request = request.json['dalle_request']
     print(f'Dalle request: {dalle_request}')
     input_file = request.json['input_file']
     output_file = "output.mp3"
@@ -109,7 +109,7 @@ def make_rap():
     make_narration(f'apps/static/media/{input_file}', f'apps/static/media/{output_file}', words,voice=voice)
     
     try:
-        img_url = generate_image(dalle_request)
+        img_url = generate_image("A funny cartoon of "+dalle_request)
     except Exception as e:
         print(f"Error in generating an image: {e}")
         img_url = "https://ringledingle.com/static/media/ringledingle.png"
