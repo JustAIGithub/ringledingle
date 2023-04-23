@@ -107,39 +107,35 @@
     <div class="card-body singer" style="text-align: center;">
       <p id="dalle-request" style="display: none;">None</p>
         <div style="text-align: center; display:none" id="results">
-          <h4 id="title"></h4>
-          <textarea name="" id="response"  style="text-align: center; display: inline-block;"></textarea>
-          <label>Feel free to edit the above words before submitting to audio.</label>
+                <h4 id="title"></h4>
+
+                <div style="text-align: center; display:none" class="final-results">
+                  <img src="static\media\ringledingle.png" id="result-image" style="max-width: 50%" alt="RingleDingleResult">
+                </div>
+
+
+                <textarea name="" id="response"  style="text-align: center; display: inline-block;"></textarea>
+                <label>Feel free to edit the above words before submitting to audio.</label>
+
+            <div style="text-align:center;  padding:20px; display:none" class="final-results" id="playpause">
+                  <audio id="myAudio" style="text-align: center; width:100vw;">
+                    <source src="static/media/output.mp3" type="audio/mpeg">
+                  </audio>
+                  <button id="play" onclick="playAudio()" style="text-align: center; padding:20px">Play</button>
+                  <button onclick="stopAudio()" style="text-align: center; padding:20px">Stop</button>
+            </div>
 
             <div id="submit-box">
-              <a href="#" id="ringlesubmit">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <div id="spinner" class="spinner" style="display: none; text-align: center; background-color: aquamarine; border-radius: 50%;"></div>
-                <p style="font-size: 18px;"> Step 6: Generate RingleDingle</p> <p class="tiny">(Audio will generate based off of above lyrics)</p> 
-              </a>
-            </div>
-            </div>
-
-        <div style="text-align: center; display:none" id="final-result">
-            <img src="static\media\ringledingle.png" id="result-image" style="max-width: 100%" alt="RingleDingleResult">
-            <div style="text-align:center;  padding:20px" id="playpause">
-          
-            <audio id="myAudio" style="text-align: center; width:100vw;">
-              <source src="static/media/output.mp3" type="audio/mpeg">
-            </audio>
-            <button id="play" onclick="playAudio()" style="text-align: center; padding:20px">Play</button>
-            <button onclick="stopAudio()" style="text-align: center; padding:20px">Stop</button>
-
-            </div>
-        </div>
- 
+                    <a href="#" id="ringlesubmit">
+                      <div id="spinner" class="spinner" style="display: none; text-align: center; background-color: aquamarine; border-radius: 50%;"></div>
+                      <p style="font-size: 18px;"> Step 6: Generate RingleDingle</p> <p class="tiny">(Audio will generate based off of above lyrics)</p> 
+                    </a>
+              </div>
+      
+      </div>
       </div>
     </div>
     
-
 
 </div>
 <script>

@@ -101,13 +101,13 @@ def ai_response_stream(prompt, temperature=.5):
     # print(response, end="")
 
 def generate_image(prompt):
-    prompt = "an animation of "+prompt
+    prompt = prompt
     response = openai.Image.create(
     prompt=prompt,
     n=1,
     size="256x256"
     )
-    print(response['data'][0]['url'])
+    print("Dalle url response:",response['data'][0]['url'])
     return response['data'][0]['url']
 
 # print(generate_image('a happy dad with a hat'))

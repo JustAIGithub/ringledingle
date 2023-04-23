@@ -83,7 +83,6 @@ def make_poem():
     words = unquote(request.json['words'])
     singer_name = request.json['singer_name']
     lyrics = ai_response(words)
-
     poem_lyrics = lyrics[lyrics.find("STARTPOEM") + len("STARTPOEM"):lyrics.find("ENDPOEM")].strip()
     dalle_request = lyrics[lyrics.find("STARTDALLE") + len("STARTDALLE:"):lyrics.find("ENDDALLE")].strip()
     print("DALLE REQUEST: ", dalle_request)

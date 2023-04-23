@@ -139,81 +139,33 @@ ringlelyrics.addEventListener("click", async function(event) {
 // **********************************************
 // GENERATE AUDIO
 // **********************************************
-ringlesubmit.addEventListener("click", function(event) {
-  // GENERATE SONG BUTTON
-
-  // close the results div (NOT TOGGLE)
-  $('#final-results').hide(); 
-  event.preventDefault(); // Prevent the link from navigating
-  var raplyrics = encodeURIComponent(document.getElementById("response").value);
-  email = encodeURIComponent(document.getElementById("submit-email").value);  
-  var response = document.getElementById("response");
-
-  console.log("SENDING A Narration REQUEST");
-  title = document.getElementById("title").innerHTML;
-  console.log("Sending request for a reading to voice: ".concat(singer_name));
-  var resultPromise = make_rap(raplyrics, input_file=input_file, voice=singer, email=email, singer_name=singer_name, title=title);
-
-  resultPromise.then(function(result) {
-    console.log(result);
-    console.log(result.airesponse);
-    console.log(result.title);
-    console.log(result.img_url);
-
-    // get the title, and img_url from the result:
-
-    var title = result.title;
-    // Add title to the text of <h4 id="title">:
-    document.getElementById("title").innerHTML = "Title".concat(title);
-    
-    var img_url = result.img_url;
-    // Add img_url to src of <img src="" id="result-image" alt="result image">:
-    document.getElementById("result-image").src = img_url;
-
-    // Set ai_repsponse to the value of result.airesponse:
-    var airesponse = result.airesponse;
-    
-    document.getElementById("myAudio").innerHTML = document.getElementById("myAudio").innerHTML;
-
-    const playButton = document.getElementById("play");
-    playButton.innerHTML = "Play Audio";
-    playButton.style.backgroundColor = "rgba(0, 128, 0, 0.3)"; // Set the background color to a light green
-    response.innerHTML = airesponse;
-
-    showMessageModal(`Success! Your audio has been emailed to ${decodeURIComponent(email)}. Press 'Play' on the audio below to hear your track.`, false);
-    $('#final-results').show();
-
-  }).catch(function(error) {
-    showMessageModal('An error occurred: ' + error.message);
-  });
-``
-});
-
+ringlesubmit.addEventListener("click", async function(event) {
   
-  // END SUBMIT RAP BUTTON
-
-
-// **********************************************
-// ************** SPEECH FUNCTIONS **************
-
-async function make_rap(words, input_file, voice, email="", singer_name="", title="", show_response=true) {
+  // SET UP THE RUNNING CONDITIONS
+  event.preventDefault(); 
+  $('.final-results').hide(); 
+  document.getElementById('spinner').style.display = 'block';
+  submitText.textContent = 'Audio is generating, it may take a couple minutes...';
   if(ask_question_running){
     console.log("Ringle Dingle is already running");
     return Promise.reject(new Error("Ringle Dingle is already running"));
   }
-  ask_question_running = true;
   
-
-  var dalle_request = dalle_request_box.innerHTML;
-  // Show the spinner
-  document.getElementById('spinner').style.display = 'block';
-  // Change the text of the <p> element
-  submitText.textContent = 'Audio is generating, it may take a couple minutes...';
-
   if (audio && !audio.paused) {
     audio.pause();
   }
+  ask_question_running = true;
 
+
+  // GET THE INPUTS
+  var dalle_request = dalle_request_box.innerHTML;
+  var raplyrics = encodeURIComponent(document.getElementById("response").value);
+  var response = document.getElementById("response");
+  email = encodeURIComponent(document.getElementById("submit-email").value);  
+  title = document.getElementById("title").innerHTML;
+  console.log("Sending Narration request for a reading to voice: ".concat(singer_name));
+
+  // HANDLE THE REQUEST
   try {
     const response = await fetch('/make-rap', {
       method: 'POST',
@@ -221,39 +173,61 @@ async function make_rap(words, input_file, voice, email="", singer_name="", titl
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        words: words,
+        words: raplyrics,
         title: title,
-        voice: voice,
+        voice: singer,
         input_file: input_file,
         email: email,
         singer_name:singer_name,
         dalle_request: dalle_request
       })
     });
-
+   
     const data = await response.json();
     const airesponse = data.airesponse;
+    var title = data.title;
+    var img_url = data.img_url;
+
     ask_question_running = false;
-    // Hide the spinner
+
+    
+    // CHANGE THE ON PAGE ELEMENTS - TITLE, IMAGE, AUDIO
+    document.getElementById("title").innerHTML = "Title".concat(title);
+    document.getElementById("result-image").src = img_url;
+    document.getElementById("myAudio").innerHTML = document.getElementById("myAudio").innerHTML;
+
+    // CHANGE THE PLAY BUTTON
+    const playButton = document.getElementById("play");
+    playButton.innerHTML = "Play Audio";
+    playButton.style.backgroundColor = "rgba(0, 128, 0, 0.3)"; // Set the background color to a light green
+
+
+    // SUCCESS!
     document.getElementById('spinner').style.display = 'none';
+    $('.final-results').slideToggle();
     console.log(airesponse);
     submitText.textContent = 'Click to Regenerate Audio';
-
-  
-  return { airesponse: airesponse, title: data.title, img_url: data.img_url };
+    showMessageModal(`Success! Your audio has been emailed to ${decodeURIComponent(email)}. Press 'Play' on the audio below to hear your track.`, false);
 
 } catch (error) {
     console.error(error);
     ask_question_running = false;
     // Hide the spinner
     document.getElementById('spinner').style.display = 'none';
-    submitText.textContent = 'Error in the request. Please try again or refresh the page.';
+    submitText.textContent = 'Error in the request. Please try again or refresh the page.'; 
+    showMessageModal('An error occurred: ' + error.message);
     throw error;
   }
-}
+
+  
+});
+
+  
+  // END SUBMIT RAP BUTTON
 
 
 // **********************************************
+// ************** MISC FUNCTIONS **************
 
 // Error handling
 // Error handling
