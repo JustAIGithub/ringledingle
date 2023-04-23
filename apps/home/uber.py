@@ -58,7 +58,6 @@ def get_voice_id(voice, auth=auth):
 
 def uberduck_audio_segment(speech, voice, duration, auth=auth):
     # auth = (os.getenv('DUCK_KEY'), os.getenv('DUCK_SECRET'))
-
     # print("AUTH:",auth)
 
     url = "https://api.uberduck.ai/speak-synchronous"

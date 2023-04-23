@@ -10,7 +10,9 @@ var button = document.getElementsByTagName("push-to-talk-button")[0];
 const airesponseTextArea = document.querySelector("#response");
 
 var email = ""
+var ringlelyrics = document.getElementById("generate-lyrics");
 var ringlesubmit = document.getElementById("ringlesubmit");
+
 // Get the submit-box element
 const submitBox = document.getElementById('submit-box');
 // Get the <p> element inside the submit-box element
@@ -62,35 +64,102 @@ singerItems.forEach(item => {
 });
 
 
+
+// **********************************************
+// GENERATE LYRICS
+// **********************************************
+ringlelyrics.addEventListener("click", async function(event) {
+  // GENERATE LYRICS BUTTON
+  event.preventDefault(); // Prevent the link from navigating
+
+  if(ask_question_running){
+    console.log("Ringle Dingle is already running");
+    return Promise.reject(new Error("Ringle Dingle is already running"));
+  }
+  ask_question_running = true;
+
+  $('#lyric-spinner').show();
+  var raplyrics = encodeURIComponent(document.getElementById("raplyrics").value);
+
+  var ai_request = "Generate a poem that will be narrated by ".concat(singer_name).concat(" with the following in between deliminiters STARTPOEM and ENDPOEM (respond with lyrics ONLY, no 'Verse 1:' Labeling either). Also put the poem title between delimiters STARTTITLE and ENDTITLE:").concat(raplyrics);
+  // ringlelyrics.textContent = 'Words are gathering, it may take a couple minutes...';
+
+  console.log(ai_request);
+  try {
+    const response = await fetch('/make-poem', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        words: ai_request,
+        singer_name: singer_name
+      })
+    });
+
+    const data = await response.json();
+    ask_question_running = false;
+    // Hide the spinner
+    $('#lyric-spinner').hide();
+
+    // document.getElementById('lyric-spinner').style.display = 'none';
+    console.log(data);
+    ringlelyrics.textContent = 'Done! Click to regenerate lyrics';
+    var lyrics = data.lyrics;
+    var title = data.title;
+    airesponseTextArea.value = lyrics;
+    document.getElementById("title").innerHTML = "Title: ".concat(title);
+    
+  console.log(lyrics);
+
+  // display #results
+  $('#results').show();
+  ask_question_running = false;
+  return { lyrics: data.lyrics, title: data.title, img_url: data.img_url };
+
+  } catch (error) {
+    console.error(error);
+    ask_question_running = false;
+    // Hide the spinner
+    $('#lyric-spinner').hide();
+    submitText.textContent = 'Error in the request. Please try again or refresh the page.';
+    ask_question_running = false;
+    throw error;
+  }
+
+});
+
+
+
+// **********************************************
+// GENERATE AUDIO
+// **********************************************
 ringlesubmit.addEventListener("click", function(event) {
-  // SUBMIT RAP BUTTON
+  // GENERATE SONG BUTTON
 
   // close the results div (NOT TOGGLE)
-  $('#results').hide(); 
+  $('#final-results').hide(); 
   event.preventDefault(); // Prevent the link from navigating
-  var raplyrics = encodeURIComponent(document.getElementById("raplyrics").value);
+  var raplyrics = encodeURIComponent(document.getElementById("response").value);
   email = encodeURIComponent(document.getElementById("submit-email").value);  
   var response = document.getElementById("response");
-  // var audioSrc = document.getElementById("myAudio").getElementsByTagName("source")[0].src;
+
   console.log("SENDING A Narration REQUEST");
+  title = document.getElementById("title").innerHTML;
   console.log("Sending request for a reading to voice: ".concat(singer_name));
-  var resultPromise = make_rap("Generate a poem that will be narrated by ".concat(singer_name).concat(" about the following, in between deliminiters STARTPOEM and ENDPOEM (respond with lyrics ONLY, no 'Verse 1:' Labeling either). Also put the poem title between delimiters STARTTITLE and ENDTITLE: ").concat(raplyrics), input_file=input_file, voice=singer, email=email, singer_name=singer_name);
-  
+  var resultPromise = make_rap(raplyrics, input_file=input_file, voice=singer, email=email, singer_name=singer_name, title=title);
 
-  
   resultPromise.then(function(result) {
-
     console.log(result);
     console.log(result.airesponse);
     console.log(result.title);
     console.log(result.img_url);
 
-
     // get the title, and img_url from the result:
 
     var title = result.title;
     // Add title to the text of <h4 id="title">:
-    document.getElementById("title").innerHTML = title;
+    document.getElementById("title").innerHTML = "Title".concat(title);
     
     var img_url = result.img_url;
     // Add img_url to src of <img src="" id="result-image" alt="result image">:
@@ -99,23 +168,20 @@ ringlesubmit.addEventListener("click", function(event) {
     // Set ai_repsponse to the value of result.airesponse:
     var airesponse = result.airesponse;
     
-    // var start = airesponse.indexOf("STARTPOEM") + 9;
-    // var end = airesponse.indexOf("ENDPOEM");
     document.getElementById("myAudio").innerHTML = document.getElementById("myAudio").innerHTML;
-    // var rapText = airesponse.substring(start, end).trim();
+
     const playButton = document.getElementById("play");
     playButton.innerHTML = "Play Audio";
     playButton.style.backgroundColor = "rgba(0, 128, 0, 0.3)"; // Set the background color to a light green
     response.innerHTML = airesponse;
-  
 
     showMessageModal(`Success! Your audio has been emailed to ${decodeURIComponent(email)}. Press 'Play' on the audio below to hear your track.`, false);
-    $('#results').slideToggle();
+    $('#final-results').slideToggle();
 
   }).catch(function(error) {
     showMessageModal('An error occurred: ' + error.message);
   });
-
+``
 });
 
   
@@ -125,7 +191,7 @@ ringlesubmit.addEventListener("click", function(event) {
 // **********************************************
 // ************** SPEECH FUNCTIONS **************
 
-async function make_rap(words, input_file, voice, email="", singer_name="", show_response=true) {
+async function make_rap(words, input_file, voice, email="", singer_name="", title="", show_response=true) {
   if(ask_question_running){
     console.log("Ringle Dingle is already running");
     return Promise.reject(new Error("Ringle Dingle is already running"));
@@ -149,6 +215,7 @@ async function make_rap(words, input_file, voice, email="", singer_name="", show
       },
       body: JSON.stringify({
         words: words,
+        title: title,
         voice: voice,
         input_file: input_file,
         email: email,

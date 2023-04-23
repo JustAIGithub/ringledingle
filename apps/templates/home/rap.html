@@ -90,6 +90,27 @@
             </div>
 
 
+            <div id="lyrics-box">
+              <a href="#" id="generate-lyrics">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <div id="lyric-spinner" class="spinner" style="display: none; text-align: center; background-color: aquamarine; border-radius: 50%;"></div>
+                <p style="font-size: 14px;">Step 5: Generate Lyrics</p> <p class="tiny">(Lyrics will generate below)</p> 
+              </a>
+            </div>
+
+          <hr>
+
+      <div class="card-body singer" style="text-align: center;">
+
+            
+        <div style="text-align: center; display:none" id="results">
+          <h4 id="title"></h4>
+          <textarea name="" id="response"  style="text-align: center; display: inline-block;"></textarea>
+          <label>Feel free to edit the above words before submitting to audio.</label>
+
             <div id="submit-box">
               <a href="#" id="ringlesubmit">
                 <span></span>
@@ -97,27 +118,23 @@
                 <span></span>
                 <span></span>
                 <div id="spinner" class="spinner" style="display: none; text-align: center; background-color: aquamarine; border-radius: 50%;"></div>
-                <p style="font-size: 24px;">Step 5: Submit</p> <p class="tiny">(Lyrics and audio will generate below)</p> 
+                <p style="font-size: 18px;"> Step 6: Generate Song</p> <p class="tiny">(Audio will generate based off of above lyrics)</p> 
               </a>
             </div>
+            </div>
 
-           
-          <!-- DREW PASTE END -->
-
-          <div style="text-align: center; display:none" id="results">
-            <h3>YOUR RESULTS</h3>
-            <h4 id="title">Title: None</h4>
-            <img src="" id="result-image" alt="RingleDingleResult">
-            <p name="" id="response" cols="30" rows="10" style="text-align: center; display: inline-block;"></p>
-          <div style="text-align:center;  padding:20px" id="playpause">
-            
+        <div style="text-align: center; display:none" id="final-result">
+            <img src="static\media\ringledingle.png" id="result-image" style="max-width: 100%" alt="RingleDingleResult">
+            <div style="text-align:center;  padding:20px" id="playpause">
+          
             <audio id="myAudio" style="text-align: center; width:100vw;">
-              <source src="{{ url_for('static', filename='media/output.mp3') }}" type="audio/mpeg">
+              <source src="static/media/output.mp3" type="audio/mpeg">
             </audio>
             <button id="play" onclick="playAudio()" style="text-align: center; padding:20px">Play</button>
             <button onclick="stopAudio()" style="text-align: center; padding:20px">Stop</button>
+
             </div>
-          </div>
+        </div>
  
       </div>
     </div>

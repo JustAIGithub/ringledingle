@@ -48,6 +48,7 @@ def make_narration(input_file, output_file, lyrics, start_lag=8, music_volume=20
     phrase_start = start_lag
 
     for phrase in phrases:
+        print("PHRASE:", phrase)
         # Generate spoken audio for the current phrase
         spoken_phrase = uberduck_audio_segment(phrase, voice, 0)
         # try:

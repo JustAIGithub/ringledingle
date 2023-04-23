@@ -3,7 +3,7 @@
 Copyright (c) 2019 - present AppSeed.us
 """
 from apps.home import blueprint
-from flask import render_template, request, session
+from flask import render_template, request, session, Response
 from flask_login import login_required
 from jinja2 import TemplateNotFound
 from bson.objectid import ObjectId
@@ -11,7 +11,7 @@ from datetime import datetime
 import os
 # from stt import speech_to_text
 from apps.home.audiobook import make_narration
-from apps.home.prompt import ai_response, generate_image
+from apps.home.prompt import ai_response, generate_image, ai_response_stream
 from apps.home.send import send_email
 from flask import Flask, request, render_template, jsonify, flash, redirect, url_for
 from flask import session
@@ -75,37 +75,41 @@ app.config["CACHE_TYPE"] = "null"
 def demo():
     return render_template('home/rap.html')
 
-# OBJECT ID IS DESIGNATED
-@blueprint.route('/rap')
-def rap():
-    if not current_user.is_authenticated:
-        return render_template('cards/note.html')
-    else:
-        return render_template('home/rap.html')
+
+
+@blueprint.route('/make-poem', methods=['POST', 'GET'])
+def make_poem():
+    print("MAKING POEM")
+    words = unquote(request.json['words'])
+    singer_name = request.json['singer_name']
+    lyrics = ai_response(words)
+    # lyrics = "STARTTITLE:The one who could ENDTITLE\nSTARTPOEM\nMy dad has a cantaloupe on his chest,\nA strange sight indeed, but he's not distressed.\nIt sits atop him like a crown,\nA fruit that's ripe and orangey-brown.\nENDPOEM"
+
+    poem_lyrics = lyrics[lyrics.find("STARTPOEM") + len("STARTPOEM"):lyrics.find("ENDPOEM")].strip()
+    # dalle_request = lyrics[lyrics.find("STARTDALLE") + len("STARTDALLE:"):lyrics.find("ENDDALLE")].strip()
+
+    title = lyrics[lyrics.find("STARTTITLE") + len("STARTTITLE:"):lyrics.find("ENDTITLE")].strip()
+    return jsonify({  "lyrics":poem_lyrics, "title":title, "singer_name":singer_name})
+
 
 @blueprint.route('/make-rap', methods=['POST', 'GET'])
 def make_rap():
     words = unquote(request.json['words'])
     voice = request.json['voice']
+    title = unquote(request.json['title'])
     email = unquote(request.json['email'])
     singer_name = request.json['singer_name']
-    # email = 'apiispanen@berkeley.edu'
+    dalle_request = ai_response("Make a DALLE image prompt for a cover photo of the following poem. Put the prompt in between the delimiters STARTDALLE and ENDDALLE:\n"+words)    # email = 'apiispanen@berkeley.edu'
+    print(f'Dalle request: {dalle_request}')
     input_file = request.json['input_file']
     output_file = "output.mp3"
     # mark the function as called
     session['audio_saved'] = True
 
-    lyrics = ai_response(words)
-    # lyrics = "STARTTITLE:The one who could ENDTITLE\nSTARTPOEM\nMy dad has a cantaloupe on his chest,\nA strange sight indeed, but he's not distressed.\nIt sits atop him like a crown,\nA fruit that's ripe and orangey-brown.\nENDPOEM"
-    start_index = lyrics.find("STARTPOEM") + len("STARTPOEM")
-    end_index = lyrics.find("ENDPOEM")
-    rap_lyrics = lyrics[start_index:end_index].strip()
-    title = lyrics[lyrics.find("STARTTITLE") + len("STARTTITLE"):lyrics.find("ENDTITLE")].strip()
-    rap_lyrics = "Hello, I'd like to tell you a poem I wrote today:\n"+ rap_lyrics 
-    make_narration(f'apps/static/media/{input_file}', f'apps/static/media/{output_file}', rap_lyrics,voice=voice)
+    make_narration(f'apps/static/media/{input_file}', f'apps/static/media/{output_file}', words,voice=voice)
     
     try:
-        img_url = generate_image(title)
+        img_url = generate_image(dalle_request)
     except Exception as e:
         print(f"Error in generating an image: {e}")
         img_url = "https://ringledingle.com/static/media/ringledingle.png"
@@ -113,12 +117,12 @@ def make_rap():
     # print(f"title: {title}, lyrics: {rap_lyrics}, img_url: {img_url}, singer_name: {singer_name}")
     log_info(email)
 
-    send_email(to_email=email, attachment=f'apps/static/media/{output_file}', lyrics=rap_lyrics, img_url=img_url, singer_name=singer_name, title=title) 
+    send_email(to_email=email, attachment=f'apps/static/media/{output_file}', lyrics=words, img_url=img_url, singer_name=singer_name, title=title) 
     # user_id = session.get("_user_id")
     # print("Ringle has been Dingled. img_url: ", img_url, "title: ", title)
 
     # Pass the image url and title to the front end
-    return jsonify({  "img_url":img_url, "airesponse":rap_lyrics, "title":title})
+    return jsonify({  "img_url":img_url, "airesponse":words, "title":title})
 
 
 # LOGS EMAILS AND IP ADDRESSES

@@ -57,23 +57,25 @@ def send_email(to_email='apiispanen1@babson.edu', attachment=None, lyrics='No ly
         if response.status == 200:
             image_binary = response.data
             # `image_binary` now contains the binary data of the image
+
+              # encode the image
+            encoded_file = base64.b64encode(image_binary).decode()
+            # img_url = f'data:image/png;base64,{encoded_file}'
+            
+            attachedFile2 = Attachment(
+                FileContent(encoded_file),
+                FileName('ringleimage.png'),
+                FileType('image/png'),
+                Disposition('attachment'),
+                ContentId('ringleimage')
+            )
+            attachedFile2.content_id = 'ringleimage'
+            message.add_attachment(attachedFile2)
+
         else:
             print('Failed to download image')
 
-        # encode the image
-        encoded_file = base64.b64encode(image_binary).decode()
-        # img_url = f'data:image/png;base64,{encoded_file}'
-        
-        attachedFile2 = Attachment(
-            FileContent(encoded_file),
-            FileName('ringleimage.png'),
-            FileType('image/png'),
-            Disposition('attachment'),
-            ContentId('ringleimage')
-        )
-        attachedFile2.content_id = 'ringleimage'
-        message.add_attachment(attachedFile2)
-
+      
     message.reply_to = 'apiispanen@berkeley.edu'
     message.template_id = 'd-9f8062ae69344b519ad5bf7da5040e0d'
 
@@ -97,29 +99,42 @@ def send_email(to_email='apiispanen1@babson.edu', attachment=None, lyrics='No ly
 
 
 
-# img_url = 'https://lh6.googleusercontent.com/-qcLTPwh675Y/AAAAAAAAAAI/AAAAAAAACKc/Xgrv1h5ejAw/photo.jpg?sz=64'
+# img_url = 'https://www.imagehost.at/images/2023/04/22/johnny-cash.png'
 
-# title = "Tony's Birthday Wishes"
+# title = "RingleDingle Blues"
+# voice = "Johnny Cash"
+# lyrics = """
+# Hello, I'd like to tell you a poem I wrote today:
+# I appreciate you, my friend,
+# For trying out RingleDingle till the end.
+# But now I'm hoping for something more,
+# Your money, so I can soar.
 
-# lyrics = """Tony, my dear friend, it's your special day,
-# I hope you have a happy birthday in every way.
-# Even though your friends may not like you,
-# Just know that I'll always be there for you.
+# My app is great, that much is true,
+# And with your help, it'll be worth your due.
+# So don't hesitate to invest,
+# In RingleDingle's success.
 
-# You may be unpopular and alone,
-# But with me by your side, you're never on your own.
-# So blow out the candles and make a wish,
-# I promise to grant it with a hug and a kiss.
+# Thank you for giving it a try,
+# Now let's take this app up high.
+# With your support and my dream in tow,
+# RingleDingle will surely glow.
+# """
 
-# Don't worry about what others say or do,
-# Just focus on the love that surrounds you.
-# On this day, let all your worries fade away,
-# And celebrate another year of being okay.
+# # EMAILS:
 
-# Happy birthday Tony, from me to you,
-# May all your dreams and wishes come true."""
+# emails = [
+# "apiispanen1@babson.edu",
+# "kl3272@drexel.edu",
+# "Dougmac900@gmail.com",
+# "adam.piispanen@foreveroceans.com",
+# "rani.zierath@gmail.com",
+# "5samcasey@gmail.com",
+# "dwendling@umass.edu",
+# "hannahpiispanen@gmail.com",
+# "bnelson6630@gmail.com"
+# ]
 
 
 
-
-# send_email(lyrics=lyrics, img_url=img_url, title=title, singer_name='pooh-brock-baker', attachment=True)
+# send_email(to_email="", lyrics=lyrics, img_url=img_url, title=title, singer_name='Johnny Cash', attachment=True)
