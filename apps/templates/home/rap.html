@@ -6,7 +6,6 @@
 {% block content %}
 
 <div class="row ringedingle">
-  
     <div class="card ">
       <div class="card-header">
         <div class = "card-body" style="padding-top:50px">
@@ -131,11 +130,16 @@
                       <p style="font-size: 18px;"> Step 6: Generate RingleDingle</p> <p class="tiny">(Audio will generate based off of above lyrics)</p> 
                     </a>
               </div>
-      
+
+              <div class="final-results" id="share-email-div" style="display:none">
+              <p>Share this with others (comma separated):</p>
+              <div id="email-spinner" class="spinner" style="display: none; text-align: center; background-color: aquamarine; border-radius: 50%;"></div>
+                        <input type="text" id="share-email">
+              </div>
       </div>
       </div>
     </div>
-    
+
 
 </div>
 <script>

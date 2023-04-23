@@ -123,6 +123,20 @@ def make_rap():
     # Pass the image url and title to the front end
     return jsonify({  "img_url":img_url, "airesponse":words, "title":title})
 
+@blueprint.route('/email-share', methods=['POST', 'GET'])
+def email_share():
+    print("REQUEST",request.json)
+    lyrics = unquote(request.json['lyrics'])
+    singer_name = request.json['singer_name']
+    title = unquote(request.json['title'])
+    email = unquote(request.json['email'])
+
+    img_url = request.json['img_url']
+    output_file = "output.mp3"
+    send_email(to_email=email, attachment=f'apps/static/media/{output_file}', lyrics=lyrics, img_url=img_url, singer_name=singer_name, title=title) 
+    return jsonify({  "success":True})
+
+
 
 # LOGS EMAILS AND IP ADDRESSES
 def log_info(email):

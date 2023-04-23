@@ -82,7 +82,7 @@ ringlelyrics.addEventListener("click", async function(event) {
   $('#lyric-spinner').show();
   var raplyrics = encodeURIComponent(document.getElementById("raplyrics").value);
 
-  var ai_request = "Generate a poem that will be narrated by ".concat(singer_name).concat(" with the following in between deliminiters STARTPOEM and ENDPOEM (respond with lyrics ONLY, no 'Verse 1:' Labeling either). Also put the poem title between delimiters STARTTITLE and ENDTITLE, and Describe in one sentence what a cover photo would be for the poem (i.e. the string will get processed in DALLE for AI image rendering), and put that prompt string in between the delimiters STARTDALLE and ENDDALLE:\n").concat(raplyrics);
+  var ai_request = "Generate a 4 stanza poem that will be narrated by ".concat(singer_name).concat(" with the following in between deliminiters STARTPOEM and ENDPOEM (respond with lyrics ONLY, no 'Verse 1:' Labeling either). Also put the poem title between delimiters STARTTITLE and ENDTITLE, and Describe in one sentence what a cover photo would be for the poem (i.e. the string will get processed in DALLE for AI image rendering), and put that prompt string in between the delimiters STARTDALLE and ENDDALLE:\n").concat(raplyrics);
   // ringlelyrics.textContent = 'Words are gathering, it may take a couple minutes...';
 
   console.log(ai_request);
@@ -205,6 +205,7 @@ ringlesubmit.addEventListener("click", async function(event) {
     // SUCCESS!
     document.getElementById('spinner').style.display = 'none';
     $('.final-results').slideToggle();
+    $('#title').focus();
     console.log(airesponse);
     submitText.textContent = 'Click to Regenerate Audio';
     showMessageModal(`Success! Your audio has been emailed to ${decodeURIComponent(email)}. Press 'Play' on the audio below to hear your track.`, false);
@@ -231,6 +232,68 @@ ringlesubmit.addEventListener("click", async function(event) {
 
 // Error handling
 // Error handling
+
+// On clicking "Enter" in #share-email input, call on the /email-share endpoint:
+$('#share-email').on('keyup', function (e) {
+  e.preventDefault();
+  if (e.key === 'Enter' || e.keyCode === 13) {
+    $('#email-spinner').show();
+    $('#share-email').hide();
+    if(ask_question_running){
+      console.log("Ringle Dingle is already running");
+      return Promise.reject(new Error("Ringle Dingle is already running"));
+    }
+    
+    ask_question_running = true;
+  
+    // Encode the values
+    const email = encodeURIComponent($('#share-email').val());
+    const title = $('#title').text();
+    const lyrics = encodeURIComponent($('#response').val());
+    const img_url = $('#result-image').attr('src');
+
+    console.log("SENDING UP", email, title, lyrics, img_url, singer_name);
+    
+    
+    const data = {
+      email: email,
+      title: title,
+      lyrics: lyrics,
+      img_url: img_url,
+      singer_name: singer_name,
+    };
+    $.ajax({
+      type: 'POST',
+      url: '/email-share',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      success: function (data) {
+        console.log('success');
+        console.log(data);
+        $('#share-email-div').hide();
+
+        showMessageModal(`Success! Your audio has been emailed to ${decodeURIComponent(email)}. Press 'Play' on the audio below to hear your track.`, false);
+      },
+      error: function (error) {
+        console.log('error');
+        console.log(error);
+        showMessageModal('An error occurred: ' + error.message + '. Please make sure you\'ve filled out the form - if not, please refresh the page.');
+      },
+    });
+    
+    $('#email-spinner').hide();
+    ask_question_running = false;
+    return false;
+
+  };
+});
+
+
+
+    
+
+
+
 function showMessageModal(message, isError = true) {
   // Create a modal overlay
   const modalOverlay = document.createElement('div');
