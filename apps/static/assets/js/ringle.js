@@ -82,7 +82,7 @@ ringlelyrics.addEventListener("click", async function(event) {
   $('#lyric-spinner').show();
   var raplyrics = encodeURIComponent(document.getElementById("raplyrics").value);
 
-  var ai_request = "Generate a 4 stanza poem that will be narrated by ".concat(singer_name).concat(". Your response should have the 3 following components: 1. The poem stanzas will be in between the deliminiters STARTPOEM and ENDPOEM (respond with poem text ONLY, no 'Verse 1:' Labeling either).\n2. The poem title will be between delimiters STARTTITLE and ENDTITLE.\n3. Describe in one sentence what a cover photo would be for the poem (i.e. the string will get processed in DALLE for AI image rendering), and put that prompt string in between the delimiters STARTDALLE and ENDDALLE.\nDo these steps to create a poem from the following\n").concat(raplyrics);
+  var ai_request = "Generate a 4 stanza poem that will be narrated by ".concat(singer_name).concat(". Your response MUST have the 3 following components: 1. The poem itself will be in between the deliminiters STARTPOEM and ENDPOEM (respond with poem text ONLY, no 'Verse 1:' labels either).\n 2. The poem title will be between delimiters STARTTITLE and ENDTITLE.\n 3. Describe in one sentence what a cover photo would be for the poem (i.e. the string will get processed in DALLE for AI image rendering), and put that prompt string in between the delimiters STARTDALLE and ENDDALLE.\n Do these steps to create a poem from the following\n").concat(raplyrics);
   // ringlelyrics.textContent = 'Words are gathering, it may take a couple minutes...';
 
   console.log(ai_request);
