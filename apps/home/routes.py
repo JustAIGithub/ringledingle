@@ -76,19 +76,19 @@ def demo():
     return render_template('home/rap.html')
 
 
-
 @blueprint.route('/make-poem', methods=['POST', 'GET'])
 def make_poem():
     print("MAKING POEM")
     words = unquote(request.json['words'])
     singer_name = request.json['singer_name']
     lyrics = ai_response(words)
+    # lyrics = """STARTTITLE Sound of Silence ENDTITLE \n STARTPOEMHello darkness, my old friend, I've come to talk with you again, Because a vision softly creeping, Left its seeds while I was sleeping.ENDPOEM"""
     poem_lyrics = lyrics[lyrics.find("STARTPOEM") + len("STARTPOEM"):lyrics.find("ENDPOEM")].strip()
-    dalle_request = lyrics[lyrics.find("STARTDALLE") + len("STARTDALLE:"):lyrics.find("ENDDALLE")].strip()
-    print("DALLE REQUEST: ", dalle_request)
+    # dalle_request = lyrics[lyrics.find("STARTDALLE") + len("STARTDALLE:"):lyrics.find("ENDDALLE")].strip()
+    # print("DALLE REQUEST: ", dalle_request)
 
     title = lyrics[lyrics.find("STARTTITLE") + len("STARTTITLE:"):lyrics.find("ENDTITLE")].strip()
-    return jsonify({  "lyrics":poem_lyrics, "title":title, "singer_name":singer_name, "dalle_request":dalle_request})
+    return jsonify({  "lyrics":poem_lyrics, "title":title, "singer_name":singer_name})
 
 
 @blueprint.route('/make-rap', methods=['POST', 'GET'])
@@ -98,7 +98,8 @@ def make_rap():
     title = unquote(request.json['title'])
     email = unquote(request.json['email'])
     singer_name = request.json['singer_name']
-    dalle_request = request.json['dalle_request']
+    # dalle_request = request.json['dalle_request']
+    dalle_request = ai_response(f"Describe in one sentence what a cover photo would be for the poem (i.e. the string will get processed in DALLE for AI image rendering), and put that prompt string in between the delimiters STARTDALLE and ENDDALLE.\n{words}")
     print(f'Dalle request: {dalle_request}')
     input_file = request.json['input_file']
     output_file = "output.mp3"
@@ -111,13 +112,12 @@ def make_rap():
         img_url = generate_image("A funny cartoon of "+dalle_request)
     except Exception as e:
         print(f"Error in generating an image: {e}")
-        img_url = "https://ringledingle.com/static/media/ringledingle.png"
+        img_url = "https://ringledingle.com/static/media/ringledingle_na.png"
 
     # print(f"title: {title}, lyrics: {rap_lyrics}, img_url: {img_url}, singer_name: {singer_name}")
     log_info(email)
 
     send_email(to_email=email, attachment=f'apps/static/media/{output_file}', lyrics=words, img_url=img_url, singer_name=singer_name, title=title) 
-    # user_id = session.get("_user_id")
     # print("Ringle has been Dingled. img_url: ", img_url, "title: ", title)
 
     # Pass the image url and title to the front end

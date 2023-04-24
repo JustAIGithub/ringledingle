@@ -27,6 +27,7 @@ def ai_response(prompt, temperature =.5):
   
     # PREPRIME WITH MESSAGES
     # messages = get_conversation(5, 'db','user_responses')
+
     messages = [{"role": "user", "content": prompt}]
     # NOW RUN THE PROMPT:
     response = openai.ChatCompletion.create( 

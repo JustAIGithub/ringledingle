@@ -40,6 +40,7 @@
       </div>
       </div>
 
+      <div class="first-phase">
       <div class="card-body singer song-style" style="text-align: center;">
         <h4>Step 1: Select a background mood</h4>
           <a class="dropdown-item" value="magic.mp3">Magical</a>
@@ -54,9 +55,7 @@
               <h4>Step 2: Select a Narrator</h4>
                 <a class="dropdown-item" value="alan-rickman">Snape</a>
                 <a class="dropdown-item" value="snoop-dogg">Snoop Dogg</a>
-                <!-- <a class="dropdown-item" value="marge-simpson">Marge Simpson</a> -->
                 <a class="dropdown-item" value="frenchy">French Narrator</a>
-                <!-- <a class="dropdown-item" value="homer-vocodes">Homer Simpson</a> -->
                 <a class="dropdown-item" value="bugs-bunny-billy-west">Bugs Bunny</a>
                 <a class="dropdown-item" value="betty-white">Betty White</a>
                 <a class="dropdown-item" value="eminem-arpa2">Eminem</a>
@@ -73,7 +72,7 @@
    
             <!-- DREW PASTE -->
             <hr>
-            <div class="card-body singer" style="text-align: center;">
+            <div class="card-body singer" style="text-align: center;" id="step3">
               <h4>Step 3: Enter an email to send to.</h4>          
                 <div class="user-box">
                   <input type="text" id="submit-email" name="" required="">
@@ -81,16 +80,26 @@
                 </div><hr>
             </div>
 
-            <div class="card-body singer" style="text-align: center;">
+            <div class="card-body singer" style="text-align: center;" id="spit-facts">
               <h4>Step 4: Enter facts about the person you're sending this to.</h4>
               <label>Just a few words about their name, what event this is for, and some fun facts you want to include. Nothing fancy.</label>
               <div class="user-box">
                 <textarea id="raplyrics" placeholder="Today is Tommy's birthday. He plays soccer and isn't good at it. Please include the words 'You smell awful' at the end, and also make sure he knows it's from Drew."></textarea>
               </div>
+              <div class="card-body holiday singer" style="text-align: center; display:none" id="occasion">
+                <h5>(Optional) What occasion is this for?</h5>
+                <a class="dropdown-item selected">None</a>
+                <a class="dropdown-item">Birthday</a>
+                <a class="dropdown-item">Thank You</a>
+                <a class="dropdown-item">Mother's Day</a>
+                <a class="dropdown-item">Religious Holiday</a>
+                </div>
             </div>
 
+          </div>
 
-            <div id="lyrics-box">
+
+            <div id="lyrics-box" class="submit-button">
               <a href="#" id="generate-lyrics">
                 <span></span>
                 <span></span>
@@ -101,7 +110,7 @@
               </a>
             </div>
 
-          <hr>
+
 
 
     <div class="card-body singer" style="text-align: center;">
@@ -110,12 +119,12 @@
                 <h4 id="title"></h4>
 
                 <div style="text-align: center; display:none" class="final-results">
-                  <img src="static\media\ringledingle.png" id="result-image" style="max-width: 50%" alt="RingleDingleResult">
+                  <img src="static\media\ringledingle_na.png" id="result-image" style="max-width: 50%" alt="RingleDingleResult">
                 </div>
 
 
                 <textarea name="" id="response"  style="text-align: center; display: inline-block;"></textarea>
-                <label>Feel free to edit the above words before submitting to audio.</label>
+                <label id="last-chance">Feel free to edit the above words before submitting to audio.</label>
 
             <div style="text-align:center;  padding:20px; display:none" class="final-results" id="playpause">
                   <audio id="myAudio" style="text-align: center; width:100vw;">
@@ -125,20 +134,32 @@
                   <button onclick="stopAudio()" style="text-align: center; padding:20px">Stop</button>
             </div>
 
-            <div id="submit-box">
-                    <a href="#" id="ringlesubmit">
-                      <div id="spinner" class="spinner" style="display: none; text-align: center; background-color: aquamarine; border-radius: 50%;"></div>
-                      <p style="font-size: 18px;"> Step 6: Generate RingleDingle</p> <p class="tiny">(Audio will generate based off of above lyrics)</p> 
-                    </a>
-              </div>
-
               <div class="final-results" id="share-email-div" style="display:none">
-              <p>Share this with others (comma separated):</p>
-              <div id="email-spinner" class="spinner" style="display: none; text-align: center; background-color: aquamarine; border-radius: 50%;"></div>
-                        <input type="text" id="share-email">
+              
+                <p>Share this with others (comma separated, press "Enter" to submit):</p>
+                <div id="email-spinner" class="spinner" style="display: none; text-align: center; background-color: aquamarine; border-radius: 50%;"></div>
+
+                <input type="text" id="share-email">
+                <p id="email-success" style="display:none">Your message has been sent!</p>
+
+                
+                
               </div>
       </div>
-      </div>
+    </div>
+
+
+      <div id="submit-box" class="submit-button" style="display:none">
+        <a href="#" id="ringlesubmit">
+          <div id="spinner" class="spinner" style="display: none; text-align: center; background-color: aquamarine; border-radius: 50%;"></div>
+          <p style="font-size: 18px;"> Step 6: Generate RingleDingle</p> <p class="tiny">(Audio will generate based off of above lyrics)</p> 
+        </a>
+  </div>
+  <hr>
+  <div class="restart-button">
+    <p><a href="/">Start Over</a></p>
+  </div>
+
     </div>
 
 
