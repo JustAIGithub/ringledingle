@@ -17,7 +17,7 @@ def upload_file(filename='apps/static/media/output.mp3', upload_dir =''):
 
     # Create a bucket object for our bucket
     bucket = storage_client.get_bucket('ringledingle')
-
+    print("trying to upload file {} to google cloud storage in directory {}".format(filename, upload_dir))
     # print timestamp to be used as filename
     # timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 

@@ -10,7 +10,9 @@ $(document).ready(function() {
   var singer = "alan-rickman";
   var singer_name = "Alan Rickman";
   var input_file = "magic.mp3";
-
+  var progressBar = $('.progress-bar');
+  var totalSteps = $('.carousel-inner .carousel-item').length - 2; // -2 to exclude the "Generating" and "100%" steps
+  var currentStep = $('.carousel-inner .carousel-item.active').index();
 
   async function generateLyrics() {
     console.log("Generating Lyrics...");
@@ -23,6 +25,7 @@ $(document).ready(function() {
 
   if(ask_question_running){
     console.log("Ringle Dingle is already running");
+    showMessageModal("Ringle Dingle is already running");
     return Promise.reject(new Error("Ringle Dingle is already running"));
   }
   ask_question_running = true;
@@ -82,12 +85,6 @@ $(document).ready(function() {
     ask_question_running = false;
     throw error;
   }
-
-
-
-
-
-
 
 
   }
@@ -164,7 +161,7 @@ $(document).ready(function() {
     // submitText.textContent = 'Click to Regenerate Audio';
     // next carousel
     $('.carousel').carousel('next');
-    // showMessageModal(`Success! Your audio has been emailed to ${decodeURIComponent(email)}. Press 'Play' on the audio below to hear your track.`, false);
+    showMessageModal(`Success! Your audio has been emailed to ${decodeURIComponent(email)}. Press 'Play' on the audio below to hear your track.`, false);
 
 } catch (error) {
     console.error(error);
@@ -194,55 +191,13 @@ $(document).ready(function() {
       }
   });
 
-// When you click the right arrow on the keyboard, it will go to the next step:
-  $(document).keydown(function(e) {
-    switch(e.which) {
-        case 39: // right
-        $('.carousel').carousel('next');
-        break;
-        case 37: // left
-        $('.carousel').carousel('prev');
-        break;
-
-
-        default: return; // exit this handler for other keys
-    }
-    // NOT WORKING : When a carousel item is shown, it will put the cursor on the first input/textarea field:
-    $('.carousel').on('slid.bs.carousel', function () {
-      $('.carousel-item.active').find('.entry-item').focus();
-      
-    })
+ 
+  $('.carousel').off('slid.bs.carousel').on('slid.bs.carousel', function() {
+    progressBar = $('.progress-bar');
+    totalSteps = $('.carousel-inner .carousel-item').length - 2; // -2 to exclude the "Generating" and "100%" steps
+    currentStep = $('.carousel-inner .carousel-item.active').index();  
+    console.log("ASSIGNED CURRENT STEP", currentStep);
     
-
-  
-    
-
-    e.preventDefault(); // prevent the default action (scroll / move caret)
-  });
-
-  $('.carousel').on('slid.bs.carousel', function() {
-
-    
-    var progressBar = $('.progress-bar');
-    var totalSteps = $('.carousel-inner .carousel-item').length - 2; // -2 to exclude the "Generating" and "100%" steps
-    var currentStep = $('.carousel-inner .carousel-item.active').index();
-
-
-    // Log "fourth element" when the fourth carousel item is passed
-    if (currentStep == 4) {
-      generateLyrics();
-    }
-    
-    if (currentStep == 6) {
-      generateDingle();
-    }
-
-    // Disable carousel controls when you reach the end
-    if (currentStep >= totalSteps) {
-        $('.carousel-control-next, .carousel-control-prev').css('display', 'none');
-    } else {
-        $('.carousel-control-next, .carousel-control-prev').css('display', 'block');
-    }
 
     if (currentStep <= totalSteps) {
         var progressValue = (currentStep / totalSteps) * 100;
@@ -254,11 +209,38 @@ $(document).ready(function() {
         progressBar.attr('aria-valuenow', 100);
         progressBar.html('100%');
     }
+
+    // Log "fourth element" when the fourth carousel item is passed
+    if (currentStep == 4) {
+      generateLyrics();
+    }
+    
+    if (currentStep == 6) {
+      generateDingle();
+    }
+
+    $('.carousel-item.active').find('.entry-item').focus();
+
+
+});
+
+$(document).keydown(function(e) {
+  // When you click the right arrow on the keyboard, it will go to the next step:
+
+  // console.log("currentStep", currentStep, "totalSteps", totalSteps);
+  switch(true) {
+    case e.which == 39 && currentStep < totalSteps: // right
+      $('.carousel').carousel('next');
+      break;
+    case e.which == 37 && currentStep > 0 && currentStep != totalSteps-1 && currentStep != totalSteps-4: // left
+      $('.carousel').carousel('prev');
+      break;
+    default: 
+      return; // exit this handler for other keys
+  }
 });
 
 
-
-// GET THE BOXES
 
 // SELECT THE MUSIC
 const musicItems = document.querySelectorAll('.song-style a');
@@ -297,6 +279,74 @@ singerItems.forEach(item => {
     $('.carousel').carousel('next');
   });
 });
+
+
+
+
+// On clicking "Enter" in #share-email input, call on the /email-share endpoint:
+$('#share-email').on('keyup', function (e) {
+  e.preventDefault();
+
+  // Add to conditions if #btn is clicked, do the same thing as below
+
+  if (e.key === 'Enter' || e.keyCode === 13) {
+    document.getElementById('#email-spinner').style = 'inline-block';
+    $('#share-email').hide();
+   
+
+    if(ask_question_running){
+      console.log("Ringle Dingle is already running");
+      return Promise.reject(new Error("Ringle Dingle is already running"));
+    }
+    
+    ask_question_running = true;
+  
+    // Encode the values
+    const email = encodeURIComponent($('#share-email').val());
+    const title = $('#title').text();
+    const lyrics = encodeURIComponent($('#response').val());
+    const img_url = $('#result-image').attr('src');
+
+    console.log("SENDING UP", email, title, lyrics, img_url, singer_name);
+    
+    
+    const data = {
+      email: email,
+      title: title,
+      lyrics: lyrics,
+      img_url: img_url,
+      singer_name: singer_name,
+    };
+    $.ajax({
+      type: 'POST',
+      url: '/email-share',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      success: function (data) {
+        console.log('success');
+        console.log(data);
+
+        showMessageModal(`Success! Your audio has been emailed to ${decodeURIComponent(email)}. Press 'Start Over' to try to Ringle another Dingle.`, false);
+      },
+      error: function (error) {
+        console.log('error');
+        console.log(error);
+        showMessageModal('An error occurred: ' + error.message + '. Please make sure you\'ve filled out the form - if not, please refresh the page.');
+        $('#share-email').slideToggle();
+      },
+    });
+    
+    $('#email-spinner').hide();
+    $('#share-email').slideToggle();
+    $('#share-email').val('');
+    ask_question_running = false;
+    return false;
+
+  };
+});
+
+
+
 
 
 
