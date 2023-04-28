@@ -7,382 +7,674 @@
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-    <div class="row">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.6/dist/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 
-      <!-- DREW NETWORKER ABOUT -->
-      <div class="row about">
-        <section>
-          <h1>About Networker</h1>
-          <p>Networker is an AI-powered networking assistant that helps you remember important details about the people you meet and guides you towards deeper, more meaningful conversations. Say goodbye to small talk and build more authentic relationships with ease.
-          </p><p>Networker seeks to improve the way we network and communicate with others. By using OpenAI’s da-vinci algorithms (many of you will know their frontend as “ChatGPT”) combined with and Speechly’s Speech to Text and Google’s Text to Speech technology, this project aims to help people remember important details about the people they interact with, creating deeper and more fruitful relationships.</p><hr>
-          <h2>How to Use the App</h2>
+<script>$('.carousel').carousel();</script>
+<style>
+  :root {
+      --primary-color: #ff6f0054;
+      --secondary-color: #91ff006e;
+      --white-font: #ffffe4;
+      --black-font: rgb(80, 80, 80);
+  }
+  
+  body {
+      font-family: "Poppins", sans-serif;
+      background-color: rgb(255, 254, 238);
+  }
 
-          <p><ol><li>Push the microphone, spacebar to speak or enter into the prompt manually.</li>
-              <li>For your prompt, the first word you ask is important. Use the following as a guide:</li>
-            <ul><li><b>Update Strings</b> = "update",'edit', 'modify': This is a general "Upsert" function that will add fields to an existing user, or build out a new one. <br>Example Prompt: "Update Drew Piispanen - he likes vanilla ice cream." <br>Example Response: "Drew Piispanen has been updated"</li>
-          <li><b>General Strings</b> = 'who': This asks Networker to give general information about a person. <br>Example Prompt: "Who's Drew Piispanen?"<br>Example Response: "Drew Piispanen lives in Hershey, PA. He is studying data science, and is coding the 'Networker Application'. His favorite ice cream is cookie dough."</li>
-          <li><b>Reminder Strings</b> = 'remind': This will ask Networker to remind them about a specific field of this person. <br>Example Prompt: "Remind me, what's Drew Piispanen's favorite ice cream flavor?" <br>Example Response: "Drew's favorite ice cream flavor is cookie dough."</li></ul>
-          <li>Networker will respond with in the response textfield, to which the following prompt can audit the last response.</li>
-          </ol></p>
-          <p><b>NOTE: ADDING A PREPROMPT WILL REMOVE THE NETWORKER FUNCTIONING.</b></p>
+  #carouselExampleIndicators,
+.carousel-item {
+    height: 100vh;
+}
+
+  
+  .carousel-item {
+      max-height: 100vh;
+      text-align: center;
+      margin-top: 5%;
+      margin-bottom: 10%;
+    /* display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; */
+
+
+
+    }
+  
+  .entry-item {
+      width: 50%;
+      height: 50px;
+      font-size: 16px;
+      text-align: left;
+      
+  }
+  
+  #edit-lyrics{
+    color: var(--black-font);
+  }
+  #final-image{
+    width: 50%;
+    height: 50%;
+    padding:10px
+  }
+
+  .dropdown-item {
+      max-width: 40%;
+      display: inline-block;
+      margin: 5px;
+      background-color: var(--primary-color);
+      color: var(--white-font);
+      padding: 5px 0 15px;
+      border-radius: 4px;
+  }
+  
+  .dropdown-item:hover {
+      background-color: var(--secondary-color);
+      text-decoration: none;
+  }
+
+  .custom-progress {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+
+.custom-progress-bar {
+    background-color: var(--primary-color);/* Cool shade of green */
+    border-radius: 10px;
+}
+
+textarea{
+  min-height: 50%;
+}
+
+input,
+textarea {
+    width: 80%; /* Adjust the width */
+    font-size: calc(1em + 0.5vw); /* Make the font size responsive */
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    outline: none;
+    padding: 12px;
+    margin-bottom: 20px;
+    transition: box-shadow 0.3s ease;
+}
+
+input:focus,
+textarea:focus {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+
+input {
+    height: calc(1.5em + 1vw); /* Adjust the input height */
+}
+
+textarea {
+    height: 30vh; /* Make the textarea bigger */
+    resize: none; /* Disable resizing */
     
-          <hr>
-            <h2>Desired Project Outcomes</h2>
-            <p>Once the Speech to text funcitonality is flushed out, we'll want to have the following features:
-            <ul><li><b>Networking Assistant:</b> Networker will take any data gathered from a conversation you've had and log it, including important details as well as important facts about the person/people you've interacted with, stored in JSON on a MongoDB instance.
-            </li><li>
-            <b>Inquiry Assistant:</b> Networker will gather information on you by asking rich, meaningful questions to get to know you, your connections, and help you to inquire more about life, acting as both an assistant and personal coach.
-            </li></ul> 
-            </p></section>
-            <p class="find-us">
-              Learn More:<br><a href="https://github.com/apiispanen/networker" target="_blank">Github</a> | 
-              <a href="https://medium.com/@andrewpiispanen/the-networker-project-cc8765c25f50" target="_blank">Medium</a> | <a href="mailto:apiispanen@berkeley.edu">Email</a>
-              </p>
-        
-            </div>
-        <!-- END -->
+}
+
+.dropdown-item {
+  position: relative;
+  display: inline-block;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+  color: var(--white-font);
+}
 
 
+.dropdown-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background-color: rgba(206, 205, 205, 0.3);
+  z-index: -1;
+  transition: width 0.3s ease-out;
+}
+
+.dropdown-item:hover::before {
+  width: 100%;
+}
 
 
+/* http://www.eaglefonts.com/fg-virgil-ttf-131249.htm */
+@font-face {
+  font-family: "Virgil";
+  src: url("static/fonts/Virgil.woff2");
+  font-display: swap;
+}
 
-      <div class="col-lg-4">
-        <div class="card card-chart">
-          <div class="card-header">
-            <h5 class="card-category">User Updates</h5>
-            <h3 class="card-title"><i class="tim-icons icon-bell-55 text-primary"></i> 763,215</h3>
-          </div>
-          <div class="card-body">
-            <div class="chart-area">
-              <canvas id="chartLinePurple"></canvas>
-            </div>
-          </div>
+/* https://github.com/microsoft/cascadia-code */
+@font-face {
+  font-family: "Cascadia";
+  src: url("static/fonts/Cascadia.woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Assistant";
+  src: url("static/fonts/Assistant-Regular.woff2");
+  font-display: swap;
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Assistant";
+  src: url("static/fonts/Assistant-Medium.woff2");
+  font-display: swap;
+  font-weight: 500;
+}
+@font-face {
+  font-family: "Assistant";
+  src: url("static/fonts/Assistant-SemiBold.woff2");
+  font-display: swap;
+  font-weight: 600;
+}
+@font-face {
+  font-family: "Assistant";
+  src: url("static/fonts/Assistant-Bold.woff2");
+  font-display: swap;
+  font-weight: 700;
+}
+
+*{
+  font-family: "Cascadia";
+  letter-spacing: .5px;
+  text-decoration: none;
+}
+
+h4, h2, h1, textarea::placeholder{
+  font-family: "Virgil";
+  letter-spacing: 1px;
+  text-transform: lowercase;
+
+}
+
+.funky-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.spinner-circle {
+    width: 50px;
+    height: 50px;
+    border: 5px solid transparent;
+    border-top: 5px solid var(--secondary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.spinner {
+  border: 4px solid rgba(130, 184, 255, 0.1);
+  width: 50px;
+  height: 36px;
+  border-radius: 50%;
+  border-left-color: #ffffff;
+  animation: spin 1s linear infinite;
+  text-align: center;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+</style>
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="false">
+  <!-- <ol class="carousel-indicators">
+    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">25%</li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="1">50%</li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="2">LOADING</li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="3">75%</li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="4">100%</li>
+  </ol> -->
+  <div class="carousel-inner">
+    <div class="carousel-item active step1">
+      <h2>Your Email</h2>
+      <input type="text" id="email" class="entry-item">
+      
+
+    </div>
+    <div class="carousel-item step2">
+      <h2>Recipient Information</h2>
+      <textarea name="" id="about" cols="30" rows="10" class="entry-item" placeholder="This is for Mike's Birthday. He is 34 years old and plays guitar ... "></textarea>
+      <label for="">What are some fun facts about the recipient you're sending this to?</label>
+    </div>
+    <div class="carousel-item step3">
+        <h2>Background Mood</h2>
+        <div class="card-body singer song-style" >
+            <a class="dropdown-item" value="magic.mp3">Magical</a>
+            <a class="dropdown-item" value="motiv.mp3">Thoughtful</a>
+            <a class="dropdown-item" value="sad.mp3">Sad</a>
+            <a class="dropdown-item" value="pensive.mp3">Pensive</a>
+            <a class="dropdown-item" value="lullaby.mp3">Lullaby</a>
         </div>
+    </div>
+
+    <div class="carousel-item step4">
+      <h4>Narrator Style</h4>
+      <div class="card-body singer-select singer">
+            <a class="dropdown-item" value="alan-rickman">Snape</a>
+            <a class="dropdown-item" value="snoop-dogg">Snoop Dogg</a>
+            <a class="dropdown-item" value="frenchy">French Narrator</a>
+            <a class="dropdown-item" value="bugs-bunny-billy-west">Bugs Bunny</a>
+            <a class="dropdown-item" value="betty-white">Betty White</a>
+            <a class="dropdown-item" value="eminem-arpa2">Eminem</a>
+            <a class="dropdown-item" value="shrek">Shrek</a>                
+            <a class="dropdown-item" value="johnny-cash">Johnny Cash</a>
+            <a class="dropdown-item" value="rizzo-the-rat">Rizzo the Rat</a>
+            <a class="dropdown-item" value="spongebob-vocodes">Spongebob</a>
+            <a class="dropdown-item" value="ariel">Ariel</a>
+            <a class="dropdown-item" value="biggie-smalls">Notorious B.I.G.</a>
+            <a class="dropdown-item" value="pooh-brock-baker">Pooh</a>
       </div>
-      <div class="col-lg-4">
-        <div class="card card-chart">
-          <div class="card-header">
-            <h5 class="card-category">Today's Usage</h5>
-            <h3 class="card-title"><i class="tim-icons icon-delivery-fast text-info"></i> 3,500 Tokens</h3>
-          </div>
-          <div class="card-body">
-            <div class="chart-area">
-              <canvas id="CountryChart"></canvas>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4">
-        <div class="card card-chart">
-          <div class="card-header">
-            <h5 class="card-category">People Logged</h5>
-            <h3 class="card-title"><i class="tim-icons icon-single-02 text-success"></i> 12,100K</h3>
-          </div>
-          <div class="card-body">
-            <div class="chart-area">
-              <canvas id="chartLineGreen"></canvas>
-            </div>
-          </div>
-        </div>
+
+
+    </div>
+<!-- GENETATE LYRICS AFTER SUBMIT -->
+    <div class="carousel-item step3">
+      <h2>Generating...</h2>
+      <div class="funky-spinner">
+        <div class="spinner-circle"></div>
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-lg-6 col-md-12">
-        <div class="card card-tasks">
-          <div class="card-header ">
-            <h6 class="title d-inline">Tasks(5)</h6>
-            <p class="card-category d-inline">today</p>
-            <div class="dropdown">
-              <button type="button" class="btn btn-link dropdown-toggle btn-icon" data-toggle="dropdown">
-                <i class="tim-icons icon-settings-gear-63"></i>
-              </button>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                <a class="dropdown-item" href="#pablo">Action</a>
-                <a class="dropdown-item" href="#pablo">Another action</a>
-                <a class="dropdown-item" href="#pablo">Something else</a>
-              </div>
-            </div>
-          </div>
-          <div class="card-body ">
-            <div class="table-full-width table-responsive">
-              <table class="table">
-                <tbody>
-                  <tr>
-                    <td>
-                      <div class="form-check">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox" value="">
-                          <span class="form-check-sign">
-                            <span class="check"></span>
-                          </span>
-                        </label>
-                      </div>
-                    </td>
-                    <td>
-                      <p class="title">Update the Documentation</p>
-                      <p class="text-muted">Dwuamish Head, Seattle, WA 8:47 AM</p>
-                    </td>
-                    <td class="td-actions text-right">
-                      <button type="button" rel="tooltip" title="" class="btn btn-link" data-original-title="Edit Task">
-                        <i class="tim-icons icon-pencil"></i>
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div class="form-check">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox" value="" checked="">
-                          <span class="form-check-sign">
-                            <span class="check"></span>
-                          </span>
-                        </label>
-                      </div>
-                    </td>
-                    <td>
-                      <p class="title">GDPR Compliance</p>
-                      <p class="text-muted">The GDPR is a regulation that requires businesses to protect the personal data and privacy of Europe citizens for transactions that occur within EU member states.</p>
-                    </td>
-                    <td class="td-actions text-right">
-                      <button type="button" rel="tooltip" title="" class="btn btn-link" data-original-title="Edit Task">
-                        <i class="tim-icons icon-pencil"></i>
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div class="form-check">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox" value="">
-                          <span class="form-check-sign">
-                            <span class="check"></span>
-                          </span>
-                        </label>
-                      </div>
-                    </td>
-                    <td>
-                      <p class="title">Solve the issues</p>
-                      <p class="text-muted">Fifty percent of all respondents said they would be more likely to shop at a company </p>
-                    </td>
-                    <td class="td-actions text-right">
-                      <button type="button" rel="tooltip" title="" class="btn btn-link" data-original-title="Edit Task">
-                        <i class="tim-icons icon-pencil"></i>
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div class="form-check">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox" value="">
-                          <span class="form-check-sign">
-                            <span class="check"></span>
-                          </span>
-                        </label>
-                      </div>
-                    </td>
-                    <td>
-                      <p class="title">Release v2.0.0</p>
-                      <p class="text-muted">Ra Ave SW, Seattle, WA 98116, SUA 11:19 AM</p>
-                    </td>
-                    <td class="td-actions text-right">
-                      <button type="button" rel="tooltip" title="" class="btn btn-link" data-original-title="Edit Task">
-                        <i class="tim-icons icon-pencil"></i>
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div class="form-check">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox" value="">
-                          <span class="form-check-sign">
-                            <span class="check"></span>
-                          </span>
-                        </label>
-                      </div>
-                    </td>
-                    <td>
-                      <p class="title">Export the processed files</p>
-                      <p class="text-muted">The report also shows that consumers will not easily forgive a company once a breach exposing their personal data occurs. </p>
-                    </td>
-                    <td class="td-actions text-right">
-                      <button type="button" rel="tooltip" title="" class="btn btn-link" data-original-title="Edit Task">
-                        <i class="tim-icons icon-pencil"></i>
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div class="form-check">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox" value="">
-                          <span class="form-check-sign">
-                            <span class="check"></span>
-                          </span>
-                        </label>
-                      </div>
-                    </td>
-                    <td>
-                      <p class="title">Arival at export process</p>
-                      <p class="text-muted">Capitol Hill, Seattle, WA 12:34 AM</p>
-                    </td>
-                    <td class="td-actions text-right">
-                      <button type="button" rel="tooltip" title="" class="btn btn-link" data-original-title="Edit Task">
-                        <i class="tim-icons icon-pencil"></i>
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-6 col-md-12">
-        <div class="card ">
-          <div class="card-header">
-            <h4 class="card-title"> Frequently Visited</h4>
-          </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table tablesorter " id="">
-                <thead class=" text-primary">
-                  <tr>
-                    <th>
-                      Name
-                    </th>
-                    <th>
-                      Country
-                    </th>
-                    <th>
-                      City
-                    </th>
-                    <th class="text-center">
-                      Salary
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      Dakota Rice
-                    </td>
-                    <td>
-                      Niger
-                    </td>
-                    <td>
-                      Oud-Turnhout
-                    </td>
-                    <td class="text-center">
-                      $36,738
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      Minerva Hooper
-                    </td>
-                    <td>
-                      Curaçao
-                    </td>
-                    <td>
-                      Sinaai-Waas
-                    </td>
-                    <td class="text-center">
-                      $23,789
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      Sage Rodriguez
-                    </td>
-                    <td>
-                      Netherlands
-                    </td>
-                    <td>
-                      Baileux
-                    </td>
-                    <td class="text-center">
-                      $56,142
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      Philip Chaney
-                    </td>
-                    <td>
-                      Korea, South
-                    </td>
-                    <td>
-                      Overland Park
-                    </td>
-                    <td class="text-center">
-                      $38,735
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      Doris Greene
-                    </td>
-                    <td>
-                      Malawi
-                    </td>
-                    <td>
-                      Feldkirchen in Kärnten
-                    </td>
-                    <td class="text-center">
-                      $63,542
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      Mason Porter
-                    </td>
-                    <td>
-                      Chile
-                    </td>
-                    <td>
-                      Gloucester
-                    </td>
-                    <td class="text-center">
-                      $78,615
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      Jon Porter
-                    </td>
-                    <td>
-                      Portugal
-                    </td>
-                    <td>
-                      Gloucester
-                    </td>
-                    <td class="text-center">
-                      $98,615
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  
+  <div class="carousel-item step4">
+      <h2>Step 4: Edit Lyrics</h2>
+      <h4 id="title"></h4>
+      <textarea name="" class="entry-item" id="edit-lyrics" cols="30" rows="10"></textarea>
+  </div>
+  <!-- <h1>RESULTS</h1>
+  with FLASK, get the cards/music block:
+  <h4 id="final-title">Music</h4>
+  <img src="" alt="" id="final-image">
+  <p id="final-lyrics"></p> -->
+  <div class="carousel-item step4">
+    <h2>Generating...</h2>
+</div>
+  <div class="carousel-item step6" >
+    {% include 'cards/music.html' %}
+     
 
-    
+
+
+
+
+  </div>
+</div>
+<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev" style="visibility: hidden;">
+  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+  <span class="sr-only">Previous</span>
+</a>
+<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next" style="visibility: hidden;">
+  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+  <span class="sr-only">Next</span>
+</a>
+</div>
+<div class="progress custom-progress" style="height: 20px;">
+  <div class="progress-bar custom-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+
 {% endblock content %}
 
-<!-- Specific Page JS goes HERE  -->
+<!-- Specific Page JS goes HERE -->
 {% block javascripts %}
+<script>
+$(document).ready(function() {
 
-  <script>
-    $(document).ready(function() {
-      // Javascript method's body can be found in assets/js/demos.js
-      demo.initDashboardPageCharts();
 
+  // **********************************************
+  // DEFAULTS
+  // **********************************************
+
+  ask_question_running = false;
+  console.log("RINGLE DINGLE");
+  var singer = "alan-rickman";
+  var singer_name = "Alan Rickman";
+  var input_file = "magic.mp3";
+
+
+
+
+
+
+  async function generateLyrics() {
+    console.log("Generating Lyrics...");
+
+    
+// **********************************************
+// GENERATE LYRICS
+// **********************************************
+
+
+  if(ask_question_running){
+    console.log("Ringle Dingle is already running");
+    return Promise.reject(new Error("Ringle Dingle is already running"));
+  }
+  ask_question_running = true;
+
+  // get the text from the about box and escape it
+  var about = document.getElementById("about").value;
+ 
+
+  console.log("ABOUT", about, "EMAIL", email);
+  var ai_request = "Generate a 4 stanza poem that will be narrated by ".concat(singer_name).concat(". Your poem MUST be in between the deliminiters STARTPOEM and ENDPOEM (respond with poem text ONLY, no 'Verse 1:' labels either).\n Also, the poem title will be between delimiters STARTTITLE and ENDTITLE.\nMake this poem from the following\n").concat(about);
+  // ringlelyrics.textContent = 'Words are gathering, it may take a couple minutes...';
+
+  console.log(ai_request);
+  try {
+    const response = await fetch('/generate-lyrics', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        words: ai_request,
+        singer_name: singer_name
+      })
     });
-  </script>
+
+    const data = await response.json();
+    ask_question_running = false;
+    // Hide the spinner
+    $('.spinner').hide();
+
+    // document.getElementById('lyric-spinner').style.display = 'none';
+    console.log(data);
+    var lyrics = data.lyrics;
+    var title = data.title;
+    document.getElementById("title").innerHTML = title;
+
+    var lyrics_box = document.getElementById("edit-lyrics");
+    lyrics_box.innerHTML = lyrics;
+
+
+    
+  console.log(lyrics);
+  $('.carousel').carousel('next');
+
+
+  // display #results
+  ask_question_running = false;
+  return { lyrics: data.lyrics, title: data.title, img_url: data.img_url };
+
+  } catch (error) {
+
+    console.error(error);
+    ask_question_running = false;
+    // Hide the spinner
+    $('#lyric-spinner').hide();
+    // THROW THE ERROR MODAL
+    // submitText.textContent = 'Error in the request. Please try again or refresh the page.';
+    ask_question_running = false;
+    throw error;
+  }
+
+
+
+
+
+
+
+
+  }
+
+  async function generateDingle() {
+    var email = document.getElementById("email").innerText;
+    console.log("Generating Dingle...");
+
+      
+  // **********************************************
+  // GENERATE AUDIO
+  // **********************************************
+  
+
+  // document.getElementById('spinner').style.display = 'inline-block';
+  // submitText.textContent = 'Audio is generating, it may take a couple minutes...';
+  if(ask_question_running){
+    console.log("Ringle Dingle is already running");
+    return Promise.reject(new Error("Ringle Dingle is already running"));
+  }
+  
+  if (audio && !audio.paused) {
+    audio.pause();
+  }
+  ask_question_running = true;
+
+
+  // GET THE INPUTS
+  var lyrics = encodeURIComponent(document.getElementById("edit-lyrics").value);
+  var email = encodeURIComponent(document.getElementById("email").value);  
+  var title = document.getElementById("title").innerHTML;
+  console.log("Sending Narration request for a reading to voice: ".concat(singer_name));
+
+  // HANDLE THE REQUEST
+  try {
+    const response = await fetch('/generate-dingle', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        words: lyrics,
+        title: title,
+        voice: singer,
+        input_file: input_file,
+        email: email,
+        singer_name:singer_name      })
+    });
+   
+    const data = await response.json();
+    const airesponse = data.airesponse;
+    var title = data.title;
+    var img_url = data.img_url;
+    var lrc_lyrics = data.lrc_lyrics;
+
+    ask_question_running = false;
+
+    
+    // CHANGE THE ON PAGE ELEMENTS - TITLE, IMAGE, AUDIO
+    document.getElementById("final-title").innerHTML = "Title: ".concat(title);
+    document.getElementById("final-lyrics").innerHTML = "Title: ".concat(title);
+    document.getElementById("final-image").src = img_url;
+    // document.getElementById("myAudio").innerHTML = document.getElementById("myAudio").innerHTML;
+
+    // CHANGE THE PLAY BUTTON
+    const playButton = document.getElementById("play");
+    playButton.innerHTML = "Play Audio";
+    playButton.style.backgroundColor = "rgba(0, 128, 0, 0.3)"; // Set the background color to a light green
+
+
+    // SUCCESS!
+    // document.getElementById('.spinner').style.display = 'none';
+    console.log(airesponse);
+    // submitText.textContent = 'Click to Regenerate Audio';
+    // next carousel
+    $('.carousel').carousel('next');
+    // showMessageModal(`Success! Your audio has been emailed to ${decodeURIComponent(email)}. Press 'Play' on the audio below to hear your track.`, false);
+
+} catch (error) {
+    console.error(error);
+    ask_question_running = false;
+    // Hide the spinner
+    // document.getElementById('spinner').style.display = 'none';
+    // submitText.textContent = 'Error in the request. Please try again or refresh the page.'; 
+    showMessageModal('An error occurred: ' + error.message);
+    throw error;
+  }
+
+  
+
+
+
+
+
+  }
+
+
+
+  
+  $('input').keypress(function(e) {
+      if (e.which == 13) { // Enter key pressed
+          e.preventDefault();
+          $('.carousel').carousel('next');
+      }
+  });
+  $('textarea').keypress(function(e) {
+      if (e.which == 13) { // Enter key pressed
+          e.preventDefault();
+          $('.carousel').carousel('next');
+      }
+  });
+
+// When you click the right arrow on the keyboard, it will go to the next step:
+  $(document).keydown(function(e) {
+    switch(e.which) {
+        case 39: // right
+        $('.carousel').carousel('next');
+        break;
+        case 37: // left
+        $('.carousel').carousel('prev');
+        break;
+
+
+        default: return; // exit this handler for other keys
+    }
+    // NOT WORKING : When a carousel item is shown, it will put the cursor on the first input/textarea field:
+    $('.carousel').on('slid.bs.carousel', function () {
+      $('.carousel-item.active').find('.entry-item').focus();
+      
+    })
+    
+
+  
+    
+
+    e.preventDefault(); // prevent the default action (scroll / move caret)
+  });
+
+  $('.carousel').on('slid.bs.carousel', function() {
+
+    
+    var progressBar = $('.progress-bar');
+    var totalSteps = $('.carousel-inner .carousel-item').length - 2; // -2 to exclude the "Generating" and "100%" steps
+    var currentStep = $('.carousel-inner .carousel-item.active').index();
+
+
+    // Log "fourth element" when the fourth carousel item is passed
+    if (currentStep == 4) {
+      generateLyrics();
+    }
+    
+    if (currentStep == 6) {
+      generateDingle();
+    }
+
+    // Disable carousel controls when you reach the end
+    if (currentStep >= totalSteps) {
+        $('.carousel-control-next, .carousel-control-prev').css('display', 'none');
+    } else {
+        $('.carousel-control-next, .carousel-control-prev').css('display', 'block');
+    }
+
+    if (currentStep <= totalSteps) {
+        var progressValue = (currentStep / totalSteps) * 100;
+        progressBar.css('width', progressValue + '%');
+        progressBar.attr('aria-valuenow', progressValue);
+        progressBar.html(Math.round(progressValue) + '%');
+    } else {
+        progressBar.css('width', '100%');
+        progressBar.attr('aria-valuenow', 100);
+        progressBar.html('100%');
+    }
+});
+
+
+
+// GET THE BOXES
+
+// SELECT THE MUSIC
+const musicItems = document.querySelectorAll('.song-style a');
+musicItems.forEach(item => {
+  item.addEventListener('click', () => {
+    // Remove previous selection
+    musicItems.forEach(item => {
+      item.classList.remove('selected');
+    });
+
+    // Add selection to clicked item
+    item.classList.add('selected');
+    // Log the value of the clicked item
+    input_file = item.getAttribute('value');
+    $('.carousel').carousel('next');
+  });
+});
+
+// SELECT THE MUSIC
+const holidayItems = document.querySelectorAll('.holiday a');
+holidayItems.forEach(item => {
+  item.addEventListener('click', () => {
+    // Remove previous selection
+    holidayItems.forEach(item => {
+      item.classList.remove('selected');
+    });
+
+    // Add selection to clicked item
+    item.classList.add('selected');
+    // Log the value of the clicked item
+    console.log(item.innerText);
+    holiday = item.innerText;
+    $('.carousel').carousel('next');
+  });
+});
+
+
+
+// SELECT THE SINGER
+const singerItems = document.querySelectorAll('.singer-select a');
+singerItems.forEach(item => {
+  item.addEventListener('click', () => {
+    // Remove previous selection
+    singerItems.forEach(item => {
+      item.classList.remove('selected');
+    });
+
+    // Add selection to clicked item
+    item.classList.add('selected');
+
+    // Log the value of the clicked item
+    console.log(item.getAttribute('value').concat(" ").concat(item.innerText));
+    singer = item.getAttribute('value');
+    singer_name = item.innerText;
+    $('.carousel').carousel('next');
+  });
+});
+
+
+
+  });
+</script>
+
 
 {% endblock javascripts %}

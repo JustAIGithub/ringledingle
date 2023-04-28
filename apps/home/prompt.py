@@ -101,12 +101,19 @@ def ai_response_stream(prompt, temperature=.5):
 
     # print(response, end="")
 
-def generate_image(prompt):
+def generate_image(prompt, size=1):
+    
+    sizes = {
+        1: "256x256",
+        2: "512x512",
+        3: "1024x1024"
+    }
     prompt = prompt
     response = openai.Image.create(
     prompt=prompt,
     n=1,
-    size="256x256"
+
+    size=sizes[size],
     )
     print("Dalle url response:",response['data'][0]['url'])
     return response['data'][0]['url']

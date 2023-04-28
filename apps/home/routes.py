@@ -24,10 +24,10 @@ from flask_login import (
 )
 import datetime
 from urllib.parse import unquote
+from apps.home.store_music import log_info
 
 
 @blueprint.route('/index')
-@login_required
 def index():
     return render_template('home/index.html', segment='index')
 
@@ -73,16 +73,17 @@ app.config["CACHE_TYPE"] = "null"
 
 @blueprint.route('/demo')
 def demo():
-    return render_template('home/rap.html')
+    return render_template('home/page-500.html')
 
 
-@blueprint.route('/make-poem', methods=['POST', 'GET'])
-def make_poem():
-    print("MAKING POEM")
+@blueprint.route('/generate-lyrics', methods=['POST', 'GET'])
+def generate_lyrics():
+    
     words = unquote(request.json['words'])
     singer_name = request.json['singer_name']
-    lyrics = ai_response(words)
-    # lyrics = """STARTTITLE Sound of Silence ENDTITLE \n STARTPOEMHello darkness, my old friend, I've come to talk with you again, Because a vision softly creeping, Left its seeds while I was sleeping.ENDPOEM"""
+    print("MAKING POEM", words, singer_name)
+    # lyrics = ai_response(words)
+    lyrics = """STARTTITLE Sound of Silence ENDTITLE \n STARTPOEMHello darkness, my old friend,\n I've come to talk with you again,\n Because a vision softly creeping,\n Left its seeds while I was sleeping.ENDPOEM"""
     poem_lyrics = lyrics[lyrics.find("STARTPOEM") + len("STARTPOEM"):lyrics.find("ENDPOEM")].strip()
     # dalle_request = lyrics[lyrics.find("STARTDALLE") + len("STARTDALLE:"):lyrics.find("ENDDALLE")].strip()
     # print("DALLE REQUEST: ", dalle_request)
@@ -90,25 +91,29 @@ def make_poem():
     title = lyrics[lyrics.find("STARTTITLE") + len("STARTTITLE:"):lyrics.find("ENDTITLE")].strip()
     return jsonify({  "lyrics":poem_lyrics, "title":title, "singer_name":singer_name})
 
-
-@blueprint.route('/make-rap', methods=['POST', 'GET'])
-def make_rap():
+@blueprint.route('/generate-dingle', methods=['POST', 'GET'])
+def generate_dingle():
     words = unquote(request.json['words'])
     voice = request.json['voice']
     title = unquote(request.json['title'])
     email = unquote(request.json['email'])
     singer_name = request.json['singer_name']
     # dalle_request = request.json['dalle_request']
-    dalle_request = ai_response(f"Describe in one sentence what a cover photo would be for the poem (i.e. the string will get processed in DALLE for AI image rendering), and put that prompt string in between the delimiters STARTDALLE and ENDDALLE.\n{words}")
+    # dalle_request = ai_response(f"Describe in one sentence what a cover photo would be for the poem (i.e. the string will get processed in DALLE for AI image rendering), and put that prompt string in between the delimiters STARTDALLE and ENDDALLE.\n{words}")
+    # dalle_request = dalle_request[dalle_request.find("STARTDALLE") + len("STARTDALLE:"):dalle_request.find("ENDDALLE")].strip()
+    dalle_request = "A funny cartoon of "+title
+
+
     print(f'Dalle request: {dalle_request}')
     input_file = request.json['input_file']
     output_file = "output.mp3"
     # mark the function as called
     session['audio_saved'] = True
 
-    make_narration(f'apps/static/media/{input_file}', f'apps/static/media/{output_file}', words,voice=voice)
-    
+    # lrc_lyrics = make_narration(f'apps/static/media/{input_file}', f'apps/static/media/{output_file}', words,voice=voice)
+    lrc_lyrics =''
     try:
+        error
         img_url = generate_image("A funny cartoon of "+dalle_request)
     except Exception as e:
         print(f"Error in generating an image: {e}")
@@ -117,11 +122,12 @@ def make_rap():
     # print(f"title: {title}, lyrics: {rap_lyrics}, img_url: {img_url}, singer_name: {singer_name}")
     log_info(email)
 
-    send_email(to_email=email, attachment=f'apps/static/media/{output_file}', lyrics=words, img_url=img_url, singer_name=singer_name, title=title) 
+    # send_email(to_email=email, attachment=f'apps/static/media/{output_file}', lyrics=words, img_url=img_url, singer_name=singer_name, title=title) 
     # print("Ringle has been Dingled. img_url: ", img_url, "title: ", title)
 
     # Pass the image url and title to the front end
-    return jsonify({  "img_url":img_url, "airesponse":words, "title":title})
+    return jsonify({  "img_url":img_url, "airesponse":words, "title":title, "lrc_lyrics":lrc_lyrics})
+
 
 @blueprint.route('/email-share', methods=['POST', 'GET'])
 def email_share():
@@ -135,89 +141,6 @@ def email_share():
     output_file = "output.mp3"
     send_email(to_email=email, attachment=f'apps/static/media/{output_file}', lyrics=lyrics, img_url=img_url, singer_name=singer_name, title=title) 
     return jsonify({  "success":True})
-
-
-
-# LOGS EMAILS AND IP ADDRESSES
-def log_info(email):
-    from pymongo import MongoClient
-    # connect to the database
-    if os.environ.get('MONGO_URL'):
-        client = MongoClient(os.environ.get('MONGO_URL'))
-    else:
-        client = MongoClient("mongodb://mongo:3wnvDTLmNvSxf7CgACvt@containers-us-west-129.railway.app:6471")
-    db = client["ringledingle"]
-    collection = db["ringledingle"]
-    # get all emails, if the email is already in the database, don't add it:
-    emails = collection.find()
-    emails = [email['email'] for email in emails]
-
-    if email not in emails:
-        now = datetime.datetime.now()
-        log_time = now.strftime("%Y-%m-%d %H:%M:%S")
-        ip_address = request.remote_addr
-        collection.insert_one({"email": email, "timestamp": log_time, "ip_address": ip_address})
-    else:
-        print("Email already in database.")
-
-# RETURNS RESPONSE
-@blueprint.route("/ask_question", methods=['POST'])
-@login_required
-def ask_question():
-    print("SOMETHING HAPPENING HERE")
-    # process the audio data here
-    
-    # mark the function as called
-    session['audio_saved'] = True
-    
-    # read the audio data from the request body
-    prompt = request.json['words']
-
-    print("RAW PROMPT FROM JS: ",prompt)
-    # IF THERE'S MORE THAN 1 WORD, PROCESS THE REQUEST:
-
-    if len(prompt.split(' ')) > 1:
-        print("YOUR PROMPT:", prompt.split(' '),  len(prompt))
-        response = ai_response(prompt)
-        user_id = session.get("_user_id")
-        # log_user_response(user_id, prompt, response, type="prompt", client=client)
-        print("AI response Completed.")
-    else:
-        response = "How can I help you?"
-    return jsonify({ "airesponse":response})
-
-# RETURNS JSON FILE WITH AUDIO STRING
-@blueprint.route('/speak', methods=['POST', 'GET'])
-def speak_route():
-    words = request.json['body']
-    # Call the speak() function and get the audio file URL and text result
-    while True:
-        print("sending to azure")
-        audio_content, text_result = azure_speak_string(words)
-        # Return the audio URL and text result as a JSON object
-        return jsonify({
-            'audioContent': audio_content,
-            'textResult': text_result
-        })
-    
-
-
-@blueprint.route('/repurpose',methods=['POST'])
-def repurpose():
-    data = request.get_json()
-    text = data.get('text')
-    
-    # NEED TO AI REPURPOSE SCRIPT
-    prompt = f"Please repurpose and properly format the following note: {text}"
-    new_text = ai_response(prompt, networking=False)
-
-    # Return a JSON response with the processed data
-    response_data = {
-        'success': True,
-            'text': new_text
-    }
-    return jsonify(response_data)
-
 
 
 if __name__ == '__main__':

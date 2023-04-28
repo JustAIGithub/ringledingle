@@ -1,0 +1,20 @@
+{
+    "songs":[
+      {
+        "albumart": "https://storage.googleapis.com/ringledingle/cards/230426/The%20Rise%20of%20Ringle%20Dingle/image.png",
+        "author": "Daughter",
+        "song": "Youth",
+        "json":"https://jewel998.github.io/playlist/data/Daughter-Youth.json",
+        "audio":"https://jewel998.github.io/playlist/music/Daughter-Youth.mp3"
+      },
+      {
+        "albumart": "https://res-4.cloudinary.com/synchtank-com/image/upload/s--ZHu6g1XW--/c_fill,g_auto,h_720,w_720/q_auto:eco/object-70210148.jpg",
+        "author": "Novo Amor",
+        "song": "State Lines",
+        "json":"https://jewel998.github.io/playlist/data/NovoAmor-StateLines.json",
+        "audio":"https://jewel998.github.io/playlist/music/NovoAmor-StateLines.mp3"
+      }
+    ]
+  }
+
+  

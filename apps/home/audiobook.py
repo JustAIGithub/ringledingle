@@ -20,6 +20,19 @@ import requests
 
 
 def make_narration(input_file, output_file, lyrics, start_lag=8, music_volume=20, vocal_volume=0, voice="alan-rickman", silence_thresh=-60, spacing=1, fade_out_duration=8000):
+    
+
+    def phrases_to_lrc(phrases, start_times):
+        lrc_output = ''
+        
+        for phrase, start_time in zip(phrases, start_times):
+            minutes = int(start_time // 60)
+            seconds = start_time % 60
+            timestamp = f'[{minutes:02d}:{seconds:05.2f}]'
+            lrc_output += f'{timestamp}{phrase}\n'
+        
+        return lrc_output
+    
     try:
         #close input file from its path string
         with open(input_file, 'rb') as f:
@@ -46,6 +59,8 @@ def make_narration(input_file, output_file, lyrics, start_lag=8, music_volume=20
     phrases = [phrase.strip() for phrase in phrases if phrase.strip() != '']
 
     phrase_start = start_lag
+    phrase_start_times = []
+
 
     for phrase in phrases:
         print("PHRASE:", phrase)
@@ -63,9 +78,13 @@ def make_narration(input_file, output_file, lyrics, start_lag=8, music_volume=20
         )
 
         # Update the phrase start time for the next phrase with added spacing
+        phrase_start_times.append(phrase_start)
         phrase_start += spoken_phrase.duration_seconds + spacing
+    
 
     # Combine the input audio with the spoken phrases
+    # Generate LRC lyrics
+    lrc_lyrics = phrases_to_lrc(phrases, phrase_start_times)
     print("Looking for input file at {}".format(input_file))
     input_audio = AudioSegment.from_file(input_file)
     input_audio = input_audio - music_volume
@@ -81,6 +100,13 @@ def make_narration(input_file, output_file, lyrics, start_lag=8, music_volume=20
     # Save the result to a new file
     combined_audio.export(output_file, format="mp3")
     print(f"Narration exported to {output_file}")
+    # Save LRC lyrics to a file
+    with open("output_lyrics.lrc", "w") as lrc_file:
+        lrc_file.write(lrc_lyrics)
+
+
+
+
 
 # # # # Usage
 # input_file = "apps/static/media/magic.mp3"
