@@ -49,10 +49,8 @@ $(document).ready(function() {
     });
 
     const data = await response.json();
-    ask_question_running = false;
-    // Hide the spinner
-    $('.spinner').hide();
-
+  
+  
     // document.getElementById('lyric-spinner').style.display = 'none';
     console.log(data);
     var lyrics = data.lyrics;
@@ -62,6 +60,8 @@ $(document).ready(function() {
     var lyrics_box = document.getElementById("edit-lyrics");
     lyrics_box.innerHTML = lyrics;
 
+  // Hide the spinner
+  $('.spinner').hide();
 
     
   console.log(lyrics);
@@ -75,7 +75,6 @@ $(document).ready(function() {
   } catch (error) {
 
     console.error(error);
-    ask_question_running = false;
     // Hide the spinner
     $('#lyric-spinner').hide();
     // THROW THE ERROR MODAL

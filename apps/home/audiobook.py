@@ -19,19 +19,21 @@ import re
 import requests
 
 
+import json
+
 def make_narration(input_file, output_file, lyrics, start_lag=8, music_volume=20, vocal_volume=0, voice="alan-rickman", silence_thresh=-60, spacing=1, fade_out_duration=8000):
     
 
-    def phrases_to_lrc(phrases, start_times):
-        lrc_output = ''
-        
+    def phrases_to_json(phrases, start_times):
+        json_output = {"lyrics": []}
+
         for phrase, start_time in zip(phrases, start_times):
-            minutes = int(start_time // 60)
-            seconds = start_time % 60
-            timestamp = f'[{minutes:02d}:{seconds:05.2f}]'
-            lrc_output += f'{timestamp}{phrase}\n'
-        
-        return lrc_output
+            json_output["lyrics"].append({
+                "line": phrase,
+                "time": int(start_time * 1000)
+            })
+
+        return json_output
     
     try:
         #close input file from its path string
@@ -83,8 +85,8 @@ def make_narration(input_file, output_file, lyrics, start_lag=8, music_volume=20
     
 
     # Combine the input audio with the spoken phrases
-    # Generate LRC lyrics
-    lrc_lyrics = phrases_to_lrc(phrases, phrase_start_times)
+    # Generate JSON lyrics
+    json_lyrics = phrases_to_json(phrases, phrase_start_times)
     print("Looking for input file at {}".format(input_file))
     input_audio = AudioSegment.from_file(input_file)
     input_audio = input_audio - music_volume
@@ -100,9 +102,10 @@ def make_narration(input_file, output_file, lyrics, start_lag=8, music_volume=20
     # Save the result to a new file
     combined_audio.export(output_file, format="mp3")
     print(f"Narration exported to {output_file}")
-    # Save LRC lyrics to a file
-    with open("output_lyrics.lrc", "w") as lrc_file:
-        lrc_file.write(lrc_lyrics)
+    # Save JSON lyrics to a file
+    with open("output_lyrics.json", "w") as json_file:
+        json.dump(json_lyrics, json_file, indent=4)
+    return json_lyrics
 
 
 

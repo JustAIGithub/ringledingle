@@ -24,7 +24,7 @@ from flask_login import (
 )
 import datetime
 from urllib.parse import unquote
-from apps.home.store_music import log_info
+from apps.home.store_music import log_info, upload_file, store_song
 
 
 @blueprint.route('/index')
@@ -78,7 +78,6 @@ def demo():
 
 @blueprint.route('/generate-lyrics', methods=['POST', 'GET'])
 def generate_lyrics():
-    
     words = unquote(request.json['words'])
     singer_name = request.json['singer_name']
     print("MAKING POEM", words, singer_name)
@@ -103,15 +102,16 @@ def generate_dingle():
     # dalle_request = dalle_request[dalle_request.find("STARTDALLE") + len("STARTDALLE:"):dalle_request.find("ENDDALLE")].strip()
     dalle_request = "A funny cartoon of "+title
 
-
     print(f'Dalle request: {dalle_request}')
     input_file = request.json['input_file']
     output_file = "output.mp3"
     # mark the function as called
     session['audio_saved'] = True
+    output_path = f'apps/static/media/{output_file}'
 
-    # lrc_lyrics = make_narration(f'apps/static/media/{input_file}', f'apps/static/media/{output_file}', words,voice=voice)
-    lrc_lyrics =''
+
+    json_lyrics = make_narration(f'apps/static/media/{input_file}', output_path, words,voice=voice)
+    # lrc_lyrics =''
     try:
         error
         img_url = generate_image("A funny cartoon of "+dalle_request)
@@ -119,14 +119,17 @@ def generate_dingle():
         print(f"Error in generating an image: {e}")
         img_url = "https://ringledingle.com/static/media/ringledingle_na.png"
 
+    upload_file
+    
     # print(f"title: {title}, lyrics: {rap_lyrics}, img_url: {img_url}, singer_name: {singer_name}")
     log_info(email)
 
+    store_song(email=email, title=title, json_lyrics=json_lyrics, imgsrc=img_url, audiopath=output_path, singer_name=singer_name)
+    
     # send_email(to_email=email, attachment=f'apps/static/media/{output_file}', lyrics=words, img_url=img_url, singer_name=singer_name, title=title) 
     # print("Ringle has been Dingled. img_url: ", img_url, "title: ", title)
-
     # Pass the image url and title to the front end
-    return jsonify({  "img_url":img_url, "airesponse":words, "title":title, "lrc_lyrics":lrc_lyrics})
+    return jsonify({  "img_url":img_url, "airesponse":words, "title":title, "json_lyrics":json_lyrics})
 
 
 @blueprint.route('/email-share', methods=['POST', 'GET'])
