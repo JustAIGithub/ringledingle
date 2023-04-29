@@ -24,7 +24,8 @@ from flask_login import (
 )
 import datetime
 from urllib.parse import unquote
-from apps.home.store_music import log_info, upload_file, store_song
+from apps.home.store_music import log_info, upload_file, store_song, get_json_for_user
+import requests
 
 
 @blueprint.route('/index')
@@ -95,7 +96,7 @@ def generate_dingle():
     words = unquote(request.json['words'])
     voice = request.json['voice']
     title = unquote(request.json['title'])
-    email = unquote(request.json['email'])
+    email = unquote(request.json['email']).lower()
     singer_name = request.json['singer_name']
     # dalle_request = request.json['dalle_request']
     # dalle_request = ai_response(f"Describe in one sentence what a cover photo would be for the poem (i.e. the string will get processed in DALLE for AI image rendering), and put that prompt string in between the delimiters STARTDALLE and ENDDALLE.\n{words}")
@@ -107,8 +108,8 @@ def generate_dingle():
     output_file = "output.mp3"
     # mark the function as called
     session['audio_saved'] = True
-    output_path = f'apps/static/media/{output_file}'
-
+    output_path = f'apps/static/temp/{output_file}'
+    img_path = f'apps/static/temp/img.png'
 
     json_lyrics = make_narration(f'apps/static/media/{input_file}', output_path, words,voice=voice)
     # lrc_lyrics =''
@@ -119,17 +120,52 @@ def generate_dingle():
         print(f"Error in generating an image: {e}")
         img_url = "https://ringledingle.com/static/media/ringledingle_na.png"
 
-    upload_file
-    
+    # save the img locally to static/temp/img.png:
+    with open(img_path, 'wb') as f:
+        f.write(requests.get(img_url).content)
+
+
     # print(f"title: {title}, lyrics: {rap_lyrics}, img_url: {img_url}, singer_name: {singer_name}")
     log_info(email)
-
-    store_song(email=email, title=title, json_lyrics=json_lyrics, imgsrc=img_url, audiopath=output_path, singer_name=singer_name)
+    
+    # save email to a flask session
+    session['email'] = email
+    store_song(user_email=email, title=title, json_lyrics=json_lyrics, imgsrc=img_path, audiopath=output_path, singer_name=singer_name)
     
     # send_email(to_email=email, attachment=f'apps/static/media/{output_file}', lyrics=words, img_url=img_url, singer_name=singer_name, title=title) 
     # print("Ringle has been Dingled. img_url: ", img_url, "title: ", title)
     # Pass the image url and title to the front end
     return jsonify({  "img_url":img_url, "airesponse":words, "title":title, "json_lyrics":json_lyrics})
+
+
+import json
+@blueprint.route('/get-json', methods=['POST', 'GET'])
+def get_json():
+    print("GETTING JSON")
+    email = session['email']
+    print("ROUTEs.py GETTING JSON FOR USER: ", email)
+
+    # Get the Python dictionary for the user
+    
+    playlist_dict = get_json_for_user(user_email=email)
+    # Replace single quotes with double quotes
+    playlist_dict_fixed = playlist_dict.replace("'", '"')
+
+    # Your current print statements
+    print("PLAYLIST_DICT: ", playlist_dict)
+    print("PLAYLIST_DICT TYPE", type(playlist_dict))
+
+    # Convert the fixed string to a dictionary
+    playlist_dict_obj = json.loads(playlist_dict_fixed)
+
+    # Convert the dictionary back to a JSON string
+    playlist_json = json.dumps(playlist_dict_obj)
+
+    # Print the JSON string
+    print("PLAYLIST_JSON: ", playlist_json)
+    print("PLAYLIST_JSON TYPE: ", type(playlist_json))
+
+    return jsonify(playlist_json)
 
 
 @blueprint.route('/email-share', methods=['POST', 'GET'])
@@ -142,8 +178,9 @@ def email_share():
 
     img_url = request.json['img_url']
     output_file = "output.mp3"
-    send_email(to_email=email, attachment=f'apps/static/media/{output_file}', lyrics=lyrics, img_url=img_url, singer_name=singer_name, title=title) 
+    send_email(to_email=email, attachment=f'apps/static/temp/{output_file}', lyrics=lyrics, img_url=img_url, singer_name=singer_name, title=title) 
     return jsonify({  "success":True})
+
 
 
 if __name__ == '__main__':

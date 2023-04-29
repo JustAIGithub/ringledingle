@@ -1,5 +1,6 @@
 
   function showMessageModal(message, isError = true) {
+    console.log('showMessageModal() called');
   // Create a modal overlay
   const modalOverlay = document.createElement('div');
   modalOverlay.style.position = 'fixed';
@@ -44,6 +45,9 @@
   okButton.addEventListener('click', () => {
     document.body.removeChild(modalOverlay);
   });
+  // alternatively, press enter to close the modal
+
+
 
   modal.appendChild(okButton);
   modalOverlay.appendChild(modal);

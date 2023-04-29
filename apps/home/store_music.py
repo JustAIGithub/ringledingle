@@ -6,6 +6,17 @@ import datetime
 import os
 from flask import request
 
+
+from pymongo import MongoClient
+
+# connect to the database
+if os.environ.get('MONGO_URL'):
+    client = MongoClient(os.environ.get('MONGO_URL'))
+else:
+    client = MongoClient("mongodb://mongo:3wnvDTLmNvSxf7CgACvt@containers-us-west-129.railway.app:6471")
+db = client["ringledingle"]
+collection = db["ringledingle"]
+
 def upload_file(filename='apps/static/media/output.mp3', upload_dir =''):
     try:
         GOOGLE_JSON = json.loads(os.getenv('GOOGLE_JSON'))
@@ -31,7 +42,6 @@ def upload_file(filename='apps/static/media/output.mp3', upload_dir =''):
     # Return URL
     return blob.public_url
 
-
 def generate_qr_code(url, filepath='qr_code.png'):
     """Generates a QR code from a URL."""
     qr = qrcode.QRCode(version=None, box_size=10, border=4)
@@ -44,13 +54,11 @@ def generate_qr_code(url, filepath='qr_code.png'):
     img.save(filepath)
     print("QR code saved to qr.png.")
     return filepath
-
-# Example usage:
 # generate_qr_code('https://storage.googleapis.com/ringledingle/cards/230425/My%20Wonderful%20Mom%2C%20Sue/output.mp3')
 
+def log_info(email, collection=collection):
+    email = email.lower()
 
-def log_info(email):
-    from pymongo import MongoClient
 
     email_list = []  # always include a Bcc address
     if ',' in email:
@@ -60,13 +68,6 @@ def log_info(email):
     else:
         email_list.append(email)
 
-    # connect to the database
-    if os.environ.get('MONGO_URL'):
-        client = MongoClient(os.environ.get('MONGO_URL'))
-    else:
-        client = MongoClient("mongodb://mongo:3wnvDTLmNvSxf7CgACvt@containers-us-west-129.railway.app:6471")
-    db = client["ringledingle"]
-    collection = db["ringledingle"]
     # get all emails, if the email is already in the database, don't add it:
     emails = collection.find()
     emails = [email['email'] for email in emails]
@@ -83,51 +84,58 @@ def log_info(email):
         else:
             print("Email already in database.")
 
-
-def store_song(email, title, json_lyrics, imgsrc, audiopath, singer_name):
+def store_song(user_email, title, json_lyrics, imgsrc, audiopath, singer_name, collection=collection):
+    user_email = user_email.lower()
 
     # UPLOAD THE IMG AUDIO AND LYRICS TO GOOGLE CLOUD STORAGE, THEN RETURN URLS
     
-    audio_url = upload_file(audiopath, f'cards/{email}/{title}/output.mp3')
+    audio_url = upload_file(audiopath, f'cards/users/{user_email}/{title}/output.mp3')
     
-    json_url = upload_file(json_lyrics, f'cards/{email}/{title}/lyrics.json')
+    json_url = upload_file(json_lyrics, f'cards/users/{user_email}/{title}/lyrics.json')
 
-    img_url = upload_file(imgsrc, f'cards/{email}/{title}/img.png')
+    img_url = upload_file(imgsrc, f'cards/users/{user_email}/{title}/img.png')
     
-    
-    # STORE THE TITLE IN MONGODB
-    from pymongo import MongoClient
-
-    # connect to the database
-    if os.environ.get('MONGO_URL'):
-        client = MongoClient(os.environ.get('MONGO_URL'))
-    else:
-        client = MongoClient("mongodb://mongo:3wnvDTLmNvSxf7CgACvt@containers-us-west-129.railway.app:6471")
-    db = client["ringledingle"]
-    collection = db["ringledingle"]
-
     # get all emails, if the email is already in the database, don't add it:
     emails = collection.find()
     emails = [email['email'] for email in emails]
-    for email in emails:
-        if email not in emails:
-            now = datetime.datetime.now()
-            log_time = now.strftime("%Y-%m-%d %H:%M:%S")
-            try:
-                ip_address = request.remote_addr
-            except:
-                ip_address = "unknown"
-            collection.insert_one({"email": email, "timestamp": log_time, "ip_address": ip_address})
-        else:
-            print("Email already in database.")
-        
+    if user_email not in emails:
+        now = datetime.datetime.now()
+        log_time = now.strftime("%Y-%m-%d %H:%M:%S")
+        try:
+            ip_address = request.remote_addr
+        except:
+            ip_address = "unknown"
+        collection.insert_one({"email": user_email, "timestamp": log_time, "ip_address": ip_address})
+    else:
+        print("Email already in database.")
+    
+    collection.update_one({"email": user_email}, {"$push": {"songs": {
+        "title": title,
+        "albumart": img_url,
+        "audio": audio_url,
+        "json": json_url,
+        "author": singer_name            
+    }}})
 
-        collection.update_one({"email": email}, {"$push": {"songs": {
-            "title": title,
-            "albumart": img_url,
-            "audio": audio_url,
-            "json": json_url,
-            "author": singer_name            
-        }}})
+def clear_songs_for_user(user_email, collection=collection):
+    user_email = user_email.lower()
 
-# log_info("apiispanen1@babson.edu,bighatguy69@yahoo.com")
+    # Update the 'songs' field for the user with the specified email
+    collection.update_one({"email": user_email}, {"$set": {"songs": []}})
+
+# store_song("appiispanen@gmail.com", "TeST", "apps/static/temp/lyrics.json", "apps/static/temp/albumart.png", "apps/static/temp/output.mp3", "Singer Name")
+
+def get_json_for_user(user_email, collection=collection):
+
+    # Convert user_email to lowercase
+    user_email = user_email.lower()
+
+    # Find the user document by email
+    user_document = collection.find_one({"email": user_email})
+
+    if user_document:
+        # Return the 'songs' field
+        return str(user_document['songs'])
+    else:
+        print("User not found.")
+        return []

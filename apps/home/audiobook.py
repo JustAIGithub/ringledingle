@@ -103,9 +103,12 @@ def make_narration(input_file, output_file, lyrics, start_lag=8, music_volume=20
     combined_audio.export(output_file, format="mp3")
     print(f"Narration exported to {output_file}")
     # Save JSON lyrics to a file
-    with open("output_lyrics.json", "w") as json_file:
+
+    json_lyrics_filepath = "apps/static/temp/lyrics.json"
+
+    with open(json_lyrics_filepath, "w") as json_file:
         json.dump(json_lyrics, json_file, indent=4)
-    return json_lyrics
+    return json_lyrics_filepath
 
 
 
