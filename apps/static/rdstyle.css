@@ -109,6 +109,7 @@ h4 {
   color: rgb(80, 79, 79);
   pointer-events: none;
   transition: .5s;
+  width:80%
 }
 
 .login-box .user-box input:focus ~ label,
@@ -368,3 +369,232 @@ footer div{
 footer * {
   list-style-type: none
 }
+
+/* ****************** */
+/* MUSIC OVERLAY */
+/* ****************** */
+
+:root {
+  --primary-color: #ff6f0054;
+  --secondary-color: #91ff006e;
+  --white-font: #ffffe4;
+  --black-font: rgb(80, 80, 80);
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: rgb(254, 252, 220);
+}
+
+#carouselExampleIndicators,
+.carousel-item {
+height: 100vh;
+}
+
+
+.carousel-item {
+  max-height: 100vh;
+  text-align: center;
+  margin-top: 5%;
+  margin-bottom: 10%;
+/* display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column; */
+
+
+
+}
+
+.entry-item {
+  width: 50%;
+  height: 50px;
+  font-size: 16px;
+  text-align: left;
+  
+}
+
+#edit-lyrics{
+color: var(--black-font);
+}
+#final-image{
+width: 50%;
+height: 50%;
+padding:10px
+}
+
+.dropdown-item {
+  max-width: 40%;
+  display: inline-block;
+  margin: 5px;
+  background-color: var(--primary-color);
+  color: var(--white-font);
+  padding: 5px 0 15px;
+  border-radius: 4px;
+}
+
+.dropdown-item:hover {
+  background-color: var(--secondary-color);
+  text-decoration: none;
+}
+
+.custom-progress {
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+z-index: 1000;
+}
+
+
+.custom-progress-bar {
+background-color: var(--primary-color);/* Cool shade of green */
+border-radius: 10px;
+}
+
+textarea{
+min-height: 50%;
+}
+
+input,
+textarea {
+width: 80%; /* Adjust the width */
+font-size: calc(1em + 0.5vw); /* Make the font size responsive */
+text-align: center;
+border: none;
+border-radius: 5px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+outline: none;
+padding: 12px;
+margin-bottom: 20px;
+transition: box-shadow 0.3s ease;
+}
+
+input:focus,
+textarea:focus {
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+
+input {
+height: calc(1.5em + 1vw); /* Adjust the input height */
+}
+
+textarea {
+height: 30vh; /* Make the textarea bigger */
+resize: none; /* Disable resizing */
+
+}
+
+.dropdown-item {
+position: relative;
+display: inline-block;
+box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+color: var(--white-font);
+}
+
+
+.dropdown-item::before {
+content: "";
+position: absolute;
+top: 0;
+left: 0;
+width: 0;
+height: 100%;
+background-color: rgba(206, 205, 205, 0.3);
+z-index: -1;
+transition: width 0.3s ease-out;
+}
+
+.dropdown-item:hover::before {
+width: 100%;
+}
+
+
+/* http://www.eaglefonts.com/fg-virgil-ttf-131249.htm */
+@font-face {
+font-family: "Virgil";
+src: url("fonts/Virgil.woff2");
+font-display: swap;
+}
+
+/* https://github.com/microsoft/cascadia-code */
+@font-face {
+font-family: "Cascadia";
+src: url("fonts/Cascadia.woff2");
+font-display: swap;
+}
+
+@font-face {
+font-family: "Assistant";
+src: url("fonts/Assistant-Regular.woff2");
+font-display: swap;
+font-weight: 400;
+}
+@font-face {
+font-family: "Assistant";
+src: url("fonts/Assistant-Medium.woff2");
+font-display: swap;
+font-weight: 500;
+}
+@font-face {
+font-family: "Assistant";
+src: url("fonts/Assistant-SemiBold.woff2");
+font-display: swap;
+font-weight: 600;
+}
+@font-face {
+font-family: "Assistant";
+src: url("fonts/Assistant-Bold.woff2");
+font-display: swap;
+font-weight: 700;
+}
+
+*{
+font-family: "Cascadia";
+letter-spacing: .5px;
+text-decoration: none;
+}
+
+h4, h2, h1, textarea::placeholder{
+font-family: "Virgil";
+letter-spacing: 1px;
+text-transform: lowercase;
+
+}
+
+.funky-spinner {
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh;
+}
+
+.spinner-circle {
+width: 50px;
+height: 50px;
+border: 5px solid transparent;
+border-top: 5px solid var(--secondary-color);
+border-radius: 50%;
+animation: spin 1s linear infinite;
+}
+
+.spinner {
+border: 4px solid rgba(130, 184, 255, 0.1);
+width: 50px;
+height: 36px;
+border-radius: 50%;
+border-left-color: #ffffff;
+animation: spin 1s linear infinite;
+text-align: center;
+}
+
+@keyframes spin {
+0% {
+    transform: rotate(0deg);
+}
+100% {
+    transform: rotate(360deg);
+}
+}
+

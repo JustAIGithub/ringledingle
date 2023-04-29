@@ -109,16 +109,15 @@ def store_song(user_email, title, json_lyrics, imgsrc, audiopath, singer_name, c
     else:
         print("Email already in database.")
     
-    collection.update_one({"email": user_email}, {"$push": {"songs": {
-        "$each": [{
-            "title": title,
-            "albumart": img_url,
-            "audio": audio_url,
-            "json": json_url,
-            "author": singer_name
-        }],
-        "$position": 0
-    }}})
+    song_data = {
+        "title": title,
+        "albumart": img_url,
+        "audio": audio_url,
+        "json": json_url,
+        "author": singer_name
+    }
+
+    collection.update_one({"email": user_email}, {"$push": {"songs": {"$each": [song_data], "$position": 0}}})
 
 def clear_songs_for_user(user_email, collection=collection):
     user_email = user_email.lower()
@@ -129,7 +128,6 @@ def clear_songs_for_user(user_email, collection=collection):
 # store_song("appiispanen@gmail.com", "TeST", "apps/static/temp/lyrics.json", "apps/static/temp/albumart.png", "apps/static/temp/output.mp3", "Singer Name")
 
 def get_json_for_user(user_email, collection=collection):
-
     # Convert user_email to lowercase
     user_email = user_email.lower()
 
@@ -137,8 +135,8 @@ def get_json_for_user(user_email, collection=collection):
     user_document = collection.find_one({"email": user_email})
 
     if user_document:
-        # Return the 'songs' field
-        return str(user_document['songs'])
+        # Return the 'songs' field as a JSON string
+        return json.dumps(user_document['songs'])
     else:
         print("User not found.")
-        return []
+        return json.dumps([])

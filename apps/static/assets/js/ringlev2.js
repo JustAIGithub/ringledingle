@@ -61,7 +61,7 @@ $(document).ready(function() {
  
 
   console.log("ABOUT", about, "EMAIL", email);
-  var ai_request = "Generate a 4 stanza poem that will be narrated by ".concat(singer_name).concat(". Your poem MUST be in between the deliminiters STARTPOEM and ENDPOEM (respond with poem text ONLY, no 'Verse 1:' labels either).\n Also, the poem title will be between delimiters STARTTITLE and ENDTITLE.\nMake this poem from the following\n").concat(about);
+  var ai_request = "Generate a 4 stanza poem that will be in the style of ".concat(singer_name).concat(". Your poem MUST be in between the deliminiters STARTPOEM and ENDPOEM (respond with poem text ONLY, no 'Verse 1:' labels either).\n Also, the poem title will be between delimiters STARTTITLE and ENDTITLE.\nMake this poem from the following\n").concat(about);
   // ringlelyrics.textContent = 'Words are gathering, it may take a couple minutes...';
 
   console.log(ai_request);
@@ -225,6 +225,13 @@ $(document).ready(function() {
       }
   });
   $('textarea').keypress(function(e) {
+    if (e.which == 27) {
+      // Get the currently focused element
+      var activeElement = document.activeElement;
+      activeElement.blur();
+      }
+
+
       if (e.which == 13) { // Enter key pressed
           e.preventDefault();
           $('.carousel').carousel('next');
@@ -269,9 +276,15 @@ $(document).ready(function() {
 });
 
 $(document).keydown(function(e) {
-  // When you click the right arrow on the keyboard, it will go to the next step:
+  // Get the currently focused element
+  var activeElement = document.activeElement;
 
-  // console.log("currentStep", currentStep, "totalSteps", totalSteps);
+  // Check if the active element is an input or textarea
+  if (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA') {
+    return;
+  }
+
+  // When you click the right arrow on the keyboard, it will go to the next step:
   switch(true) {
     case e.which == 39 && currentStep < totalSteps && currentStep != 4: // right
       $('.carousel').carousel('next');
@@ -328,18 +341,39 @@ singerItems.forEach(item => {
 
 
 // On clicking "Enter" in #share-email input, call on the /email-share endpoint:
-$('#share-email').on('keyup', function (e) {
+$('.share-to-email').on('keyup', function (e) {
   e.preventDefault();
 
   // Add to conditions if #btn is clicked, do the same thing as below
+  // if #send-button is clicked
 
   if (e.key === 'Enter' || e.keyCode === 13) {
-    document.getElementById('#email-spinner').style = 'inline-block';
+   sendEmail();
+
+  };
+  
+});
+
+$('#send-button').on('click', function () {
+  sendEmail();
+});
+
+
+
+
+
+
+
+  });
+
+
+  function sendEmail(){
+    document.getElementById('email-spinner').style.display = 'inline-block';
     $('#share-email').hide();
    
-
     if(ask_question_running){
       console.log("Ringle Dingle is already running");
+      showMessageModal("Process is already running, please wait or refresh the page to start again.");
       return Promise.reject(new Error("Ringle Dingle is already running"));
     }
     
@@ -347,11 +381,17 @@ $('#share-email').on('keyup', function (e) {
   
     // Encode the values
     const email = encodeURIComponent($('#share-email').val());
-    const title = $('#title').text();
-    const lyrics = encodeURIComponent($('#response').val());
-    const img_url = $('#result-image').attr('src');
+    const title = $('.song-name').text();
+    const lyrics = $('#lyrics-content').html();
+    // replace <h2> with <p> in lyrics:
+    lyrics.replace('<h2>', '<p>');
+    lyrics.replace('<\h2>', '</p>');
+    
+    const img_url = $('#album-art').attr('src');
+    singer_name =$(".artist-name").text();
 
-    console.log("SENDING UP", email, title, lyrics, img_url, singer_name);
+
+    console.log("SENDING UP", email, title, lyrics);
     
     
     const data = {
@@ -371,30 +411,24 @@ $('#share-email').on('keyup', function (e) {
         console.log(data);
 
         showMessageModal(`Success! Your audio has been emailed to ${decodeURIComponent(email)}. Press 'Start Over' to try to Ringle another Dingle.`, false);
+        $('#email-spinner').hide();
+        $('#share-email').slideToggle();
+        $('#share-email').val('');
       },
       error: function (error) {
         console.log('error');
         console.log(error);
         showMessageModal('An error occurred: ' + error.message + '. Please make sure you\'ve filled out the form - if not, please refresh the page.');
         $('#share-email').slideToggle();
+        $('#email-spinner').hide();
       },
     });
     
-    $('#email-spinner').hide();
-    $('#share-email').slideToggle();
-    $('#share-email').val('');
+
     ask_question_running = false;
     return false;
 
-  };
-});
-
-
-
-
-
-
-  });
+  }
 
 
   var audio = document.getElementById("audioFile");
@@ -409,9 +443,17 @@ $('#share-email').on('keyup', function (e) {
   });
   var buttonColorOnPress = "white";
 
+  // *****************************************
+  // *****************************************
+  // *****************************************
+  // *****************************************
+  // *****************************************
+  // *****************************************
 
   // *****************************************
+  // *****************************************
   // **********  RELOAD MUSIC  ***************
+  // *****************************************
   // *****************************************
 
   async function reloadMusic(user_email) {
@@ -576,6 +618,11 @@ $('#share-email').on('keyup', function (e) {
           audio.currentTime = parseInt(time/1000);
       }
       $(document).bind('keydown',function(event){
+          // Check if the active element is an input or textarea
+          if (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA') {
+            return;
+          }
+
           switch(event.keyCode){
               case 37:
               rewind5s();
@@ -590,7 +637,13 @@ $('#share-email').on('keyup', function (e) {
       function toggleMute(){if(mute == 0){mute=1;audio.volume = 0;}else{mute = 0;audio.volume = 1;}}
       $(document).bind('keypress',function(event){
           //console.log(event.keyCode);
+          if (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA') {
+            return;
+          }
+    
+          
           switch(event.keyCode){
+      
               case 32:
               playSong();
               break;

@@ -252,10 +252,69 @@ html,body{
 }
 .floating-icon:nth-child(2){
   right: 12vh;
-}</style>
-<div class="spinner" id="email-spinner" style="display:none"></div>
-<!-- <div class="share-to-email">Send to email:<input type="text" id="share-email" placeholder="Email"></div> -->
-<!-- email spinner -->
+}
+
+
+.share-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .share-to-email {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    padding: 10px 0;
+    margin-left: 15%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: var(--menu-color);
+    z-index: 200;
+    }
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    #share-email {
+        border: 1px solid #d0d0d0;
+        padding: 5px 10px;
+        margin-left: 10px;
+        border-radius: 3px;
+        outline: none;
+        transition: border-color 0.3s;
+    }
+
+    #share-email:focus {
+        border-color: #4a8df8;
+    }
+
+    #send-button {
+        background-color: #4a8df8;
+        color: #ffffff;
+        padding: 6px 12px;
+        margin-left: 10px;
+        border-radius: 3px;
+        border: none;
+        cursor: pointer;
+        outline: none;
+        transition: background-color 0.3s;
+    }
+
+    #send-button:hover {
+        background-color: #3a7de0;
+    }
+
+
+</style>
+
 
 <div id="music-player" class="ignore-css">
         <img id="album-art"/>
@@ -296,6 +355,14 @@ html,body{
             </div>
           </div>
         </div>
+    </div>
+    <div class="share-container">
+      <div class="share-to-email">
+          Send to email:
+          <input type="text" id="share-email" placeholder="Email">
+          <button id="send-button">Send</button>
+          <div class="spinner" id="email-spinner" style="display:none"></div>
+      </div>
     </div>
 
 

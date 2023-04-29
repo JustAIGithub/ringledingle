@@ -36,6 +36,7 @@ def index():
 def music():
     # get parameter email from url
     user_email = request.args.get('email')
+    print("USER EMAIL: ", user_email)
     return render_template('home/music.html', segment='music', user_email=user_email)
 
 @blueprint.route('/<template>')
@@ -107,7 +108,7 @@ def generate_dingle():
     # dalle_request = request.json['dalle_request']
     dalle_request = ai_response(f"Describe in one sentence what a cover photo would be for the poem (i.e. the string will get processed in DALLE for AI image rendering), and put that prompt string in between the delimiters STARTDALLE and ENDDALLE.\n{words}")
     dalle_request = dalle_request[dalle_request.find("STARTDALLE") + len("STARTDALLE:"):dalle_request.find("ENDDALLE")].strip()
-    dalle_request = "A funny cartoon of "+title
+    dalle_request = "A funny cartoon of "+dalle_request
 
     print(f'Dalle request: {dalle_request}')
     input_file = request.json['input_file']
@@ -148,11 +149,13 @@ import json
 def get_json():
     print("GETTING JSON")
     email = session['email']
-    print("ROUTEs.py GETTING JSON FOR USER: ", email)
+    # print("ROUTEs.py GETTING JSON FOR USER: ", email)
 
     # Get the Python dictionary for the user
     
     playlist_dict = get_json_for_user(user_email=email)
+
+
     # Replace single quotes with double quotes
     # playlist_dict_fixed = playlist_dict.replace("'", '"')
 
