@@ -110,11 +110,14 @@ def store_song(user_email, title, json_lyrics, imgsrc, audiopath, singer_name, c
         print("Email already in database.")
     
     collection.update_one({"email": user_email}, {"$push": {"songs": {
-        "title": title,
-        "albumart": img_url,
-        "audio": audio_url,
-        "json": json_url,
-        "author": singer_name            
+        "$each": [{
+            "title": title,
+            "albumart": img_url,
+            "audio": audio_url,
+            "json": json_url,
+            "author": singer_name
+        }],
+        "$position": 0
     }}})
 
 def clear_songs_for_user(user_email, collection=collection):

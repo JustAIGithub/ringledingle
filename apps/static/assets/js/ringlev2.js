@@ -14,6 +14,15 @@ function loadCode() {
 
 
 $(document).ready(function() {
+
+  // if email is undefined, get email from the args
+  // var email = document.getElementById("email").innerText;
+  if (typeof email === 'undefined')    {
+    var urlParams = new URLSearchParams(window.location.search);
+    email = urlParams.get('email');
+    console.log("EMAIL", email);
+  }
+
   reloadMusic(email);
 
   // **********************************************
@@ -408,17 +417,14 @@ $('#share-email').on('keyup', function (e) {
   async function reloadMusic(user_email) {
     
     console.log("RELOADING music with email", user_email);
-
     $.getJSON('/get-json', function (playlist) {
-    
+  
     // convert playlist to array
     var songs = JSON.parse(playlist);
     console.log("playlist", songs);
-
     console.log("playlist audio", songs[0].audio);
     // print the playlist data type
     console.log("playlist type:", typeof songs);
-
     var data = playlist;
     // $.getJSON('/static/playlist.json',function(data){
       var abort_other_json;
@@ -500,8 +506,8 @@ $('#share-email').on('keyup', function (e) {
       }
       function processing(data){
           if(data.author == ""){ data.author = "Unknown"; }
-          setSongName(data.song);
-          console.log(data.song);
+          setSongName(data.title);
+          console.log(data.title);
           setArtistName(data.author);
           setAlbumArt(data.albumart);
           console.log(data);
@@ -667,7 +673,7 @@ $('#share-email').on('keyup', function (e) {
           loadSong();
       }
       function addToPlayList(data,index){
-          var html = "";html = $('#show-list').html();html +="<div class=\"float-song-card\" data-index=\""+index+"\"><img class=\"album-art\" src=\""+data.albumart+"\"><h2 class=\"song\">"+data.song+"</h2><h4 class=\"artist\">"+data.author+"</h4></div>";$('#show-list').html(html);$('.float-song-card').on('click',function(){playSongAtIndex($(this).attr("data-index"));});
+          var html = "";html = $('#show-list').html();html +="<div class=\"float-song-card\" data-index=\""+index+"\"><img class=\"album-art\" src=\""+data.albumart+"\"><h2 class=\"song\">"+data.title+"</h2><h4 class=\"artist\">"+data.author+"</h4></div>";$('#show-list').html(html);$('.float-song-card').on('click',function(){playSongAtIndex($(this).attr("data-index"));});
       }
       function setPlaylist(){
           for(var i=0;i<songs.length;i++){

@@ -32,6 +32,12 @@ import requests
 def index():
     return render_template('home/index.html', segment='index')
 
+@blueprint.route('/music')
+def music():
+    # get parameter email from url
+    user_email = request.args.get('email')
+    return render_template('home/music.html', segment='music', user_email=user_email)
+
 @blueprint.route('/<template>')
 @login_required
 def route_template(template):
@@ -82,8 +88,8 @@ def generate_lyrics():
     words = unquote(request.json['words'])
     singer_name = request.json['singer_name']
     print("MAKING POEM", words, singer_name)
-    # lyrics = ai_response(words)
-    lyrics = """STARTTITLE Sound of Silence ENDTITLE \n STARTPOEMHello darkness, my old friend,\n I've come to talk with you again,\n Because a vision softly creeping,\n Left its seeds while I was sleeping.ENDPOEM"""
+    lyrics = ai_response(words)
+    # lyrics = """STARTTITLE Sound of Silence ENDTITLE \n STARTPOEMHello darkness, my old friend,\n I've come to talk with you again,\n Because a vision softly creeping,\n Left its seeds while I was sleeping.ENDPOEM"""
     poem_lyrics = lyrics[lyrics.find("STARTPOEM") + len("STARTPOEM"):lyrics.find("ENDPOEM")].strip()
     # dalle_request = lyrics[lyrics.find("STARTDALLE") + len("STARTDALLE:"):lyrics.find("ENDDALLE")].strip()
     # print("DALLE REQUEST: ", dalle_request)
@@ -99,8 +105,8 @@ def generate_dingle():
     email = unquote(request.json['email']).lower()
     singer_name = request.json['singer_name']
     # dalle_request = request.json['dalle_request']
-    # dalle_request = ai_response(f"Describe in one sentence what a cover photo would be for the poem (i.e. the string will get processed in DALLE for AI image rendering), and put that prompt string in between the delimiters STARTDALLE and ENDDALLE.\n{words}")
-    # dalle_request = dalle_request[dalle_request.find("STARTDALLE") + len("STARTDALLE:"):dalle_request.find("ENDDALLE")].strip()
+    dalle_request = ai_response(f"Describe in one sentence what a cover photo would be for the poem (i.e. the string will get processed in DALLE for AI image rendering), and put that prompt string in between the delimiters STARTDALLE and ENDDALLE.\n{words}")
+    dalle_request = dalle_request[dalle_request.find("STARTDALLE") + len("STARTDALLE:"):dalle_request.find("ENDDALLE")].strip()
     dalle_request = "A funny cartoon of "+title
 
     print(f'Dalle request: {dalle_request}')
@@ -114,7 +120,6 @@ def generate_dingle():
     json_lyrics = make_narration(f'apps/static/media/{input_file}', output_path, words,voice=voice)
     # lrc_lyrics =''
     try:
-        error
         img_url = generate_image("A funny cartoon of "+dalle_request)
     except Exception as e:
         print(f"Error in generating an image: {e}")
@@ -149,14 +154,14 @@ def get_json():
     
     playlist_dict = get_json_for_user(user_email=email)
     # Replace single quotes with double quotes
-    playlist_dict_fixed = playlist_dict.replace("'", '"')
+    # playlist_dict_fixed = playlist_dict.replace("'", '"')
 
     # Your current print statements
     print("PLAYLIST_DICT: ", playlist_dict)
     print("PLAYLIST_DICT TYPE", type(playlist_dict))
 
     # Convert the fixed string to a dictionary
-    playlist_dict_obj = json.loads(playlist_dict_fixed)
+    playlist_dict_obj = json.loads(playlist_dict)
 
     # Convert the dictionary back to a JSON string
     playlist_json = json.dumps(playlist_dict_obj)
