@@ -20,6 +20,9 @@ $(document).ready(function() {
   if (typeof email === 'undefined')    {
     var urlParams = new URLSearchParams(window.location.search);
     email = urlParams.get('email');
+    recipient_email = urlParams.get('recipient_email');
+    document.getElementById("share-email").value = recipient_email;
+
     console.log("EMAIL", email);
   }
 
@@ -38,7 +41,7 @@ $(document).ready(function() {
   var progressBar = $('.progress-bar');
   var totalSteps = $('.carousel-inner .carousel-item').length - 2; // -2 to exclude the "Generating" and "100%" steps
   var currentStep = $('.carousel-inner .carousel-item.active').index();
-
+ 
 
   async function generateLyrics() {
     console.log("Generating Lyrics...");
@@ -193,7 +196,7 @@ $(document).ready(function() {
     // submitText.textContent = 'Click to Regenerate Audio';
     // next carousel
     $('.carousel').carousel('next');
-    showMessageModal(`Success! Your audio has been emailed to ${decodeURIComponent(email)}. Press 'Play' on the audio below to hear your track.`, false);
+    showMessageModal(`Success! Your audio has been generated. Please go to /music?email=${decodeURIComponent(email)} to listen.`, false);
 
 } catch (error) {
     console.error(error);
@@ -276,10 +279,14 @@ $(document).ready(function() {
     }
 
   
-    // if (currentStep == 7) {
-    //   reloadMusic("appiispanen@gmail.com");
-    
-    // }
+  if (currentStep == 8) {
+    var email = document.getElementById("email").value.trim();
+    var recipient_email = document.getElementById("recipient-email").value.trim();
+    console.log( "EMAIL", email, "RECIPIENT EMAIL", recipient_email, "TITLE", title, "SINGER", singer, "INPUT FILE", input_file);
+    // Go to /music?email=email&cc_email=cc_email&title=title
+    window.location.href = '/music?email=' + email + 'recipient_email=' + recipient_email +'&title=' + title;
+
+    }
 
     $('.carousel-item.active').find('.entry-item').focus();
 
@@ -355,10 +362,21 @@ singerItems.forEach(item => {
 $('.share-to-email').on('keyup', function (e) {
   e.preventDefault();
 
+  // if #go-back is clicked, hide the .share-container
+  if (e.key === 'Escape' || e.keyCode === 27) {
+    document.getElementsByClassName('share-container')[0].style.display = 'none';
+  };
+  // if #go-back is clicked, hide the .share-container
+  $('#go-back').on('click', function () {
+    document.getElementsByClassName('share-container')[0].style.display = 'none';
+  });
+
+
+
   // Add to conditions if #btn is clicked, do the same thing as below
   // if #send-button is clicked
 
-  if (e.key === 'Enter' || e.keyCode === 13) {
+  if ((e.key === 'Enter' || e.keyCode === 13) && !$('#share-email').val()) {
    sendEmail();
 
   };
@@ -366,7 +384,13 @@ $('.share-to-email').on('keyup', function (e) {
 });
 
 $('#send-button').on('click', function () {
-  sendEmail();
+
+  if (!$('#share-email').val()){
+  showMessageModal("Please enter an email address.");
+  } else {
+    sendEmail();
+  }
+
 });
 
 
@@ -379,12 +403,29 @@ $('#send-button').on('click', function () {
 
 
   function sendEmail(){
+    // Get the URL arguments for "email" and "recipient_email"
+    // GET THE URL PARAMS
+    //  urlParams = new URLSearchParams(window.location.search);
+    // // email = urlParams.get('email');
+    // console.log("URL PARAMS", urlParams, "EMAIL", email, "RECIPIENT EMAIL", recipient_email)
+    // recipient_email = urlParams.get('recipient_email');
+
+
+
+
+
     document.getElementById('email-spinner').style.display = 'inline-block';
     $('#share-email').hide();
+
+    document.getElementById('send-button').innerText = 'Cancel';
    
-    if(ask_question_running){
+    if(ask_question_running ){
       console.log("Ringle Dingle is already running");
-      showMessageModal("Process is already running, please wait or refresh the page to start again.");
+      showMessageModal("Send cancelled");
+      $('#share-email').slideToggle();
+      $('#email-spinner').hide();
+      document.getElementById('send-button').innerText = 'Send';
+      ask_question_running = false;
       return Promise.reject(new Error("Ringle Dingle is already running"));
     }
     
@@ -396,19 +437,19 @@ $('#send-button').on('click', function () {
     const title = $('.song-name').text();
     const lyrics = $('#lyrics-content').html();
     // replace <h2> with <p> in lyrics:
-    lyrics.replace('<h2>', '<p>');
-    lyrics.replace('<\h2>', '</p>');
+    lyrics.replace('<h4>', '<p>');
+    lyrics.replace('<\h4>', '</p>');
     
     const img_url = $('#album-art').attr('src');
     singer_name =$(".artist-name").text();
 
 
-    console.log("SENDING UP", email, title, lyrics);
+    console.log("SENDING UP", email, recipient_email, title, lyrics);
     
     
     const data = {
       email: email,
-      cc_email: cc_email,
+      recipient_email: recipient_email,
       title: title,
       lyrics: lyrics,
       img_url: img_url,
@@ -423,16 +464,21 @@ $('#send-button').on('click', function () {
         console.log('success');
         console.log(data);
 
-        showMessageModal(`Success! Your audio has been emailed to ${decodeURIComponent(email)}. Press 'Start Over' to try to Ringle another Dingle.`, false);
+        showMessageModal(`Success! Your audio has been emailed to ${decodeURIComponent(recipient_email)} and CC'd to ${decodeURIComponent(email)}. Press 'Start Over' to try to Ringle another Dingle.`, false);
+        document.getElementById('send-button').innerText = 'Send';
+
         $('#email-spinner').hide();
-        $('#share-email').slideToggle();
+        $('.share-container').hide();
+        $('#share-email').show();
         $('#share-email').val('');
       },
       error: function (error) {
         console.log('error');
         console.log(error);
         showMessageModal('An error occurred: ' + error.message + '. Please make sure you\'ve filled out the form - if not, please refresh the page.');
-        $('#share-email').slideToggle();
+        document.getElementById('send-button').innerText = 'Send';
+
+        $('#share-email').show();
         $('#email-spinner').hide();
       },
     });
@@ -444,7 +490,7 @@ $('#send-button').on('click', function () {
   }
 
 
-  var audio = document.getElementById("audioFile");
+  // var audio = document.getElementById("audioFile");
   // loadSong("https://storage.googleapis.com/ringledingle/cards/Demo/output.mp3");
   // fetchLrc("https://storage.googleapis.com/ringledingle/cards/Demo/output_lyrics.lrc");
   // Fetch LRC file and parse it
@@ -515,14 +561,14 @@ $('#send-button').on('click', function () {
       function next(){
           var current = $('#lyrics .current');
           console.log("NEXT", current.length);
-          if(current.length == 0){ $('#lyrics-content h2:nth-child(1)').addClass("current"); return; }
+          if(current.length == 0){ $('#lyrics-content h4:nth-child(1)').addClass("current"); return; }
           current.removeClass('current');
           current.next().addClass('current');
       }
       function previous(){
           var current = $('#lyrics .current');
           if(current.length == 0){ return; }
-          var first = $('#lyrics-content h2:nth-child(1)');
+          var first = $('#lyrics-content h4:nth-child(1)');
           current.removeClass('current');
           if(current === first){ return; }
           current.prev().addClass('current');
@@ -538,7 +584,7 @@ $('#send-button').on('click', function () {
       function setArtistName(artistName){
           var context = $('.artist-name');
           for(var i=0;i<context.length;i++){
-              context[i].innerHTML = artistName;
+              context[i].innerHTML = "In the style of ".concat(artistName);
           }
       }
       function setAlbumArt(albumart){
@@ -573,7 +619,7 @@ $('#send-button').on('click', function () {
       console.log("length of i:",index.lyrics.length);
       for (var i = 0; i < index.lyrics.length; i++) {
           timeList.push(index.lyrics[i].time);
-          html += "<h2>" + index.lyrics[i].line + "</h2>";
+          html += "<h4>" + index.lyrics[i].line + "</h4>";
       }
   
       $('#lyrics-content').html(html);
@@ -701,7 +747,11 @@ $('#send-button').on('click', function () {
               // processing(data);
           };
           //for the end of the song
-          if(time >= totalTime){if(play == 0) return; playSong(); if(songRepeat == 1){ reset(); playSong(); return; }else{ nextSong(); playSong(); } return;}
+          if(time >= totalTime){if(play == 0) return; playSong(); if(songRepeat == 1){ reset(); playSong(); return; }else{ //nextSong(); playSong(); 
+          } return;}
+          if (time>=totalTime -8000){
+            showEmail();
+          }
           //update timer
           if(play == 1){time = time + 1000;}
           else if(play == -1){time = 0;}
@@ -743,7 +793,7 @@ $('#send-button').on('click', function () {
           loadSong();
       }
       function addToPlayList(data,index){
-          var html = "";html = $('#show-list').html();html +="<div class=\"float-song-card\" data-index=\""+index+"\"><img class=\"album-art\" src=\""+data.albumart+"\"><h2 class=\"song\">"+data.title+"</h2><h4 class=\"artist\">"+data.author+"</h4></div>";$('#show-list').html(html);$('.float-song-card').on('click',function(){playSongAtIndex($(this).attr("data-index"));});
+          var html = "";html = $('#show-list').html();html +="<div class=\"float-song-card\" data-index=\""+index+"\"><img class=\"album-art\" src=\""+data.albumart+"\"><h4 class=\"song\">"+data.title+"</h4><h4 class=\"artist\">"+data.author+"</h4></div>";$('#show-list').html(html);$('.float-song-card').on('click',function(){playSongAtIndex($(this).attr("data-index"));});
       }
       function setPlaylist(){
           for(var i=0;i<songs.length;i++){
@@ -773,7 +823,9 @@ $('#send-button').on('click', function () {
   }
   
   
-
+function showEmail(){
+  
+  document.getElementsByClassName("share-container")[0].style.display = "block";}
 
 
 

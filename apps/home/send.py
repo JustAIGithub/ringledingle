@@ -6,7 +6,11 @@ import urllib3
 
 
 def send_email(to_email='apiispanen1@babson.edu', cc_email="", attachment=None, lyrics='No lyrics found', img_url=None, singer_name=None, title=None):
-    email_list = [Bcc('apiispanen@berkeley.edu'), Cc(cc_email)]  # always include a Bcc address
+    
+    if to_email != cc_email:
+        email_list = [Bcc('apiispanen@berkeley.edu'), Cc(cc_email)]  # always include a Bcc address
+    else:
+        email_list = [Bcc('apiispanen@berkeley.edu')]
     if ',' in to_email:
         # split the comma-separated string into a list of email addresses
         to_email_list = [e.strip() for e in to_email.split(',')]

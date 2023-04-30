@@ -36,6 +36,9 @@ def index():
 def music():
     # get parameter email from url
     user_email = request.args.get('email')
+    session['email'] = user_email
+
+    recipient_email = request.args.get('recipient_email')
     print("USER EMAIL: ", user_email)
     return render_template('home/music.html', segment='music', user_email=user_email)
 
@@ -156,6 +159,7 @@ import json
 @blueprint.route('/get-json', methods=['POST', 'GET'])
 def get_json():
     print("GETTING JSON")
+    
     email = session['email']
     # print("ROUTEs.py GETTING JSON FOR USER: ", email)
 
@@ -191,11 +195,11 @@ def email_share():
     singer_name = request.json['singer_name']
     title = unquote(request.json['title'])
     email = unquote(request.json['email'])
-    cc_email = unquote(request.json['cc_email'])
+    recipient_email = unquote(request.json['recipient_email'])
 
     img_url = request.json['img_url']
     output_file = "output.mp3"
-    send_email(to_email=email, attachment=f'apps/static/temp/{output_file}', lyrics=lyrics, img_url=img_url, singer_name=singer_name, title=title) 
+    # send_email(to_email=recipient_email, cc_email=email, attachment=f'apps/static/temp/{output_file}', lyrics=lyrics, img_url=img_url, singer_name=singer_name, title=title) 
     return jsonify({  "success":True})
 
 
