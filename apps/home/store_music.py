@@ -81,8 +81,10 @@ def log_info(email, collection=collection):
             except:
                 ip_address = "unknown"
             collection.insert_one({"email": email, "timestamp": log_time, "ip_address": ip_address})
+            return True
         else:
             print("Email already in database.")
+            return False
 
 def store_song(user_email, title, json_lyrics, imgsrc, audiopath, singer_name, collection=collection):
     user_email = user_email.lower()

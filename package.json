@@ -3,7 +3,9 @@
     "mastertemplate": "ringledingle",
     "version": "1.2",
     "description": "RingleDingle V1",
-    "scripts": {},
+    "scripts": {
+        "build:css": "tailwindcss build apps/static/tailwind.css -o apps/static/output.css"
+    },
     "repository": {
         "type": "git",
         "url": "https://github.com/apiispanen/ringledingle"

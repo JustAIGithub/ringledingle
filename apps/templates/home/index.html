@@ -2,20 +2,30 @@
 
 
 {% block title %} Dashboard {% endblock %} 
-
 <!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}{% endblock stylesheets %}
 
-{% block content %}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+{% block stylesheets %}
+<!-- <link rel="stylesheet" href="/static/output.css"> -->
+<link rel="stylesheet" href="/static/rdstyle.css">
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.6/dist/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 
+<!-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet"> -->
+
+{% endblock stylesheets %}
+
+{% block content %}
 <script>$('.carousel').carousel();</script>
 <style>
  
 </style>
+
+
+<!-- with tailwind make a div with a purple background -->
+
+
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="false">
   <!-- <ol class="carousel-indicators">
     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">25%</li>
@@ -26,18 +36,17 @@
   </ol> -->
   <div class="carousel-inner">
     <div class="carousel-item active step1">
-      <h2>Your Email</h2>
-      <input type="text" id="email" class="entry-item">
-      
+      <h2 class="w-100 text-center text-4xl">Your Email</h2>
+      <input type="text" id="email" class="email entry-item entry-item shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
 
     </div>
-    <div class="carousel-item step2">
+    <div class="carousel-item step2 w-100 text-center text-4xl">
       <h2>Recipient Information</h2>
-      <textarea name="" id="about" cols="30" rows="10" class="entry-item" placeholder="This is for Mike's Birthday. He is 34 years old and plays guitar ... "></textarea>
-      <label for="">What are some fun facts about the recipient you're sending this to?</label>
+      <textarea name="" id="about" cols="30" rows="10" class="entry-item shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="This is for Mike's Birthday. He is 34 years old and plays guitar ... "></textarea>
+      <label for="" class="text-sm text-center w-100">What are some fun facts about the recipient you're sending this to?</label>
     </div>
     <div class="carousel-item step3">
-        <h2>Background Mood</h2>
+        <h2 class="w-100 text-center text-4xl">Background Mood</h2>
         <div class="card-body singer song-style" >
             <a class="dropdown-item" value="magic.mp3">Magical</a>
             <a class="dropdown-item" value="motiv.mp3">Thoughtful</a>
@@ -50,26 +59,26 @@
     <div class="carousel-item step4">
       <h4>Narrator Style</h4>
       <div class="card-body singer-select singer">
-            <a class="dropdown-item" value="alan-rickman">Snape</a>
-            <a class="dropdown-item" value="snoop-dogg">Snoop Dogg</a>
-            <a class="dropdown-item" value="frenchy">French Narrator</a>
+            <a class="dropdown-item hover:bg-amber-100" value="alan-rickman">Snape</a>
+            <a class="dropdown-item hover:bg-amber-100" value="snoop-dogg">Snoop Dogg</a>
+            <a class="dropdown-item hover:bg-amber-100" value="frenchy">French Narrator</a>
             <!-- <a class="dropdown-item" value="bugs-bunny-billy-west">Bugs Bunny</a> -->
-            <a class="dropdown-item" value="betty-white">Betty White</a>
-            <a class="dropdown-item" value="eminem-arpa2">Eminem</a>
-            <a class="dropdown-item" value="shrek">Shrek</a>                
-            <a class="dropdown-item" value="johnny-cash">Johnny Cash</a>
-            <a class="dropdown-item" value="rizzo-the-rat">Rizzo the Rat</a>
-            <a class="dropdown-item" value="spongebob-vocodes">Spongebob</a>
-            <a class="dropdown-item" value="ariel">Ariel</a>
-            <a class="dropdown-item" value="biggie-smalls">Notorious B.I.G.</a>
-            <a class="dropdown-item" value="pooh-brock-baker">Pooh</a>
+            <a class="dropdown-item hover:bg-amber-100" value="betty-white">Betty White</a>
+            <a class="dropdown-item hover:bg-amber-100" value="eminem-arpa2">Eminem</a>
+            <a class="dropdown-item hover:bg-amber-100" value="shrek">Shrek</a>                
+            <a class="dropdown-item hover:bg-amber-100" value="johnny-cash">Johnny Cash</a>
+            <a class="dropdown-item hover:bg-amber-100" value="rizzo-the-rat">Rizzo the Rat</a>
+            <a class="dropdown-item hover:bg-amber-100" value="spongebob-vocodes">Spongebob</a>
+            <a class="dropdown-item hover:bg-amber-100" value="ariel">Ariel</a>
+            <a class="dropdown-item hover:bg-amber-100" value="biggie-smalls">Notorious B.I.G.</a>
+            <a class="dropdown-item hover:bg-amber-100" value="pooh-brock-baker">Pooh</a>
       </div>
 
 
     </div>
 <!-- GENETATE LYRICS AFTER SUBMIT -->
     <div class="carousel-item step3">
-      <h2>Generating...</h2>
+      <h2>Generating Lyrics...</h2>
       <div class="funky-spinner">
         <div class="spinner-circle"></div>
       </div>
@@ -86,14 +95,23 @@
   <h4 id="final-title">Music</h4>
   <img src="" alt="" id="final-image">
   <p id="final-lyrics"></p> -->
-  <div class="carousel-item step4">
+  <div class="carousel-item step5 w-100 text-center text-4xl">
+    <p>One last thing...</p>
+    <p>Who are you planning to send this to??</p>
+    <h2>Recipient Email(s)</h2>
+    <input type="text" id="recipient-email" class="email entry-item entry-item shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+    <label for="" class="text-sm text-center w-100">(Comma separated for multiple. Leave blank for none - your email will be CC'd after the Dingle is finalized.)</label>
+  </div>
+
+
+  <div class="carousel-item step6">
     <h2>Generating...</h2>
     <div class="funky-spinner">
       <div class="spinner-circle"></div>
     </div>
     <p>Ringling the Dingle, this may take a few minutes...</p>
 </div>
-  <div class="carousel-item step6" id="music-case" >
+  <div class="carousel-item step7" id="music-case" >
     {% include 'home/music.html' %}
      
 

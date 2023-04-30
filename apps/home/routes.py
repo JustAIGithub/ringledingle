@@ -88,12 +88,21 @@ def demo():
 def generate_lyrics():
     words = unquote(request.json['words'])
     singer_name = request.json['singer_name']
+    email = unquote(request.json['email'])
+    
     print("MAKING POEM", words, singer_name)
     lyrics = ai_response(words)
+    if "verse" in lyrics.lower():
+        lyrics = ai_response(words)
     # lyrics = """STARTTITLE Sound of Silence ENDTITLE \n STARTPOEMHello darkness, my old friend,\n I've come to talk with you again,\n Because a vision softly creeping,\n Left its seeds while I was sleeping.ENDPOEM"""
     poem_lyrics = lyrics[lyrics.find("STARTPOEM") + len("STARTPOEM"):lyrics.find("ENDPOEM")].strip()
     # dalle_request = lyrics[lyrics.find("STARTDALLE") + len("STARTDALLE:"):lyrics.find("ENDDALLE")].strip()
     # print("DALLE REQUEST: ", dalle_request)
+    if log_info(email):
+        # If new user, send them email:
+        # send_email(email, poem_lyrics, singer_name)
+        pass
+    
 
     title = lyrics[lyrics.find("STARTTITLE") + len("STARTTITLE:"):lyrics.find("ENDTITLE")].strip()
     return jsonify({  "lyrics":poem_lyrics, "title":title, "singer_name":singer_name})
@@ -132,7 +141,6 @@ def generate_dingle():
 
 
     # print(f"title: {title}, lyrics: {rap_lyrics}, img_url: {img_url}, singer_name: {singer_name}")
-    log_info(email)
     
     # save email to a flask session
     session['email'] = email
@@ -183,6 +191,7 @@ def email_share():
     singer_name = request.json['singer_name']
     title = unquote(request.json['title'])
     email = unquote(request.json['email'])
+    cc_email = unquote(request.json['cc_email'])
 
     img_url = request.json['img_url']
     output_file = "output.mp3"

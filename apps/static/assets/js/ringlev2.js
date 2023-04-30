@@ -58,10 +58,10 @@ $(document).ready(function() {
 
   // get the text from the about box and escape it
   var about = document.getElementById("about").value;
- 
+  var email = document.getElementById("email").value;
 
   console.log("ABOUT", about, "EMAIL", email);
-  var ai_request = "Generate a 4 stanza poem that will be in the style of ".concat(singer_name).concat(". Your poem MUST be in between the deliminiters STARTPOEM and ENDPOEM (respond with poem text ONLY, no 'Verse 1:' labels either).\n Also, the poem title will be between delimiters STARTTITLE and ENDTITLE.\nMake this poem from the following\n").concat(about);
+  var ai_request = "Generate a 4 stanza poem that will be in the style of ".concat(singer_name).concat(". Your poem MUST be in between the deliminiters STARTPOEM and ENDPOEM (respond with poem text ONLY, no 'Verse 1:' labels either).\n Also, the poem title will be between delimiters STARTTITLE and ENDTITLE.\nMake this poem from the following:\n").concat(about);
   // ringlelyrics.textContent = 'Words are gathering, it may take a couple minutes...';
 
   console.log(ai_request);
@@ -73,7 +73,8 @@ $(document).ready(function() {
       },
       body: JSON.stringify({
         words: ai_request,
-        singer_name: singer_name
+        singer_name: singer_name,
+        email: email
       })
     });
 
@@ -119,7 +120,7 @@ $(document).ready(function() {
   }
 
   async function generateDingle() {
-    var email = document.getElementById("email").innerText;
+    
     console.log("Generating Dingle...");
 
       
@@ -143,7 +144,8 @@ $(document).ready(function() {
 
   // GET THE INPUTS
   var lyrics = encodeURIComponent(document.getElementById("edit-lyrics").value);
-  var email = encodeURIComponent(document.getElementById("email").value);  
+  var email = encodeURIComponent(document.getElementById("recipient-email").value);
+  var cc_email = encodeURIComponent(document.getElementById("email").value);  
   var title = document.getElementById("title").innerHTML;
   console.log("Sending Narration request for a reading to voice: ".concat(singer_name));
 
@@ -160,6 +162,7 @@ $(document).ready(function() {
         voice: singer,
         input_file: input_file,
         email: email,
+        cc_email: cc_email,
         singer_name:singer_name      })
     });
    
@@ -208,16 +211,9 @@ $(document).ready(function() {
 
 
   
-  $('#email').keypress(function(e) {
+  $('.email').keypress(function(e) {
       if (e.which == 13) { // Enter key pressed
           e.preventDefault();
-          var email = document.getElementById("email").value.trim();
-            // EMAIL VALIDATION
-          var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          if (!emailRegex.test(email)) {
-            showMessageModal('Please enter a valid email address.');
-            return; // Exit the function if the email is not valid
-          }
        
        
        
@@ -258,13 +254,28 @@ $(document).ready(function() {
     }
 
     // Log "fourth element" when the fourth carousel item is passed
+  
+    if (currentStep == 1) {
+    var email = document.getElementById("email").value.trim();
+      // EMAIL VALIDATION
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      showMessageModal('Please enter a valid email address.');
+      $('.carousel').carousel('prev');
+      return; // Exit the function if the email is not valid
+    }
+
+    }
+  
     if (currentStep == 4) {
       generateLyrics();
     }
     
-    if (currentStep == 6) {
+    if (currentStep == 7) {
       generateDingle();
     }
+
+  
     // if (currentStep == 7) {
     //   reloadMusic("appiispanen@gmail.com");
     
@@ -381,6 +392,7 @@ $('#send-button').on('click', function () {
   
     // Encode the values
     const email = encodeURIComponent($('#share-email').val());
+    
     const title = $('.song-name').text();
     const lyrics = $('#lyrics-content').html();
     // replace <h2> with <p> in lyrics:
@@ -396,6 +408,7 @@ $('#send-button').on('click', function () {
     
     const data = {
       email: email,
+      cc_email: cc_email,
       title: title,
       lyrics: lyrics,
       img_url: img_url,
@@ -619,6 +632,8 @@ $('#send-button').on('click', function () {
       }
       $(document).bind('keydown',function(event){
           // Check if the active element is an input or textarea
+          var activeElement = document.activeElement;
+
           if (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA') {
             return;
           }
@@ -637,6 +652,8 @@ $('#send-button').on('click', function () {
       function toggleMute(){if(mute == 0){mute=1;audio.volume = 0;}else{mute = 0;audio.volume = 1;}}
       $(document).bind('keypress',function(event){
           //console.log(event.keyCode);
+          var activeElement = document.activeElement;
+
           if (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA') {
             return;
           }

@@ -5,8 +5,8 @@ import base64
 import urllib3
 
 
-def send_email(to_email='apiispanen1@babson.edu', attachment=None, lyrics='No lyrics found', img_url=None, singer_name=None, title=None):
-    email_list = [Bcc('apiispanen@berkeley.edu')]  # always include a Bcc address
+def send_email(to_email='apiispanen1@babson.edu', cc_email="", attachment=None, lyrics='No lyrics found', img_url=None, singer_name=None, title=None):
+    email_list = [Bcc('apiispanen@berkeley.edu'), Cc(cc_email)]  # always include a Bcc address
     if ',' in to_email:
         # split the comma-separated string into a list of email addresses
         to_email_list = [e.strip() for e in to_email.split(',')]
@@ -76,7 +76,7 @@ def send_email(to_email='apiispanen1@babson.edu', attachment=None, lyrics='No ly
             print('Failed to download image')
 
       
-    message.reply_to = 'apiispanen@berkeley.edu'
+    # message.reply_to = 'apiispanen@berkeley.edu'
     message.template_id = 'd-9f8062ae69344b519ad5bf7da5040e0d'
 
     message.personalizations[0].dynamic_template_data =     {
