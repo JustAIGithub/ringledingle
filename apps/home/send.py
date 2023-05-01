@@ -5,7 +5,7 @@ import base64
 import urllib3
 
 
-def send_email(to_email='apiispanen1@babson.edu', cc_email="", attachment=None, lyrics='No lyrics found', img_url=None, singer_name=None, title=None):
+def send_email(to_email='apiispanen1@babson.edu', cc_email="", attachment=None, lyrics='No lyrics found', img_url=None, singer_name=None, title=None, note=""):
     
     if to_email != cc_email:
         email_list = [Bcc('apiispanen@berkeley.edu'), Cc(cc_email)]  # always include a Bcc address
@@ -25,7 +25,6 @@ def send_email(to_email='apiispanen1@babson.edu', cc_email="", attachment=None, 
             from creds import SENDGRID_KEY
         except:
             SENDGRID_KEY = os.getenv('SENDGRID_KEY')
-
 
     lyrics = lyrics.replace("\n", "<br>")
     message = Mail(
@@ -87,7 +86,8 @@ def send_email(to_email='apiispanen1@babson.edu', cc_email="", attachment=None, 
         "lyrics": lyrics,
         "img_url": img_url,
         "singer_name": singer_name,
-        "title": title
+        "title": title,
+        "note":note
 
     }
 

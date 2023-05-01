@@ -366,13 +366,6 @@ $('.share-to-email').on('keyup', function (e) {
   if (e.key === 'Escape' || e.keyCode === 27) {
     document.getElementsByClassName('share-container')[0].style.display = 'none';
   };
-  // if #go-back is clicked, hide the .share-container
-  $('#go-back').on('click', function () {
-    document.getElementsByClassName('share-container')[0].style.display = 'none';
-  });
-
-
-
   // Add to conditions if #btn is clicked, do the same thing as below
   // if #send-button is clicked
 
@@ -382,6 +375,35 @@ $('.share-to-email').on('keyup', function (e) {
   };
   
 });
+
+  // if #go-back is clicked, hide the .share-container
+  $('#go-back').on('click', function () {
+    // a Fun Animation to hide the .share-container with jquery
+    $('.share-container').animate({
+      opacity: 0,
+      top: '-100px'
+    }, 500, function () {
+      document.getElementsByClassName('share-container')[0].style.display = 'none';
+    }
+    );
+  });
+
+    // if #go-back is clicked, hide the .share-container
+    $('#share').on('click', function () {
+
+      // a Fun Animation to hide the .share-container with jquery
+      $('.share-container').animate({
+        opacity: 1,
+        top: '50px'
+      }, 500, function () {
+
+      document.getElementsByClassName('share-container')[0].style.display = 'block';
+      }
+      );
+
+    });
+  
+
 
 $('#send-button').on('click', function () {
 
@@ -395,24 +417,18 @@ $('#send-button').on('click', function () {
 
 
 
-
-
-
-
   });
 
 
   function sendEmail(){
     // Get the URL arguments for "email" and "recipient_email"
     // GET THE URL PARAMS
-    //  urlParams = new URLSearchParams(window.location.search);
-    // // email = urlParams.get('email');
+    urlParams = new URLSearchParams(window.location.search);
     // console.log("URL PARAMS", urlParams, "EMAIL", email, "RECIPIENT EMAIL", recipient_email)
-    // recipient_email = urlParams.get('recipient_email');
-
-
-
-
+    
+    email = urlParams.get('email');
+    const recipient_email = encodeURIComponent($('#share-email').val());
+    // recipient_email = encodeURIComponent(urlParams.get('recipient_email'));
 
     document.getElementById('email-spinner').style.display = 'inline-block';
     $('#share-email').hide();
@@ -432,7 +448,6 @@ $('#send-button').on('click', function () {
     ask_question_running = true;
   
     // Encode the values
-    const email = encodeURIComponent($('#share-email').val());
     
     const title = $('.song-name').text();
     const lyrics = $('#lyrics-content').html();
@@ -442,6 +457,7 @@ $('#send-button').on('click', function () {
     
     const img_url = $('#album-art').attr('src');
     singer_name =$(".artist-name").text();
+    var note = $("#email-note").text();
 
 
     console.log("SENDING UP", email, recipient_email, title, lyrics);
@@ -454,6 +470,7 @@ $('#send-button').on('click', function () {
       lyrics: lyrics,
       img_url: img_url,
       singer_name: singer_name,
+      note: note
     };
     $.ajax({
       type: 'POST',

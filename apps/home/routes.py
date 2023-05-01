@@ -195,11 +195,13 @@ def email_share():
     singer_name = request.json['singer_name']
     title = unquote(request.json['title'])
     email = unquote(request.json['email'])
+    note = unquote(request.json['note'])
+    
     recipient_email = unquote(request.json['recipient_email'])
 
     img_url = request.json['img_url']
     output_file = "output.mp3"
-    # send_email(to_email=recipient_email, cc_email=email, attachment=f'apps/static/temp/{output_file}', lyrics=lyrics, img_url=img_url, singer_name=singer_name, title=title) 
+    send_email(to_email=recipient_email, cc_email=email, attachment=f'apps/static/temp/{output_file}', lyrics=lyrics, img_url=img_url, singer_name=singer_name, title=title) 
     return jsonify({  "success":True})
 
 
