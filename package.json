@@ -4,7 +4,6 @@
     "version": "1.2",
     "description": "RingleDingle V1",
     "scripts": {
-        "build:css": "tailwindcss build apps/static/tailwind.css -o apps/static/output.css"
     },
     "repository": {
         "type": "git",
