@@ -470,7 +470,7 @@ $('#send-button').on('click', function () {
     
     const img_url = $('#album-art').attr('src');
     singer_name =$(".artist-name").text();
-    var note = $("#email-note").text();
+    const note = $('#email-note').val();
 
 
     console.log("SENDING UP", email, recipient_email, title, lyrics, note);

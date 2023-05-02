@@ -473,7 +473,10 @@ footer{z-index: 100000; opacity:1; position:fixed; width:100vw; height:10vh; bac
     width:90vw;
     margin-left:5vw
   }
-
+  input, #email, #about, #edit-lyrics{
+    margin-top:20px;
+    width:80%;
+  }
 
 
 }
