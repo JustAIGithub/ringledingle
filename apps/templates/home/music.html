@@ -3,6 +3,8 @@
 {% block title %} Music {% endblock %} 
 
 {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='music-style.css') }}">
+<!-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet"> -->
 <style>
 
 
@@ -10,14 +12,17 @@
 
 
 <div id="music-player" class="ignore-css">
+  <button id="share">Share this <i class="fa fa-share"></i></button>
+  <button id="regenerate">Regenerate <i class="fa fa-undo"></i></button>
         <img id="album-art"/>
         <div id="top-bar">
-          <button id="back"><i class="fa fa-arrow-left"></i></button>
+          <button id="back"><i class="fa fa-arrow-down"></i></button>
           <!-- <div id="about-song"><h2 class="song-name"></h2><h4 class="artist-name"></h4></div> -->
-          <button id="share">Share this <i class="fa fa-share"></i></button>
+         
+
         </div>
         <div id="lyrics">
-          <h2 class="song-name"></h2><h4 class="artist-name"></h4>
+          <h2 class="song-name"></h2><h4 class="artist-name" value=""></h4>
           <div id="lyrics-content">
           </div>
         </div>
@@ -41,8 +46,8 @@
         </div>
         <div id="playlist">
           <div id="label">
-            <h1>Playlist</h1>
-            <input id="search" type="text" placeholder="&#xF002; Search from all songs"></input>
+            <h2>Your Other Dingles</h2>
+            <input id="search" type="text" placeholder="Search from all songs"> <i class="fa fa-search"></i></input>
           </div>
           <div id="show-box">
             <div id="show-list">
@@ -51,19 +56,22 @@
         </div>
     </div>
     <div class="share-container" style="display:none">
-      <div class="share-to-email">
-          Ready to Share?
-          <!-- Add a font awesome X box to cancel -->
+      <div id="share-to-email">
+          <h2>Ready to Share?</h2>
           <input type="text" id="share-email" placeholder="Email">
-          (This will be CC'd to you as well)
+          <p>(This will be CC'd to you as well)</p>
           <textarea name="note" id="email-note" cols="30" rows="10" placeholder="Add a note"></textarea>
           <button id="go-back">Go back</button>
           <button id="send-button">Send via Email</button>
-          <a href="/"><button id="mail-button">Send via Mail</button></a>
+          <a href="https://buy.stripe.com/dR6cN08XPbovaju5km" target="_blank"><button id="mail-button">Send via Mail</button></a>
           <div class="spinner" id="email-spinner" style="display:none"></div>
-
       </div>
-    </div>
+  </div>
+  <a href="/">
+  <div id="logo">
+    <img src="static/media/ringledingle_logo.png" alt="">
+  </div></a>
+  
 
 
 {% endblock %}

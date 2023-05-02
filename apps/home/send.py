@@ -139,6 +139,32 @@ def send_email(to_email='apiispanen1@babson.edu', cc_email="", attachment=None, 
 # "bnelson6630@gmail.com"
 # ]
 
+def send_welcome_email(to_email='apiispanen1@babson.edu'):
+    email_list = [to_email, Bcc('apiispanen@berkeley.edu')]
+    try:
+        from apps.home.creds import SENDGRID_KEY
+    except:
+        try:
+            from creds import SENDGRID_KEY
+        except:
+            SENDGRID_KEY = os.getenv('SENDGRID_KEY')
+
+    lyrics = lyrics.replace("\n", "<br>")
+    message = Mail(
+        from_email='drew@ringledingle.com',
+        to_emails=email_list
+        )
+    # message.reply_to = 'apiispanen@berkeley.edu'
+    message.template_id = 'd-1864a74d28434f958cfd2e6c5c79ff39'
+
+    try:
+        sg = SendGridAPIClient(SENDGRID_KEY)
+        response = sg.send(message)
+        print(response.status_code)
+        print(response.body)
+        print(response.headers)
+    except Exception as e:
+        print(e)
 
 
 # send_email(to_email="", lyrics=lyrics, img_url=img_url, title=title, singer_name='Johnny Cash', attachment=True)

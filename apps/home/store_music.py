@@ -86,28 +86,28 @@ def log_info(email, collection=collection):
             print("Email already in database.")
             return False
 
-def store_song(user_email, title, json_lyrics, imgsrc, audiopath, singer_name, collection=collection):
-    user_email = user_email.lower()
+def store_song(cc_email, title, json_lyrics, imgsrc, audiopath, singer_name, collection=collection):
+    cc_email = cc_email.lower()
 
     # UPLOAD THE IMG AUDIO AND LYRICS TO GOOGLE CLOUD STORAGE, THEN RETURN URLS
     
-    audio_url = upload_file(audiopath, f'cards/users/{user_email}/{title}/output.mp3')
+    audio_url = upload_file(audiopath, f'cards/users/{cc_email}/{title}/output.mp3')
     
-    json_url = upload_file(json_lyrics, f'cards/users/{user_email}/{title}/lyrics.json')
+    json_url = upload_file(json_lyrics, f'cards/users/{cc_email}/{title}/lyrics.json')
 
-    img_url = upload_file(imgsrc, f'cards/users/{user_email}/{title}/img.png')
+    img_url = upload_file(imgsrc, f'cards/users/{cc_email}/{title}/img.png')
     
     # get all emails, if the email is already in the database, don't add it:
     emails = collection.find()
     emails = [email['email'] for email in emails]
-    if user_email not in emails:
+    if cc_email not in emails:
         now = datetime.datetime.now()
         log_time = now.strftime("%Y-%m-%d %H:%M:%S")
         try:
             ip_address = request.remote_addr
         except:
             ip_address = "unknown"
-        collection.insert_one({"email": user_email, "timestamp": log_time, "ip_address": ip_address})
+        collection.insert_one({"email": cc_email, "timestamp": log_time, "ip_address": ip_address})
     else:
         print("Email already in database.")
     
@@ -119,7 +119,7 @@ def store_song(user_email, title, json_lyrics, imgsrc, audiopath, singer_name, c
         "author": singer_name
     }
 
-    collection.update_one({"email": user_email}, {"$push": {"songs": {"$each": [song_data], "$position": 0}}})
+    collection.update_one({"email": cc_email}, {"$push": {"songs": {"$each": [song_data], "$position": 0}}})
 
 def clear_songs_for_user(user_email, collection=collection):
     user_email = user_email.lower()
@@ -129,12 +129,29 @@ def clear_songs_for_user(user_email, collection=collection):
 
 # store_song("appiispanen@gmail.com", "TeST", "apps/static/temp/lyrics.json", "apps/static/temp/albumart.png", "apps/static/temp/output.mp3", "Singer Name")
 
-def get_json_for_user(user_email, collection=collection):
+def get_json_for_user(cc_email, collection=collection, title=None):
     # Convert user_email to lowercase
-    user_email = user_email.lower()
+    cc_email = cc_email.lower()
+    if title is not None:
+        print("title is not none", title)
+        # title = title.lower()
+        # Find the user document by email
+        print("Finding user email: {}".format(cc_email))
+        user_document = collection.find_one({"email": cc_email})
+        if user_document:
+            # Return the 'songs' field as a JSON string
+            for song in user_document['songs']:
+                print(song['title'])
+                if song['title'].lower() == title.lower():
+                    print(song)
+                    return json.dumps([song])
+        else:
+            print("User not found.")
+            return json.dumps([])
 
     # Find the user document by email
-    user_document = collection.find_one({"email": user_email})
+    print("Finding user email: {}".format(cc_email))
+    user_document = collection.find_one({"email": cc_email})
 
     if user_document:
         # Return the 'songs' field as a JSON string

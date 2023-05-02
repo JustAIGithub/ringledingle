@@ -12,7 +12,7 @@ import os
 # from stt import speech_to_text
 from apps.home.audiobook import make_narration
 from apps.home.prompt import ai_response, generate_image, ai_response_stream
-from apps.home.send import send_email
+from apps.home.send import send_email, send_welcome_email
 from flask import Flask, request, render_template, jsonify, flash, redirect, url_for
 from flask import session
 from html import escape
@@ -26,21 +26,28 @@ import datetime
 from urllib.parse import unquote
 from apps.home.store_music import log_info, upload_file, store_song, get_json_for_user
 import requests
+import json
 
 
 @blueprint.route('/index')
 def index():
     return render_template('home/index.html', segment='index')
 
+
+@blueprint.route('/demo')
+def demo():
+    return render_template('home/index.html', segment='index')
+
+
 @blueprint.route('/music')
 def music():
     # get parameter email from url
     user_email = request.args.get('email')
-    session['email'] = user_email
+    session['cc_email'] = user_email
 
     recipient_email = request.args.get('recipient_email')
     print("USER EMAIL: ", user_email)
-    return render_template('home/music.html', segment='music', user_email=user_email)
+    return render_template('home/music.html', segment='music', user_email=user_email, recipient_email=recipient_email)
 
 @blueprint.route('/<template>')
 @login_required
@@ -82,18 +89,15 @@ app.config["CACHE_TYPE"] = "null"
 #     session['respond'] = True
 #     return render_template('voice.html')
 
-@blueprint.route('/demo')
-def demo():
-    return render_template('home/page-500.html')
-
 
 @blueprint.route('/generate-lyrics', methods=['POST', 'GET'])
 def generate_lyrics():
     words = unquote(request.json['words'])
     singer_name = request.json['singer_name']
     email = unquote(request.json['email'])
-    
-    print("MAKING POEM", words, singer_name)
+    session['cc_email'] = email
+
+    print("MAKING POEM", words, "Singer Name:", singer_name)
     lyrics = ai_response(words)
     if "verse" in lyrics.lower():
         lyrics = ai_response(words)
@@ -103,8 +107,7 @@ def generate_lyrics():
     # print("DALLE REQUEST: ", dalle_request)
     if log_info(email):
         # If new user, send them email:
-        # send_email(email, poem_lyrics, singer_name)
-        pass
+        send_welcome_email(email)
     
 
     title = lyrics[lyrics.find("STARTTITLE") + len("STARTTITLE:"):lyrics.find("ENDTITLE")].strip()
@@ -115,7 +118,7 @@ def generate_dingle():
     words = unquote(request.json['words'])
     voice = request.json['voice']
     title = unquote(request.json['title'])
-    email = unquote(request.json['email']).lower()
+    cc_email = unquote(request.json['cc_email']).lower()
     singer_name = request.json['singer_name']
     # dalle_request = request.json['dalle_request']
     dalle_request = ai_response(f"Describe in one sentence what a cover photo would be for the poem (i.e. the string will get processed in DALLE for AI image rendering), and put that prompt string in between the delimiters STARTDALLE and ENDDALLE.\n{words}")
@@ -133,7 +136,7 @@ def generate_dingle():
     json_lyrics = make_narration(f'apps/static/media/{input_file}', output_path, words,voice=voice)
     # lrc_lyrics =''
     try:
-        img_url = generate_image("A funny cartoon of "+dalle_request)
+        img_url = generate_image("A funny cartoon of "+dalle_request, size=3)
     except Exception as e:
         print(f"Error in generating an image: {e}")
         img_url = "https://ringledingle.com/static/media/ringledingle_na.png"
@@ -146,8 +149,8 @@ def generate_dingle():
     # print(f"title: {title}, lyrics: {rap_lyrics}, img_url: {img_url}, singer_name: {singer_name}")
     
     # save email to a flask session
-    session['email'] = email
-    store_song(user_email=email, title=title, json_lyrics=json_lyrics, imgsrc=img_path, audiopath=output_path, singer_name=singer_name)
+    session['cc_email'] = cc_email
+    store_song(cc_email=cc_email, title=title, json_lyrics=json_lyrics, imgsrc=img_path, audiopath=output_path, singer_name=singer_name)
     
     # send_email(to_email=email, attachment=f'apps/static/media/{output_file}', lyrics=words, img_url=img_url, singer_name=singer_name, title=title) 
     # print("Ringle has been Dingled. img_url: ", img_url, "title: ", title)
@@ -155,35 +158,43 @@ def generate_dingle():
     return jsonify({  "img_url":img_url, "airesponse":words, "title":title, "json_lyrics":json_lyrics})
 
 
-import json
 @blueprint.route('/get-json', methods=['POST', 'GET'])
 def get_json():
     print("GETTING JSON")
-    
-    email = session['email']
-    # print("ROUTEs.py GETTING JSON FOR USER: ", email)
+    cc_email = request.args.get('email')
+    if cc_email is None:
+        try: 
+            cc_email = session['cc_email']
+        except:
+            cc_email = 'apiispanen@berkeley.edu'
+    title = request.args.get('title')
+        
+
+
+    print("ROUTEs.py GETTING JSON FOR USER: ", cc_email)
 
     # Get the Python dictionary for the user
     
-    playlist_dict = get_json_for_user(user_email=email)
+    playlist_dict = get_json_for_user(cc_email=cc_email, title=title)
 
 
     # Replace single quotes with double quotes
     # playlist_dict_fixed = playlist_dict.replace("'", '"')
 
-    # Your current print statements
-    print("PLAYLIST_DICT: ", playlist_dict)
-    print("PLAYLIST_DICT TYPE", type(playlist_dict))
+    # # Your current print statements
+    # print("PLAYLIST_DICT: ", playlist_dict)
+    # print("PLAYLIST_DICT TYPE", type(playlist_dict))
 
     # Convert the fixed string to a dictionary
     playlist_dict_obj = json.loads(playlist_dict)
 
     # Convert the dictionary back to a JSON string
     playlist_json = json.dumps(playlist_dict_obj)
+    print("PLAYLIST SHIT FOR EMAIL",cc_email, playlist_json)
 
-    # Print the JSON string
-    print("PLAYLIST_JSON: ", playlist_json)
-    print("PLAYLIST_JSON TYPE: ", type(playlist_json))
+    # # Print the JSON string
+    # print("PLAYLIST_JSON: ", playlist_json)
+    # print("PLAYLIST_JSON TYPE: ", type(playlist_json))
 
     return jsonify(playlist_json)
 
@@ -201,7 +212,7 @@ def email_share():
 
     img_url = request.json['img_url']
     output_file = "output.mp3"
-    send_email(to_email=recipient_email, cc_email=email, attachment=f'apps/static/temp/{output_file}', lyrics=lyrics, img_url=img_url, singer_name=singer_name, title=title) 
+    send_email(to_email=recipient_email, cc_email=email, attachment=f'apps/static/temp/{output_file}', lyrics=lyrics, img_url=img_url, singer_name=singer_name, title=title, note=note) 
     return jsonify({  "success":True})
 
 
