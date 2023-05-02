@@ -12,7 +12,7 @@ import os
 # from stt import speech_to_text
 from apps.home.audiobook import make_narration
 from apps.home.prompt import ai_response, generate_image, ai_response_stream
-from apps.home.send import send_email, send_welcome_email
+from apps.home.send import send_email, send_simple_email
 from flask import Flask, request, render_template, jsonify, flash, redirect, url_for
 from flask import session
 from html import escape
@@ -105,12 +105,12 @@ def generate_lyrics():
     poem_lyrics = lyrics[lyrics.find("STARTPOEM") + len("STARTPOEM"):lyrics.find("ENDPOEM")].strip()
     # dalle_request = lyrics[lyrics.find("STARTDALLE") + len("STARTDALLE:"):lyrics.find("ENDDALLE")].strip()
     # print("DALLE REQUEST: ", dalle_request)
+    title = lyrics[lyrics.find("STARTTITLE") + len("STARTTITLE:"):lyrics.find("ENDTITLE")].strip()
+
     if log_info(email):
         # If new user, send them email:
-        send_welcome_email(email)
+        send_simple_email(email)
     
-
-    title = lyrics[lyrics.find("STARTTITLE") + len("STARTTITLE:"):lyrics.find("ENDTITLE")].strip()
     return jsonify({  "lyrics":poem_lyrics, "title":title, "singer_name":singer_name})
 
 @blueprint.route('/generate-dingle', methods=['POST', 'GET'])
@@ -202,17 +202,18 @@ def get_json():
 @blueprint.route('/email-share', methods=['POST', 'GET'])
 def email_share():
     print("REQUEST",request.json)
-    lyrics = unquote(request.json['lyrics'])
-    singer_name = request.json['singer_name']
     title = unquote(request.json['title'])
     email = unquote(request.json['email'])
     note = unquote(request.json['note'])
-    
+    link = f"https://ringledingle.com/music?email={email}&title={title}"
     recipient_email = unquote(request.json['recipient_email'])
+    # img_url = request.json['img_url']
+    # output_file = "output.mp3"
+    # lyrics = unquote(request.json['lyrics'])
+    # singer_name = request.json['singer_name']
 
-    img_url = request.json['img_url']
-    output_file = "output.mp3"
-    send_email(to_email=recipient_email, cc_email=email, attachment=f'apps/static/temp/{output_file}', lyrics=lyrics, img_url=img_url, singer_name=singer_name, title=title, note=note) 
+    send_simple_email(to_email=recipient_email, cc_email=email, title=title, type="dingle", note=note, link=link)
+    # send_email(to_email=recipient_email, cc_email=email, attachment=f'apps/static/temp/{output_file}', lyrics=lyrics, img_url=img_url, singer_name=singer_name, title=title, note=note) 
     return jsonify({  "success":True})
 
 

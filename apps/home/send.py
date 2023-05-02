@@ -139,8 +139,21 @@ def send_email(to_email='apiispanen1@babson.edu', cc_email="", attachment=None, 
 # "bnelson6630@gmail.com"
 # ]
 
-def send_welcome_email(to_email='apiispanen1@babson.edu'):
+def send_simple_email(to_email='apiispanen1@babson.edu', type = "welcome", cc_email = '' ,title = "", note="", link = ""):
+    
     email_list = [to_email, Bcc('apiispanen@berkeley.edu')]
+    
+    if to_email != cc_email and cc_email != '':
+        email_list = [Bcc('apiispanen@berkeley.edu'), Cc(cc_email)]  # always include a Bcc address
+    else:
+        email_list = [Bcc('apiispanen@berkeley.edu')]
+    if ',' in to_email:
+        # split the comma-separated string into a list of email addresses
+        to_email_list = [e.strip() for e in to_email.split(',')]
+        email_list.extend(to_email_list)
+    else:
+        email_list.append(to_email)
+
     try:
         from apps.home.creds import SENDGRID_KEY
     except:
@@ -149,13 +162,18 @@ def send_welcome_email(to_email='apiispanen1@babson.edu'):
         except:
             SENDGRID_KEY = os.getenv('SENDGRID_KEY')
 
-    lyrics = lyrics.replace("\n", "<br>")
     message = Mail(
         from_email='drew@ringledingle.com',
         to_emails=email_list
         )
     # message.reply_to = 'apiispanen@berkeley.edu'
-    message.template_id = 'd-1864a74d28434f958cfd2e6c5c79ff39'
+    if type == "welcome":
+        message.template_id = 'd-1864a74d28434f958cfd2e6c5c79ff39'
+    if type == "dingle":
+        message.template_id = 'd-f0ed94505a0e4afab3f9418b9f01bb7b'
+
+    if title != "":
+        message.personalizations[0].dynamic_template_data = {"title": title, "note":note, "link":link}
 
     try:
         sg = SendGridAPIClient(SENDGRID_KEY)
