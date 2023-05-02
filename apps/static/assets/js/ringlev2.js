@@ -410,7 +410,7 @@ $('.share-to-email').on('keyup', function (e) {
       // console.log("URL PARAMS", urlParams, "EMAIL", email, "RECIPIENT EMAIL", recipient_email)
       cc_email = urlParams.get('email');
       // load "/" page:
-      window.location.href = '/?email='+cc_email;
+      window.location.href = '/demo?email='+cc_email;
       
     });
     
