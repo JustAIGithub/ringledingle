@@ -1,0 +1,115 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Home {% endblock %} 
+{% block content %}
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RingleDingle - AI Narrated E-Greeting Cards</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(243, 234, 155, 0.61);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+
+        }
+    .header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .celebrity-image {
+        max-width: 40%;
+        height: auto;
+        margin: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+ 
+      }
+
+    .content-box {
+        background-color: rgba(243, 234, 155, 0.61);
+        padding: 20px;
+        margin: 10px 0;
+        border-radius: 4px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+    h1{
+      font-family: 'Courier New', Courier, monospace;
+    }
+    .call-to-action {
+    margin: 30px 0;
+}
+
+.btn-primary {
+    background-color: #a200ff;
+    border-color: #a200ff;
+    color: #ffffff;
+    font-weight: bold;
+    font-family: "Virgil";
+    padding: 12px 24px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s, border-color 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    text-decoration: none;
+}
+
+
+
+
+
+    @media screen and (max-width: 768px) {
+        .celebrity-image {
+            margin-bottom: 20px;
+        }
+    }
+  </style>
+  </head>
+  <body>
+    <div class="container">
+        <div class="header">
+          <img src="static/media/ringledingle_logo.png" alt="" style="max-height: 10vh; float:left; ">
+            <h1>Welcome to RingleDingle!</h1>
+            <p>AI Narrated E-Greeting Cards with a Personal Touch</p>
+        </div>
+    <div class="row">
+        <div class="col-md-6">
+            <h2>About RingleDingle</h2>
+            <p>RingleDingle is a fun and friendly e-greeting card service that uses advanced AI technology to generate personalized poems for your loved ones. Choose from a variety of celebrity voices, such as Johnny Cash and Betty White, to narrate the poem in an audio file with a backing track. An image of the poem, as interpreted by DALLE, will also be included in the card.</p>
+        </div>
+        <div class="col-md-6">
+            <img src="/static/media/image.png" alt="RingleDingle Sample Card" class="celebrity-image">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2>How it Works</h2>
+            <ol>
+                <li>Enter your email and information about the recipient of the RingleDingle.</li>
+                <li>Select a celebrity voice to narrate your poem.</li>
+                <li>Our AI technology will generate a personalized poem that describes the recipient.</li>
+                <li>Choose the poem you like, and our system will generate the full card and/or email, complete with an audio file, AI narration, and an image of the poem as interpreted by DALLE.</li>
+            </ol>
+        </div>
+        <div class="col-md-12">        <div class="call-to-action text-center">
+          <a href="/demo" class="btn btn-primary" role="button">Try RingleDingle Demo</a>
+      </div></div>
+    </div>
+
+    <div class="footer text-center">
+        <p>&copy; 2023 RingleDingle. All rights reserved.</p>
+    </div>
+</div>
+
+{% endblock content %}

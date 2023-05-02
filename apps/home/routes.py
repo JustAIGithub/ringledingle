@@ -29,15 +29,18 @@ import requests
 import json
 
 
-@blueprint.route('/index')
+@blueprint.route('/')
 def index():
-    return render_template('home/index.html', segment='index')
+    return render_template('home/home.html', segment='index')
 
 
 @blueprint.route('/demo')
 def demo():
-    return render_template('home/index.html', segment='index')
+    return render_template('home/index.html', segment='demo')
 
+@blueprint.route('/home')
+def home():
+    return render_template('home/home.html', segment='home')
 
 @blueprint.route('/music')
 def music():

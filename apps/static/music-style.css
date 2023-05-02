@@ -440,7 +440,7 @@ margin:auto;
 
 }
 
-footer{z-index: 100000; opacity:1; position:fixed; width:100vw; height:10vh; background-color:rgba(243, 234, 155, 1);}
+footer{z-index: 100000; opacity:1; position:fixed; width:100vw; height:10vh; background-color:rgba(243, 234, 155, 1);  text-decoration: none;}
 
 
 
