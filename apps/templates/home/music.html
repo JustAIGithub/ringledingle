@@ -4,6 +4,9 @@
 
 {% block content %}
 <!-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet"> -->
+<link rel="stylesheet" href="{{ url_for('static', filename='rdstyle.css') }}">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='music-style.css') }}">
 
 <div id="music-player" class="ignore-css">
   <button id="share">Share this <i class="fa fa-share"></i></button>
