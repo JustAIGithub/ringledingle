@@ -726,3 +726,503 @@ text-align: center;
 #about{
   font-size:24px
 }
+
+
+
+
+/* MUSIC-STYLE CSS */
+
+
+
+/* ****************** */
+
+/* ****************** */
+
+/* ****************** */
+
+/* ****************** */
+
+/* ****************** */
+
+
+
+
+
+/* ****************** */
+/* MUSIC OVERLAY */
+/* ****************** */
+/* 
+#music-player,#music-player *{
+  all:unset;
+} */
+/* when #music-player is present do not display anything else */
+/* #music-player ~ *{
+  display:none;
+} */
+
+
+/* ****************** */
+/* MUSIC OVERLAY */
+/* ****************** */
+
+
+
+:root, #music-player{
+  --menu-color: #000000;
+  --lyrics-color: rgb(255, 255, 255);
+  --font-family: "Montserrat",sans-serif;
+  text-transform: capitalize;
+}
+/* html,body{
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  overflow: hidden;
+} */
+#music-player{
+  /* background: none; */
+  background-image: linear-gradient(315deg, #837f5a 0%, #926003 74%);
+  opacity:0.75;
+  width:100%;
+  height:100vh;
+}
+#album-art{ 
+  position:fixed; z-index:-1; left: 50%; transform: translateX(-50%);opacity: 0.55;width: auto; height: 100%;
+}
+#top-bar{
+  position: fixed;
+  margin-top: 1%;
+  height: 8vh;
+  color: white;
+  width: 90%;
+  padding: 0 0 0 5%;
+  z-index: 50;
+}
+#top-bar > *{ position:fixed; }
+#top-bar button{ margin:0;background: inherit; border: none; color: white; font-size: 100%;vertical-align:text-bottom;transform:translateY(-40%);padding: 5px 10px;}
+#back{position:fixed;top:5vh; background-color: #333}
+#about-song{ width: 60%; margin: 0 5%; line-height: 1vh; font-size:70%;}
+.artist-name, .song-name{ 
+  /* position:fixed; */
+  width:100%;
+  color: #141414; font-family: "Virgil"; text-transform: capitalize; padding:10px; margin-top:30vh; opacity:1; z-index: 1; 
+background-color: rgba(243, 234, 155, 0.945); opacity: .95;
+/* make background only cover the text */
+padding: 10px;
+margin: 0; 
+display: block;
+}
+.artist-name{ 
+  top:11vh;
+}
+.song-name{ 
+  top:2vh;
+}
+
+
+#lyrics{
+  
+  width: 100%;
+  height: 75vh;
+  color: var(--lyrics-color);
+  text-align: center;
+  overflow-Y: scroll;
+  font-size: 2vh;
+  align-items: center;
+
+
+}
+#lyrics-content{
+  /* padding: 20vh 0; */
+  margin-top: 10vh;
+  margin-bottom:10vh;
+  transition: ease 0.1s all;
+  width:60vw;
+  margin-left:20vw;
+  text-align: center;
+  align-items: center;
+}
+#lyrics h4:not(.artist-name){
+  opacity: 0.75;
+  padding-top:2vh;
+    /* make a shadow and a slight background color to avoid interfering with the image behind it */
+    /* box-shadow: 0 0 10px 10px #00000045; */
+    background-color: #00000094;
+    transition: ease 0.1s all;
+    /* padding: 0 5%; */
+    display: inline-block;
+    width: 100%;
+    font-weight: 100;
+    /* font-family: "Montserrat",sans-serif; */
+    z-index: 50;
+    
+    
+  
+}
+#lyrics-content h4 {
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.829);
+  opacity: 1;
+  text-decoration: none;
+  /* Add letter spacing */
+  letter-spacing: 0.1em;
+  /* Add a transition for better readability */
+  transition: 0.3s;
+
+}
+
+#lyrics .current{
+  opacity: 1;
+  font-size: 250%;
+  padding-bottom:105px;
+  transform: translateY(25%);
+  background-color: rgb(0, 0, 0);
+}
+#lyrics .current + h2{
+  opacity: 0.5;
+  padding:15px;
+  font-size: 180%; 
+  padding-top: 50px;
+}
+
+#player{
+  background: rgb(61, 59, 39);
+  position: fixed;
+  bottom: 10vh;
+  height: 20vh;
+  width: 100%;
+  z-index: 1;
+  opacity:.8;
+}
+#bar{
+  position:relative;
+  text-align: center;
+  width:100%;
+  padding-top: 25px;
+}
+
+#logo *{
+  position: fixed;
+  right: 5%;
+  bottom:3vh;
+  transform: translateX(-50%);
+  width: 5vh;
+  height: 5vh;
+  /* border-radius: 50%; */
+  background: transparent;
+  padding: 5px;
+  box-shadow: 0 0 10px 10px #00000045;
+  z-index: 500000;
+}
+
+#currentTime,#totalTime{transform:translateY(-50%);padding: 0 2%;font-size: 3vh}
+#currentTime,#progress-bar,#totalTime{color: white;display: inline-block;}
+#progress-bar{
+  position: relative;
+  text-align: center;
+  height: 0.25em;
+  width: 70%;
+  border: 1px solid #222;
+  background: #333;
+  border-radius: 20px;
+  margin:0;padding:0;
+  cursor: pointer;
+  transform: translateY(-160%);
+}
+#progress{
+  height:100%;
+  width:0%;
+  background: red;
+  border-radius: 20px;
+  text-align: right;
+  transition: ease all;
+}
+#progress > i{
+  position: absolute;
+  transform: translate(-50%,-35%);
+}
+#menu{
+  position:relative;
+  text-align: center;
+  width:100%;
+  overflow: hidden;
+}
+#menu > button{
+  padding: 10px 14px;
+  border-radius: 50%;
+  border: none;
+  margin: 0 5px;
+  background: inherit;
+  color: white;
+  font-size: 20px;
+  text-align: center;
+  opacity: 0.75;
+  cursor: pointer;
+}
+#menu > button > i{
+  padding: 5px 3px 5px 5px;
+}
+#menu > button#play{
+  opacity: 1;
+  border: 2px solid white;
+}
+#menu > button:focus{
+  outline: none;
+}
+#playlist{
+  position:fixed;
+  top:5vh;
+  left:0;
+  height:80vh;
+  width:100%;
+  z-index: 4;
+  color: var(--lyrics-color);
+  background-color: #7f5a8399;
+  background-image: linear-gradient(315deg, #7f5a8399 0%, #0d324d99 74%);
+  transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s all;
+  transform:translateY(-120%);
+}
+#playlist h2{
+  font-family: "Cascada";
+  /* propercase */
+  text-transform: capitalize;
+}
+#show-box{
+  position: absolute;
+  top: 70%;
+  left:50%;
+  height: 50vh;
+  width:90%;
+  padding: 4vh;
+  transform: translate(-50%,-70%);
+  overflow: auto;
+}
+#show-list{
+  position: relative;
+  transition: ease-in-out 0.5s all;
+  height: 100%;
+  width:auto;
+}
+#show-list .float-song-card{
+  position: relative;
+  display:inline-block;
+  height: 30vw;
+  width: 20vw;
+  padding: 20px 10px;
+  background: #00000089;
+  text-align: center;
+  font-size: 70%;
+  border-radius:8px;
+  margin: 4px 10px;
+  overflow:hidden;
+  cursor: pointer;
+}
+.float-song-card > .album-art{
+  position: absolute;
+  top:0;
+  left:50%;
+  transform: translateX(-50%);
+  height:100%;
+  width: auto;
+  opacity:0.55;
+  transition: ease-in-out 0.5s all;
+}
+.float-song-card:hover > .album-art{
+  transform: translateX(-50%) scale(1.2,1.2);
+  opacity:.55;
+}
+.float-song-card > h2,
+.float-song-card > h4{position:relative;z-index:49;margin:2px 0; padding:5px}
+#playlist > #label{
+  width:100%;
+  text-align: center;
+  font-size:100%;
+}
+.song{
+  font-family: "Cascada";
+  text-transform: capitalize;
+}
+#playlist > #label > h1{ line-height:0;margin: 6vh 0 2.5vh;}
+#search{
+  background: transparent;
+  color: white;
+  border:1px solid #ffffff99;
+  padding: 8px;
+  margin: 2.5vh 0;
+  border-radius: 20%;
+  font-family: FontAwesome,"Montserrat",sans-serif;
+  text-transform: capitalize;
+  transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s all;
+  width: 12%;
+  ;
+outline:none;border-radius:8px;border:1px solid #ffffff;width:25vw;padding: 1vh 1.5vw;background: inherit;}
+
+
+#lyrics::-webkit-scrollbar,#show-box::-webkit-scrollbar{
+  width:5px;
+}
+/* #lyrics::-webkit-scrollbar-track,#show-box::-webkit-scrollbar-track{
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+} */
+#lyrics::-webkit-scrollbar-thumb,#show-box::-webkit-scrollbar-thumb{
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+  border-radius: 15px;
+}
+.floating-icon{
+  position: absolute;
+  bottom: 5%;
+  z-index: 1000;
+  font-size: 4vh;
+  border: 1.5px solid white;
+  border-radius: 50%;
+  padding: 1vh 2vh;
+  background: #222;
+}
+.floating-icon:nth-child(1){
+  right: 3vh;
+}
+.floating-icon:nth-child(2){
+  right: 12vh;
+}
+
+.share-container{
+  display:none;
+  position: fixed;
+  padding-top: 2.5vh;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.445);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+}
+
+.share-container > div{
+  position: relative;
+  /* height: 50vh; */
+  min-width: 50%;
+  max-width: 600px;
+  background:   rgba(250, 245, 197, 0.81); 
+  opacity:1;
+
+  /* Put it in the middle of the screen */
+  
+  margin: auto;
+  border-radius: 10px;
+  padding: 2vh 2vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#share-to-email{
+height:fit-content;
+/* width:fit-content; */
+margin:auto;
+
+
+  transition: ease-in-out 0.5s all;
+}
+
+/* Make all buttons in the share container all neatly line up */
+.share-container button, .share-container a{
+  width: 100%;
+  margin: 1%;
+  border-radius: 10px;
+  border: none;
+  font-size: 2.5vh;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  background: #f0b680;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+  transition: ease-in-out 0.5s all;
+}
+
+
+.share-container button:hover{
+  background: #a49935;
+  color: rgb(0, 0, 0);
+  transform: scale(1.1,1.1);
+}
+#share {
+  position: absolute;
+  bottom: 12vh;
+  right: 20px;
+  font-size: 2vh;
+  cursor: pointer;
+  color: #000000;
+  background-color: rgb(243, 234, 155);
+  transition: ease-in-out 0.5s all;
+  padding:5px;
+  margin: 5px;
+  z-index: 1000;
+  border-radius: 10px;
+
+}
+#regenerate{
+    position: fixed;
+    bottom: 12vh;
+    left: 20px;
+    font-size: 2vh;
+    cursor: pointer;
+    transition: ease-in-out 0.5s all;
+    color: #000000;
+    background-color: rgb(243, 234, 155);
+    padding:5px;
+    margin: 5px;
+    z-index: 1000;
+    border-radius: 10px;
+  
+}
+#share:hover, #regenerate:hover{
+  color: #ffffff;
+  transform: scale(1.05,1.05);
+  /* make a shadow */
+  background-color: #222;
+  box-shadow: 0 0 10px 0 rgba(0,0,0,0.85);
+
+}
+
+footer{z-index: 100000; opacity:1; position:fixed; width:100vw; height:10vh; background-color:rgba(243, 234, 155, 1);  text-decoration: none;}
+
+
+/* MOBILE MOBILE MOBILE */
+@media only screen and (max-height: 500px){
+  #show-list .float-song-card{font-size:40% !important;height:60px;width:50px;}
+  #playlist > #label{font-size:70%;}
+  #search{font-size:10px;padding:4px;width:10px;}
+  #search:focus{width:40vw;}
+  #playlist > #label > h1{margin:8vh 0 4vh !important;}
+
+}
+
+
+@media screen and (max-width: 500px){
+  #top-bar > button{ font-size: 15px; top:10px; background-color: #333;}
+  #top-bar{
+    height: 15vh;
+  }
+  #top-bar > #about-song{ width: 80%; margin: 0 10%; line-height: 1vh; font-size:70%;}
+  #top-bar > #about-song *{ font-size:120%;line-height:0; }
+  #menu > button{ font-size: 5vw !important; padding: 4px 6px !important;  }
+  #progress-bar{
+    width: 50% !important;
+  }
+  #lyrics-content{
+    width:90vw;
+    margin-left:5vw
+  }
+
+
+
+}
+
+@media only screen and (min-height: 500px){#currentTime,#totalTime{font-size: 2.25vh !important;}}
+
+/* END MOBILE */
