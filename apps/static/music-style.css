@@ -2,25 +2,13 @@
 /* ****************** */
 /* MUSIC OVERLAY */
 /* ****************** */
-/* 
-#music-player,#music-player *{
-  all:unset;
-} */
-/* when #music-player is present do not display anything else */
-/* #music-player ~ *{
-  display:none;
-} */
 
-
-/* ****************** */
-/* MUSIC OVERLAY */
-/* ****************** */
 
 
 
 :root, #music-player{
   --menu-color: #000000;
-  --lyrics-color: rgb(255, 255, 255);
+  --lyrics-color: var(--white-font);
   --font-family: "Montserrat",sans-serif;
   text-transform: capitalize;
 }
@@ -55,9 +43,9 @@
 #about-song{ width: 60%; margin: 0 5%; line-height: 1vh; font-size:70%;}
 .artist-name, .song-name{ 
   /* position:fixed; */
-  width:100%;
+  width:100vw;
   color: #141414; font-family: "Virgil"; text-transform: capitalize; padding:10px; margin-top:30vh; opacity:1; z-index: 1; 
-background-color: rgba(243, 234, 155, 0.945); opacity: .95;
+background-color: var(--fourth-color); opacity: .95;
 /* make background only cover the text */
 padding: 10px;
 margin: 0; 
@@ -98,7 +86,7 @@ display: block;
   padding-top:2vh;
     /* make a shadow and a slight background color to avoid interfering with the image behind it */
     /* box-shadow: 0 0 10px 10px #00000045; */
-    background-color: #00000094;
+    background-color: var(--fifth-color);
     transition: ease 0.1s all;
     /* padding: 0 5%; */
     display: inline-block;
@@ -106,12 +94,23 @@ display: block;
     font-weight: 100;
     /* font-family: "Montserrat",sans-serif; */
     z-index: 50;
-    
+    color:var(--white-font);
     
   
 }
 #lyrics-content h4 {
   text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.829);
+  /* make the text shadow rounded */
+  -webkit-background-clip: text;
+  /* -webkit-text-fill-color: transparent; */
+  /* make the text shadow rounded */
+  background-clip: text;
+  /* make the text shadow rounded */
+  -webkit-text-stroke: .5px #00000045;
+  /* make the text shadow rounded */
+  -webkit-filter: drop-shadow(10px 10px 0 rgba(0, 0, 0, 0.829));
+  filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.829));
+  
   opacity: 1;
   text-decoration: none;
   /* Add letter spacing */
@@ -122,14 +121,20 @@ display: block;
 }
 
 #lyrics .current{
+  /* highlight this line of text with cool shadows*/
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.829);
+  /* reset background-clip to default value */
+  background-clip: initial;
+  /* remove webkit */
+  --webkit-filter: drop-shadow(10px 10px 0 var(--fifth-color));
   opacity: 1;
   font-size: 250%;
-  padding-bottom:105px;
-  transform: translateY(25%);
-  background-color: rgb(0, 0, 0);
+  margin-bottom:105px;
+  /* transform: translateY(25%); */
+  background-color: var(--fifth-color);
 }
 #lyrics .current + h2{
-  opacity: 0.5;
+  opacity: 0.95;
   padding:15px;
   font-size: 180%; 
   padding-top: 50px;
@@ -153,15 +158,16 @@ display: block;
 
 #logo *{
   position: fixed;
-  right: 5%;
-  bottom:3vh;
+  right: 3%;
+  bottom:3.5vh;
   transform: translateX(-50%);
   width: 5vh;
   height: 5vh;
   /* border-radius: 50%; */
-  background: transparent;
+  /* background: transparent; */
+  background-color: var(--fourth-color);
   padding: 5px;
-  box-shadow: 0 0 10px 10px #00000045;
+  box-shadow: 0 0 8px 8px #00000045;
   z-index: 500000;
 }
 
@@ -266,6 +272,11 @@ display: block;
   margin: 4px 10px;
   overflow:hidden;
   cursor: pointer;
+  color:var(--white-font)
+}
+
+.float-song-card .artist{
+  color:var(--white-font);
 }
 .float-song-card > .album-art{
   position: absolute;
@@ -291,6 +302,7 @@ display: block;
 .song{
   font-family: "Cascada";
   text-transform: capitalize;
+  color:var(--white-font);
 }
 #playlist > #label > h1{ line-height:0;margin: 6vh 0 2.5vh;}
 #search{
@@ -339,12 +351,13 @@ outline:none;border-radius:8px;border:1px solid #ffffff;width:25vw;padding: 1vh 
 .share-container{
   display:none;
   position: fixed;
-  padding-top: 2.5vh;
+  padding-top: 0.5vh;
   left: 0;
   height: 100vh;
   width: 100vw;
   z-index: 1000;
-  background: rgba(0, 0, 0, 0.445);
+  background-color: var(--fourth-color);
+  opacity:.1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -397,7 +410,7 @@ margin:auto;
 
 
 .share-container button:hover{
-  background: #a49935;
+  background: var(--third-color);
   color: rgb(0, 0, 0);
   transform: scale(1.1,1.1);
 }
@@ -407,8 +420,8 @@ margin:auto;
   right: 20px;
   font-size: 2vh;
   cursor: pointer;
-  color: #000000;
-  background-color: rgb(243, 234, 155);
+  color: var(--white-font);
+  background-color: var(--fifth-color);
   transition: ease-in-out 0.5s all;
   padding:5px;
   margin: 5px;
@@ -419,16 +432,17 @@ margin:auto;
 #regenerate{
     position: fixed;
     bottom: 12vh;
-    left: 20px;
+    left: 2vw;
     font-size: 2vh;
     cursor: pointer;
     transition: ease-in-out 0.5s all;
     color: #000000;
     background-color: rgb(243, 234, 155);
     padding:5px;
-    margin: 5px;
+    /* margin: 5px; */
     z-index: 1000;
     border-radius: 10px;
+    opacity:.8
   
 }
 #share:hover, #regenerate:hover{
@@ -440,7 +454,6 @@ margin:auto;
 
 }
 
-footer{z-index: 100000; opacity:1; position:fixed; width:100vw; height:10vh; background-color:rgba(243, 234, 155, 1);  text-decoration: none;}
 
 
 
@@ -449,9 +462,9 @@ footer{z-index: 100000; opacity:1; position:fixed; width:100vw; height:10vh; bac
 
 /* MOBILE MOBILE MOBILE */
 @media only screen and (max-height: 500px){
-  #show-list .float-song-card{font-size:40% !important;height:60px;width:50px;}
+  #show-list .float-song-card{font-size:40% !important;height:30vh !important;width:30vw !important;}
   #playlist > #label{font-size:70%;}
-  #search{font-size:10px;padding:4px;width:10px;}
+  #search{font-size:10px;padding:4px;width:80vw;}
   #search:focus{width:40vw;}
   #playlist > #label > h1{margin:8vh 0 4vh !important;}
 
@@ -459,12 +472,26 @@ footer{z-index: 100000; opacity:1; position:fixed; width:100vw; height:10vh; bac
 
 
 @media screen and (max-width: 500px){
-  #top-bar > button{ font-size: 15px; top:10px; background-color: #333;}
+  #top-bar > button{ font-size: 15px; top:10px; background-color: #333; right:45vw}
   #top-bar{
     height: 15vh;
   }
+  #search{font-size:10px;padding:4px;width:80vw;}
   #top-bar > #about-song{ width: 80%; margin: 0 10%; line-height: 1vh; font-size:70%;}
   #top-bar > #about-song *{ font-size:120%;line-height:0; }
+  .float-song-card{
+    font-size:40% !important;height:30vh !important;width:30vw !important;
+  }
+  .song-name, .artist-name{
+    font-size: 3vh;
+    /* align on bottom */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .song-name{
+    height:20vh;
+  }
   #menu > button{ font-size: 5vw !important; padding: 4px 6px !important;  }
   #progress-bar{
     width: 50% !important;
@@ -473,9 +500,20 @@ footer{z-index: 100000; opacity:1; position:fixed; width:100vw; height:10vh; bac
     width:90vw;
     margin-left:5vw
   }
-  input, #email, #about, #edit-lyrics{
+  input, #email, #recipient-email, #about, #edit-lyrics{
     margin-top:20px;
     width:80%;
+  }
+  .share-container{
+    margin-top:-10vh;
+    position:fixed;
+    padding:0
+  }
+  #regenerate, #share{
+    top:3vh;
+    bottom:90vh;
+    margin:0;
+    padding:5px
   }
 
 

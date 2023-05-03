@@ -22,3 +22,5 @@ RingleDingle was coded by Professor Doctor Scholar Drew Piispanen in 2023.<br><b
 - April 1st week: Ringledingle is deployed on Railway
 - April 17: Ringledingle.com made
 - April 18: Email templates and AI image generation with DALLE added.
+- April 24: Etsy site for physical products!
+- May 2nd: V2 Released! Now with customizable music player.

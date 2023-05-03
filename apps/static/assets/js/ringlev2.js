@@ -197,7 +197,7 @@ $(document).ready(function() {
     // submitText.textContent = 'Click to Regenerate Audio';
     // next carousel
     $('.carousel').carousel('next');
-    showMessageModal(`Success! Your audio has been generated. Please go to /music?email=${decodeURIComponent(recipient_email)} to listen.`, false);
+    // showMessageModal(`Success! Your audio has been generated. Please go to /music?email=${decodeURIComponent(recipient_email)} to listen.`, false);
 
 } catch (error) {
     console.error(error);
@@ -211,9 +211,6 @@ $(document).ready(function() {
   }
 
   }
-
-
-
   
   $('.email').keypress(function(e) {
       if (e.which == 13) { // Enter key pressed
@@ -244,10 +241,11 @@ $(document).ready(function() {
     
 
     if (currentStep <= totalSteps) {
-        var progressValue = (currentStep / totalSteps) * 100;
+        var progressValue = ((currentStep +1) / (totalSteps+1)) * 100;
         progressBar.css('width', progressValue + '%');
         progressBar.attr('aria-valuenow', progressValue);
-        progressBar.html(Math.round(progressValue) + '%');
+        progressBar.html("Step " + (currentStep + 1) + " of " + (totalSteps + 1) + "");
+        // progressBar.html(Math.round(progressValue) + '%');
     } else {
         progressBar.css('width', '100%');
         progressBar.attr('aria-valuenow', 100);
@@ -256,40 +254,57 @@ $(document).ready(function() {
 
     // Log "fourth element" when the fourth carousel item is passed
     if (currentStep == 1) {
-
-    var recipient_email = document.getElementById("email").value.trim();
+      console.log("FIRST STEP");
+    var cc_email = document.getElementById("email").value.trim();
+    var recipient_email = document.getElementById("recipient-email").value.trim();
       // EMAIL VALIDATION
     var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(recipient_email)) {
-      showMessageModal('Please enter a valid email address.');
+    if (!emailRegex.test(recipient_email) || !emailRegex.test(cc_email)) {
+      showMessageModal('Please enter valid email addresses.');
       $('.carousel').carousel('prev');
       return; // Exit the function if the email is not valid
+    } else{
+      // animate the back-button entrance NO SLIDE TOGGLE:
+      $('.back-button').show({
+        opacity: 1,
+        left: "0",
+        height: "toggle"
+      }, 500, function() {});
+ 
     }
-    $('.back-button').slideToggle();
 
     }
   
+    if (currentStep == 4 || currentStep == 6 || currentStep == 7) {
+      $('.forward-button').hide({
+        opacity: 0,
+        left: "0",
+        height: "toggle"
+      }, 500, function() {});
+    } else {
+      // animate the forward-button entrance NO SLIDE TOGGLE:
+      $('.forward-button').show({
+        opacity: 1,
+        left: "0",
+        height: "toggle"
+      }, 500, function() {});
+    }
+
     if (currentStep == 4) {
-      $('.forward-button').slideToggle();
       generateLyrics();
     }
-    if (currentStep == 5) {
-      $('.forward-button').slideToggle();
-    }
     
-    if (currentStep == 7) {
-      $('.forward-button').slideToggle();
+    if (currentStep == 6) {
       $('.back-button').slideToggle();
-
       var lyrics = encodeURIComponent(document.getElementById("edit-lyrics").value);
-      var recipient_email = encodeURIComponent(document.getElementById("recipient-email").value);
-      var cc_email = encodeURIComponent(document.getElementById("email").value);  
+      var recipient_email = encodeURIComponent(document.getElementById("recipient-email").value.trim());
+      var cc_email = encodeURIComponent(document.getElementById("email").value.trim());  
       var title = document.getElementById("title").innerHTML;
       generateDingle(lyrics, title, singer, input_file, recipient_email, cc_email, singer_name);
     }
 
   
-  if (currentStep == 8) {
+  if (currentStep == 7) {
     var cc_email = document.getElementById("email").value.trim();
     var recipient_email = document.getElementById("recipient-email").value.trim();
     console.log( "EMAIL", cc_email, "RECIPIENT EMAIL", recipient_email, "TITLE", title, "SINGER", singer, "INPUT FILE", input_file);
@@ -601,9 +616,9 @@ $('#send-button').on('click', function () {
           var a = $(".current").height();
           var c = $("#lyrics").height();
           var d = $(".current").offset().top - $(".current").parent().offset().top;
-          var e = d + (a/2) - (c*1/4);
+          var e = d + (a/2) - (c*1/4) + 20 ;
           $("#lyrics").animate(
-              {scrollTop: e + "px"}, {easing: "swing", duration: 500}
+              {scrollTop: e + "px"}, {easing: "swing", duration: 700}
           );
       }
       function next(){

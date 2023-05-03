@@ -15,9 +15,11 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
-            background-color: rgba(243, 234, 155, 0.61);
+            background-color: var(--fourth-color);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
-
+        }
+        .container *{
+            color:var(--white-color);
         }
     .header {
         text-align: center;
@@ -65,8 +67,10 @@
     text-decoration: none;
 }
 
-
-
+footer *{
+    text-decoration: none;
+    color:var(--white-color);
+}
 
 
     @media screen and (max-width: 768px) {
@@ -77,7 +81,7 @@
   </style>
   </head>
   <body>
-    <div class="container">
+    <div class="container" id="home">
         <div class="header">
           <img src="static/media/ringledingle_logo.png" alt="" style="max-height: 10vh; float:left; ">
             <h1>Welcome to RingleDingle!</h1>
