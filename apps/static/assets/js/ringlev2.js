@@ -877,6 +877,29 @@ $('#send-button').on('click', function () {
   
   }
   
+// on click of the #find-user-button, expand the search bar to the left:
+function searchUser(){
+// get the value of the input of #find-user-button
+var searchValue = $('#find-user-button input').val();
+console.log(searchValue);
+// if the value is empty, do nothing
+if (searchValue === '') {
+  return;
+}
+// if the value is not empty, go to url /music?email=searchValue
+else {
+  window.location.href = '/music?email=' + searchValue;
+}
+};
+
+// If enter is pushed in #find-user-button, then run the searchUser function
+$('#find-user-button').keypress(function(e){
+if(e.which == 13){//Enter key pressed
+  searchUser();
+}
+});
+
+
   
 function showEmail(){
 
