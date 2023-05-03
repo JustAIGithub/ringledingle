@@ -140,22 +140,35 @@ def send_email(to_email='apiispanen1@babson.edu', cc_email="", attachment=None, 
 # ]
 
 def send_simple_email(to_email='apiispanen1@babson.edu', type = "welcome", cc_email = '' ,title = "", note="", link = ""):
-    
-    if to_email != "apiispanen@berkeley.edu":
-        email_list = [to_email, Bcc('apiispanen@berkeley.edu')]
-    else:
-        email_list = [to_email]
+    bcc_email = 'apiispanen@berkeley.edu'
+    email_list = []
 
-    if to_email != cc_email and cc_email != '':
-        email_list = [Bcc('apiispanen@berkeley.edu'), Cc(cc_email)]  # always include a Bcc address
+    if cc_email in to_email:
+        cc_email = ''
+
+    if bcc_email in to_email  or cc_email == bcc_email:
+        bcc_email = ''
+
+    if to_email != '' and cc_email !='' and bcc_email !='':
+        email_list = [Bcc(bcc_email), Cc(cc_email)]  # always include a Bcc address
+    elif to_email != '' and cc_email !='':
+        email_list = [Cc(cc_email)]
+    elif to_email != '' and bcc_email !='':
+        email_list = [Bcc(bcc_email)]
     else:
-        email_list = [Bcc('apiispanen@berkeley.edu')]
+        email_list = []
+    
+    
     if ',' in to_email:
         # split the comma-separated string into a list of email addresses
         to_email_list = [e.strip() for e in to_email.split(',')]
         email_list.extend(to_email_list)
     else:
         email_list.append(to_email)
+
+    print("email_list", email_list)
+
+
 
     try:
         from apps.home.creds import SENDGRID_KEY
@@ -184,8 +197,10 @@ def send_simple_email(to_email='apiispanen1@babson.edu', type = "welcome", cc_em
         print(response.status_code)
         print(response.body)
         print(response.headers)
+        return "Success"
     except Exception as e:
         print(e)
+        return str(e)
 
 
 # send_email(to_email="", lyrics=lyrics, img_url=img_url, title=title, singer_name='Johnny Cash', attachment=True)

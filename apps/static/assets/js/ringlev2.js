@@ -458,9 +458,9 @@ $('#send-button').on('click', function () {
     urlParams = new URLSearchParams(window.location.search);
     // console.log("URL PARAMS", urlParams, "EMAIL", email, "RECIPIENT EMAIL", recipient_email)
     
-    email = urlParams.get('email');
+    email = encodeURIComponent(urlParams.get('email'));
 
-    const recipient_email = encodeURIComponent($('#share-email').val());
+    recipient_email = encodeURIComponent($('#share-email').val());
     // recipient_email = encodeURIComponent(urlParams.get('recipient_email'));
 
     document.getElementById('email-spinner').style.display = 'inline-block';
@@ -492,7 +492,6 @@ $('#send-button').on('click', function () {
     singer_name =$(".artist-name").text();
     const note = $('#email-note').val();
 
-
     console.log("SENDING UP", email, recipient_email, title, lyrics, note);
     
     
@@ -511,11 +510,10 @@ $('#send-button').on('click', function () {
       data: JSON.stringify(data),
       contentType: 'application/json',
       success: function (data) {
-        console.log('success');
         console.log(data);
 
-        showMessageModal(`Success! Your audio has been emailed to ${decodeURIComponent(email)} and CC'd to ${decodeURIComponent(recipient_email)}. Press 'Start Over' to try to Ringle another Dingle.`, false);
-        document.getElementById('send-button').innerText = 'Send';
+        showMessageModal(data.success.concat(`! \nIf an error occurred, try resending the email, or press 'Start Over' to try to Ringle another Dingle.`), false);
+        document.getElementById('send-button').innerText = 'Send Email';
 
         $('#email-spinner').hide();
         $('.share-container').hide();
@@ -526,7 +524,7 @@ $('#send-button').on('click', function () {
         console.log('error');
         console.log(error);
         showMessageModal('An error occurred: ' + error.message + '. Please make sure you\'ve filled out the form - if not, please refresh the page.');
-        document.getElementById('send-button').innerText = 'Send';
+        document.getElementById('send-button').innerText = 'Send Email';
 
         $('#share-email').show();
         $('#email-spinner').hide();

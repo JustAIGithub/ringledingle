@@ -216,9 +216,10 @@ def email_share():
     # lyrics = unquote(request.json['lyrics'])
     # singer_name = request.json['singer_name']
 
-    send_simple_email(to_email=recipient_email, cc_email=email, title=title, type="dingle", note=note, link=link)
+    simple_email_response = send_simple_email(to_email=recipient_email, cc_email=email, title=title, type="dingle", note=note, link=link)
+    print("SIMPLE EMAIL RESPONSE", simple_email_response)
     # send_email(to_email=recipient_email, cc_email=email, attachment=f'apps/static/temp/{output_file}', lyrics=lyrics, img_url=img_url, singer_name=singer_name, title=title, note=note) 
-    return jsonify({  "success":True})
+    return jsonify(success=simple_email_response)
 
 
 
