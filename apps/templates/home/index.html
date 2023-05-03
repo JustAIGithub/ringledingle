@@ -14,7 +14,7 @@
 {% endblock stylesheets %}
 
 {% block content %}
-<script>$('.carousel').carousel();</script>
+
 <style>
  
 </style>
@@ -31,6 +31,14 @@
     <li data-target="#carouselExampleIndicators" data-slide-to="3">75%</li>
     <li data-target="#carouselExampleIndicators" data-slide-to="4">100%</li>
   </ol> -->
+
+  <a href="#" class="back-button" id="back-button" style="display:none">
+    <i class="fa fa-arrow-left"></i>
+  </a>
+  <a href="#" class="forward-button" id="forward-button">
+    <i class="fa fa-arrow-right"></i>
+  </a>
+
   <div class="carousel-inner">
     <div class="carousel-item active step1">
       <h2 class="w-100 text-center text-4xl">Your Email</h2>
@@ -41,6 +49,7 @@
       <h2>Recipient Information</h2>
       <textarea name="" id="about" cols="30" rows="10" class="entry-item shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="This is for Mike's Birthday. He is 34 years old and plays guitar ... "></textarea>
       <label for="" class="text-sm text-center w-100">What are some fun facts about the recipient you're sending this to?</label>
+      
     </div>
     <div class="carousel-item step3">
         <h2 class="w-100 text-center text-4xl">Background Mood</h2>
@@ -75,7 +84,7 @@
     <div class="carousel-item step3">
       <h2>Generating Lyrics...</h2>
       <div class="funky-spinner">
-        <div class="spinner-circle"></div>
+        <div class="spinner-circle"></div>        
       </div>
     </div>
 

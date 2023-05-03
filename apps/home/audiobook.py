@@ -67,7 +67,17 @@ def make_narration(input_file, output_file, lyrics, start_lag=8, music_volume=20
     for phrase in phrases:
         print("PHRASE:", phrase)
         # Generate spoken audio for the current phrase
-        spoken_phrase = uberduck_audio_segment(phrase, voice, 0)
+        
+        # Try the below line 3 times before giving up
+        for i in range(3):
+            try:
+                spoken_phrase = uberduck_audio_segment(phrase, voice=voice)
+                break
+            except:
+                print(f"Error with Uberduck - trial {i}")
+                # spoken_phrase = AudioSegment.silent(duration=1000)
+                continue        
+        
         # try:
         #     spoken_phrase = strip_silence(spoken_phrase, silence_thresh=silence_thresh)
         # except:

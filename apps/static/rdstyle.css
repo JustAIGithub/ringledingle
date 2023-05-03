@@ -728,6 +728,58 @@ text-align: center;
 }
 
 
+.back-button {
+  display: block;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 20vh;
+  left: 30px;
+  z-index: 9999;
+  transition: transform 0.3s ease-in-out;
+}
+
+.back-button:hover {
+  transform: scale(1.1);
+}
+
+.back-button i {
+  margin-left:15px;
+  font-size: 28px;
+  color: #333333;
+  line-height: 60px;
+  text-align: center;
+}
+
+
+.forward-button {
+  display: block;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 20vh;
+  right: 30px;
+  z-index: 9999;
+  transition: transform 0.3s ease-in-out;
+}
+
+.forward-button:hover {
+  transform: scale(1.1);
+}
+
+.forward-button i {
+  font-size: 28px;
+  color: #333333;
+  margin-left:15px;
+  line-height: 60px;
+  text-align: center;
+}
 
 
 /* MUSIC-STYLE CSS */

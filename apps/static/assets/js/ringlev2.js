@@ -43,6 +43,7 @@ $(document).ready(function() {
   var singer_name = "Alan Rickman";
   var input_file = "magic.mp3";
   var progressBar = $('.progress-bar');
+  $('.carousel').carousel();
   var totalSteps = $('.carousel-inner .carousel-item').length - 2; // -2 to exclude the "Generating" and "100%" steps
   var currentStep = $('.carousel-inner .carousel-item.active').index();
  
@@ -254,8 +255,8 @@ $(document).ready(function() {
     }
 
     // Log "fourth element" when the fourth carousel item is passed
-  
     if (currentStep == 1) {
+
     var recipient_email = document.getElementById("email").value.trim();
       // EMAIL VALIDATION
     var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -264,14 +265,21 @@ $(document).ready(function() {
       $('.carousel').carousel('prev');
       return; // Exit the function if the email is not valid
     }
+    $('.back-button').slideToggle();
 
     }
   
     if (currentStep == 4) {
+      $('.forward-button').slideToggle();
       generateLyrics();
+    }
+    if (currentStep == 5) {
+      $('.forward-button').slideToggle();
     }
     
     if (currentStep == 7) {
+      $('.forward-button').slideToggle();
+      $('.back-button').slideToggle();
 
       var lyrics = encodeURIComponent(document.getElementById("edit-lyrics").value);
       var recipient_email = encodeURIComponent(document.getElementById("recipient-email").value);
@@ -316,6 +324,18 @@ $(document).keydown(function(e) {
       return; // exit this handler for other keys
   }
 });
+
+
+// if forward-button is clicked, go to next step
+$('.forward-button').click(function() {
+  $('.carousel').carousel('next');
+});
+
+// if back-button is clicked, go to previous step
+$('.back-button').click(function() {
+  $('.carousel').carousel('prev');
+});
+
 
 
 
