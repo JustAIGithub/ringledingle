@@ -69,7 +69,7 @@ $(document).ready(function() {
   var email = document.getElementById("email").value;
 
   console.log("ABOUT", about, "EMAIL", email);
-  var ai_request = "Generate a 4 stanza poem that will be in the style of ".concat(singer_name).concat(". Your poem MUST be in between the deliminiters STARTPOEM and ENDPOEM (respond with poem text ONLY, no 'Verse 1:' labels either).\n Also, the poem title will be between delimiters STARTTITLE and ENDTITLE.\nMake this poem from the following:\n").concat(about);
+  var ai_request = "Generate a 4 stanza poem that will be narrated by ".concat(singer_name).concat(". Your poem MUST be in between the deliminiters STARTPOEM and ENDPOEM (respond with poem text ONLY, no 'Verse 1:' labels either).\n Also, the poem title will be between delimiters STARTTITLE and ENDTITLE.\nMake this poem from the following:\n").concat(about);
   // ringlelyrics.textContent = 'Words are gathering, it may take a couple minutes...';
 
   console.log(ai_request);

@@ -210,6 +210,7 @@ def email_share():
     note = unquote(request.json['note'])
     link = f"https://ringledingle.com/music?email={email}&title={title}"
     recipient_email = unquote(request.json['recipient_email'])
+    print("EMAIL-SHARE",email, recipient_email)
     # img_url = request.json['img_url']
     # output_file = "output.mp3"
     # lyrics = unquote(request.json['lyrics'])

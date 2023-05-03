@@ -642,7 +642,7 @@ z-index: 1000;
 
 
 .custom-progress-bar {
-background-color: var(--background-color);/* Cool shade of green */
+background-color: #d19c2a;/* Cool shade of green */
 border-radius: 10px;
 }
 

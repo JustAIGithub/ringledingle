@@ -141,8 +141,11 @@ def send_email(to_email='apiispanen1@babson.edu', cc_email="", attachment=None, 
 
 def send_simple_email(to_email='apiispanen1@babson.edu', type = "welcome", cc_email = '' ,title = "", note="", link = ""):
     
-    email_list = [to_email, Bcc('apiispanen@berkeley.edu')]
-    
+    if to_email != "apiispanen@berkeley.edu":
+        email_list = [to_email, Bcc('apiispanen@berkeley.edu')]
+    else:
+        email_list = [to_email]
+
     if to_email != cc_email and cc_email != '':
         email_list = [Bcc('apiispanen@berkeley.edu'), Cc(cc_email)]  # always include a Bcc address
     else:
