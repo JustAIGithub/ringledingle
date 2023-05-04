@@ -616,7 +616,7 @@ $('#send-button').on('click', function () {
           var a = $(".current").height();
           var c = $("#lyrics").height();
           var d = $(".current").offset().top - $(".current").parent().offset().top;
-          var e = d + (a/2) - (c*1/4) + 20 ;
+          var e = d + (a/2) - (c*1/4) + 60 ;
           $("#lyrics").animate(
               {scrollTop: e + "px"}, {easing: "swing", duration: 700}
           );
@@ -860,8 +860,13 @@ $('#send-button').on('click', function () {
       }
       function addToPlayList(data,index){
         // console.log("ADDING TO PLAYLIST",data,index);
-          var html = "";html = $('#show-list').html();html +="<div class=\"float-song-card\" data-index=\""+index+"\"><img class=\"album-art\" src=\""+data.albumart+"\"><h4 class=\"song\">"+data.title+"</h4><h4 class=\"artist\">"+data.author+"</h4></div>";$('#show-list').html(html);$('.float-song-card').on('click',function(){playSongAtIndex($(this).attr("data-index"));
-          $('#playlist').css("transform","translateY(-120%)");togglePlaylist = 0;});
+          var html = "";html = $('#show-list').html();html +="<div class=\"float-song-card\" data-index=\""+index+"\"><img class=\"album-art\" src=\""+data.albumart+"\"><h4 class=\"song\">"+data.title+"</h4><h4 class=\"artist\">"+data.author+"</h4></div>";$('#show-list').html(html);$('.float-song-card').on('click',function(){  playSongAtIndex($(this).attr("data-index")); console.log("SCROLLLY");
+
+          
+          
+          $('#playlist').css("transform","translateY(-120%)");togglePlaylist = 0;window.window.scrollTo(0, 0); window.scrollTo(0, window.scrollY - 30);
+  
+        });
       }
       function setPlaylist(){
           for(var i=0;i<songs.length;i++){

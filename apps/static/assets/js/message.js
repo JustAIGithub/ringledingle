@@ -16,7 +16,7 @@
 
   // Create a modal to display the error message
   const modal = document.createElement('div');
-  modal.style.backgroundColor = 'white';
+  modal.style.backgroundColor = 'var(--second-color)';
   modal.style.padding = '20px';
   modal.style.borderRadius = '10px';
   modal.style.textAlign = 'center';
@@ -34,7 +34,7 @@
   // Add an 'OK' button to close the modal
   const okButton = document.createElement('button');
   okButton.textContent = 'OK';
-  okButton.style.backgroundColor = isError ? '#504caf' : '#4caf50'; // Change the button color for success messages
+  okButton.style.backgroundColor = isError ? 'var(--fifth-color)' : 'var(--third-color)'; // Change the button color for success messages
   okButton.style.color = 'white';
   okButton.style.border = 'none';
   okButton.style.padding = '10px 20px';

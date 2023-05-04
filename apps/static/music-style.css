@@ -39,7 +39,7 @@
 }
 #top-bar > *{ position:fixed; }
 #top-bar button{ margin:0;background: inherit; border: none; color: white; font-size: 100%;vertical-align:text-bottom;transform:translateY(-40%);padding: 5px 10px;}
-#back{position:fixed;top:5vh; background-color: #333}
+#back{position:fixed;top:2vh; background-color: #333}
 #about-song{ width: 60%; margin: 0 5%; line-height: 1vh; font-size:70%;}
 .artist-name, .song-name{ 
   /* position:fixed; */
@@ -510,12 +510,35 @@ margin:auto;
     padding:0
   }
   #regenerate, #share{
-    top:3vh;
-    bottom:90vh;
+    position: relative;
+    top:2vh;
+    /* bottom:87vh; */
     margin:0;
-    padding:5px
+    padding:5px;
+    min-height:20px
+  }
+  #back{
+    position:absolute;
+    left: 45vw;
+    width:10vw;
+    top:-20px !important
+
+  }
+  #share{
+    float:right;
+    padding:8px
   }
 
+    #lyrics, #music-player{
+      top:0vh;
+      width:102vw;
+      position:fixed
+    }
+  footer .nav{
+    max-width:75vw;
+    /* fit content */
+    width:fit-content;
+  }
 
 }
 

@@ -48,8 +48,8 @@
 }
 
 .btn-primary {
-    background-color: #a200ff;
-    border-color: #a200ff;
+    background-color: var(--fifth-color);
+    border-color: transparent;
     color: #ffffff;
     font-weight: bold;
     font-family: "Virgil";
@@ -62,10 +62,35 @@
 
 .btn-primary:hover,
 .btn-primary:focus {
-    background-color: #0056b3;
-    border-color: #0056b3;
+    background-color: var(--third-color);
+    border-color: transparent;
     text-decoration: none;
+    /* transform the button to grow, but slowly */
+    transform: scale(1.25);
+
+    
 }
+#iframe {
+  position: relative; /* position the iframe absolutely within the container */
+  top: 0; /* position the iframe at the top of the container */
+  right: 10vw; /* position the iframe at the left of the container */
+  width: 300px; /* set the width of the container */
+  height: 400px; /* set the height of the container */
+  z-index: 5000;
+}
+
+#iframe iframe {
+  position: relative; /* make the container a positioned element for absolute positioning of the iframe */
+  width: 300px; /* set the width of the container */
+  height: 400px; /* set the height of the container */
+  overflow: hidden; /* hide the overflowing content */
+  text-align: right;
+  float:right
+  /* do not show scrollbar in iframe */
+  
+
+}
+
 
 footer *{
     text-decoration: none;
@@ -92,13 +117,14 @@ footer *{
             <h2>About RingleDingle</h2>
             <p>RingleDingle is a fun and friendly e-greeting card service that uses advanced AI technology to generate personalized poems for your loved ones. Choose from a variety of celebrity voices, such as Johnny Cash and Betty White, to narrate the poem in an audio file with a backing track. An image of the poem, as interpreted by DALLE, will also be included in the card.</p>
         </div>
-        <div class="col-md-6">
-            <img src="/static/media/image.png" alt="RingleDingle Sample Card" class="celebrity-image">
+        <div class="col" id="iframe">
+            <iframe src="https://ringledingle.com/music" frameborder="0" style="height:100vh;"></iframe>
+            <!-- <img src="/static/media/image.png" alt="RingleDingle Sample Card" class="celebrity-image"> -->
         </div>
     </div>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <h2>How it Works</h2>
             <ol>
                 <li>Enter your email and information about the recipient of the RingleDingle.</li>
@@ -108,7 +134,8 @@ footer *{
             </ol>
         </div>
         <div class="col-md-12">        <div class="call-to-action text-center">
-          <a href="/demo" class="btn btn-primary" role="button">Try RingleDingle Demo</a>
+          <a href="/demo" class="btn btn-primary" role="button">Try RingleDingle Yourself!</a>
+          <label for="">Did we mention it's free?</label>
       </div></div>
     </div>
 
