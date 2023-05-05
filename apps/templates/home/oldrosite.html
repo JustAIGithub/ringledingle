@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Jazz FM Romania | Listen live</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0">
+    <link href="assets/css/main-dist.css" media="all" rel="stylesheet"/>
+    
+    <meta name="keywords" content="Jazz FM Romania">
+    <meta name="description" content="Ascultă Jazz FM România - un radio dedicat muzicii jazz, soul & blues. Disponibil online, pe cele mai cunoscute aplicații de telefon mobil sau folosind device-uri smart!">
+    <meta property="og:site_name" content="Jazz FM Romania">
+    <meta property="og:url" content="http://www.jazzfm.ro">
+    <meta property="og:title" content="Jazz FM Romania">
+    <meta property="og:description" content="Ascultă Jazz FM România - un radio dedicat muzicii jazz, soul & blues. Disponibil online, pe cele mai cunoscute aplicații de telefon mobil sau folosind device-uri smart!">
+    <meta property="og:image" content="http://www.jazzfm.ro/assets/images/JazzFM.jpg">
+    <meta property="og:image:width" content="1500" />
+    <meta property="og:image:height" content="1500" />
+    <link rel="image_src" type="image/jpeg" href="http://www.jazzfm.ro/assets/images/JazzFM.jpg" />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+</head>
+
+<body>
+<header class="yellow-bg">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-5 col-md-2">
+                <a href="/" class="logo" title="Jazz FM Romania"><img class="img-fluid w-100"
+                                                                      src="assets/images/assets_logo.svg"
+                                                                      alt="Jazz FM Romania"
+                                                                      title="Jazz FM Romania"></a>
+            </div>
+
+            <div id="play" class="control-btn play">
+                <img class="img-fluid play-icon" src="assets/images/assets_play.svg" alt="">
+                <img class="img-fluid stop-icon" src="assets/images/assets_stop-2.svg" alt="">
+            </div>
+            <div class="col-12 col-md-6 align-self-end meta-info">
+                <div class="label">Now playing</div>
+                <div id="artist">&nbsp; </div>
+                <div id="song">&nbsp; </div>
+                <!--<div id="sotd">Site of the day</div>
+                <div id="sotd-site"><a href="https://www.awwwards.com" target="_blank">awwwards.com</a></div>-->
+            </div>
+        </div>
+    </div>
+</header>
+<div class="container-fluid">
+    <div class="row ilu purple-bk">
+        <div class="col-12">
+            <img src="assets/images/assets_illu1_remake.svg" alt="">
+        </div>
+    </div>
+</div>
+<div class="how-to yellow-bg">
+    <div class="container-fluid">
+        <div class="row step">
+            <div class="col-12 col-md-8">
+                <div class="big-title">
+                    <h2>How to<br/>listen<br/>to</h2>
+                </div>
+                <div class="row">
+                    <div class="col-8"><img class="img-fluid letter mt-25" src="assets/images/assets_letters-j.svg"
+                                            alt=""></div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="bullet-big d-none d-md-block"></div>
+                <div class="schedule mt_19">
+                    <h3 class="f_11"><span class="no">1  </span>FM</h3>
+                    <div class="table-schedule">
+                        <div class="row-schedule">
+                            <div class="name">Braşov</div>
+                            <div class="right text-uppercase">#</div>
+                        </div>
+                        
+                        <div class="row-schedule">
+                            <div class="name">Bucureşti</div>
+                            <div class="right text-uppercase">#</div>
+                        </div>
+                        <div class="row-schedule">
+                            <div class="name">Cluj Napoca</div>
+                            <div class="right text-uppercase">#</div>
+                        </div>
+                        <div class="row-schedule">
+                            <div class="name">Constanţa</div>
+                            <div class="right text-uppercase">#</div>
+                        </div>
+                        <div class="row-schedule">
+                            <div class="name">Craiova</div>
+                            <div class="right text-uppercase">#</div>
+                        </div>
+                        <div class="row-schedule">
+                            <div class="name">Iaşi</div>
+                            <div class="right text-uppercase">#</div>
+                        </div>
+                        <div class="row-schedule">
+                            <div class="name">Oradea</div>
+                            <div class="right text-uppercase">#</div>
+                        </div>
+                        <div class="row-schedule">
+                            <div class="name">Timişoara</div>
+                            <div class="right text-uppercase">#</div>
+                        </div>
+                        <div class="row-schedule">
+                            <div class="name">Sibiu</div>
+                            <div class="right text-uppercase">#</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row pb-2040">
+            <div class="col-12 col-md-7 col-lg-8 order-md-2">
+                <img class="img-fluid letter" src="assets/images/assets_letters-a.svg" alt="">
+            </div>
+            <div class="col-12 col-md-5 col-lg-4">
+                <div class="schedule">
+                    <h3 class="f_11"><span class="no">2  </span>Online</h3>
+                    <div class="table-schedule">
+                        <div class="row-schedule">
+                            <div class="name"><a href="#">jazzfm.ro</a></div>
+                            <div class="right arr"><a href=""><img src="assets/images/assets_2_arrow-top.svg" alt=""></a></div>
+                        </div>
+                        <div class="row-schedule">
+                            <div class="name"><a href="https://tunein.com/radio/Jazz-FM-Romania-1063-s244293/" target="_blank">TuneIn</a></div>
+                            <div class="right arr"><a href="https://tunein.com/radio/Jazz-FM-Romania-1063-s244293/"><img src="assets/images/assets_2_arrow-top-r.svg" alt=""></a></div>
+                        </div>
+                        <div class="row-schedule">
+                            <div class="name"><a href="http://streema.com/radios/play/119415" target="_blank">Streema</a></div>
+                            <div class="right arr"><a href="http://streema.com/radios/play/119415"><img src="assets/images/assets_2_arrow-top-r.svg" alt=""></a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row step">
+            <div class="col-12 order-md-2">
+                <div class="row">
+                    <div class="col-6 col-md-6"><img class="img-fluid letter" src="assets/images/assets_letters-z.svg" alt="">
+                    </div>
+                    <div class="col-6 col-md-6"><img class="img-fluid letter" src="assets/images/assets_letters-z.svg" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 offset-md-6">
+                <div class="schedule">
+                    <h3 class="f_11"><span class="no">3  </span>Devices</h3>
+                </div>
+            </div>
+            <div class="col-12 pb-2040">
+                <div class="schedule">
+                    <div class="table-schedule">
+                        <div class="row-schedule big">
+                            <div class="name">Apple Siri</div>
+                            <div class="right text-uppercase">"Hey Siri, Play Jazz FM Romania!"</div>
+                        </div>
+                        <div class="row-schedule big">
+                            <div class="name">Google Home</div>
+                            <div class="right text-uppercase">"Ok Google, Play Jazz FM Romania!"</div>
+                        </div>
+                        <div class="row-schedule big">
+                            <div class="name">Amazon Echo</div>
+                            <div class="right text-uppercase">"Alexa, play Jazz FM Romania!"</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row ilu purple-bk">
+        <div class="col-12">
+            <img src="assets/images/assets_illu2-remake_2.svg" alt="">
+        </div>
+    </div>
+    <div class="row pt-48">
+        <div class="big-title col-md-6">
+            <h2>Sched<br/>ule</h2>
+        </div>
+        <div class="col-md-6">
+            <div class="bullet-big d-none d-md-block"></div>
+        </div>
+    </div>
+    <div class="row wrapper-weeks">
+        <div class="week col-12 col-md-4 offset-md-8" id="mon">
+            <h3 class="expand">Mon</h3>
+            <div class="table-shows expandable">
+                <div class="row-show">
+                    <div class="hour">06:00</div>
+                    <div class="show">Good Morning Jazz</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">09:00</div>
+                    <div class="show">Offizz Time</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">13:00</div>
+                    <div class="show">My Generation</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">17:00</div>
+                    <div class="show">Jazz, Soul & Blues</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">21:00</div>
+                    <div class="show">Taxi Blues</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">23:00</div>
+                    <div class="show">Jazz by Night</div>
+                </div>
+                <div class="row-show d-none">
+                    <div class="hour">24:00</div>
+                </div>
+            </div>
+        </div>
+        <div class="week col-12 col-md-4" id="tue">
+            <h3 class="expand">Tue</h3>
+            <div class="table-shows expandable">
+                <div class="row-show">
+                    <div class="hour">06:00</div>
+                    <div class="show">Good Morning Jazz</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">09:00</div>
+                    <div class="show">Offizz Time</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">13:00</div>
+                    <div class="show">My Generation</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">17:00</div>
+                    <div class="show">Jazz, Soul & Blues</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">21:00</div>
+                    <div class="show">Jazz Variations</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">23:00</div>
+                    <div class="show">Jazz by Night</div>
+                </div>
+                <div class="row-show d-none">
+                    <div class="hour">24:00</div>
+                </div>
+            </div>
+        </div>
+        <div class="week col-12 col-md-4" id="wed">
+            <h3 class="expand">Wed</h3>
+            <div class="table-shows expandable">
+                <div class="row-show">
+                    <div class="hour">06:00</div>
+                    <div class="show">Good Morning Jazz</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">09:00</div>
+                    <div class="show">Offizz Time</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">13:00</div>
+                    <div class="show">My Generation</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">17:00</div>
+                    <div class="show">Jazz, Soul & Blues</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">21:00</div>
+                    <div class="show">Jazz Talk</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">23:00</div>
+                    <div class="show">Jazz by Night</div>
+                </div>
+                <div class="row-show d-none">
+                    <div class="hour">24:00</div>
+                </div>
+            </div>
+        </div>
+        <div class="week col-12 col-md-4 offset-md-4" id="thu">
+            <h3 class="expand">Thu</h3>
+            <div class="table-shows expandable">
+                <div class="row-show">
+                    <div class="hour">06:00</div>
+                    <div class="show">Good Morning Jazz</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">09:00</div>
+                    <div class="show">Offizz Time</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">13:00</div>
+                    <div class="show">My Generation</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">17:00</div>
+                    <div class="show">Jazz, Soul & Blues</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">21:00</div>
+                    <div class="show">Live in Concert</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">23:00</div>
+                    <div class="show">Jazz by Night</div>
+                </div>
+                <div class="row-show d-none">
+                    <div class="hour">24:00</div>
+                </div>
+            </div>
+        </div>
+        <div class="week col-12 col-md-4 offset-md-8" id="fri">
+            <h3 class="expand">Fri</h3>
+            <div class="table-shows expandable">
+                <div class="row-show">
+                    <div class="hour">06:00</div>
+                    <div class="show">Good Morning Jazz</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">09:00</div>
+                    <div class="show">Offizz Time</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">13:00</div>
+                    <div class="show">My Generation</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">17:00</div>
+                    <div class="show">Jazz, Soul & Blues</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">21:00</div>
+                    <div class="show">Vibe Ride</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">23:00</div>
+                    <div class="show">Jazz by Night</div>
+                </div>
+                <div class="row-show d-none">
+                    <div class="hour">24:00</div>
+                </div>
+            </div>
+        </div>
+        <div class="week col-12 col-md-4" id="sat">
+            <h3 class="expand">Sat</h3>
+            <div class="table-shows expandable">
+                <div class="row-show">
+                    <div class="hour">06:00</div>
+                    <div class="show">Good Morning Jazz</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">09:00</div>
+                    <div class="show">Espresso</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">13:00</div>
+                    <div class="show">Lazy weekend</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">21:00</div>
+                    <div class="show">Jazz Boulevard</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">23:00</div>
+                    <div class="show">Jazz by Night</div>
+                </div>
+                <div class="row-show d-none">
+                    <div class="hour">24:00</div>
+                </div>
+            </div>
+        </div>
+        <div class="week col-12 col-md-4" id="sun">
+            <h3 class="expand">Sun</h3>
+            <div class="table-shows expandable">
+                <div class="row-show">
+                    <div class="hour">06:00</div>
+                    <div class="show">Good Morning Jazz</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">09:00</div>
+                    <div class="show">Espresso</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">13:00</div>
+                    <div class="show">Lazy weekend</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">21:00</div>
+                    <div class="show">Love Story</div>
+                </div>
+                <div class="row-show">
+                    <div class="hour">23:00</div>
+                    <div class="show">Jazz by Night</div>
+                </div>
+                <div class="row-show d-none">
+                    <div class="hour">24:00</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="wrapper-bands yellow-bg">
+    <div class="fm-band">
+        <div class="scrollingtextleft">
+            <div class="band">
+                <p>JAZZ FM ROMANIA</p>
+                <p>JAZZ FM ROMANIA</p>
+                <p>JAZZ FM ROMANIA</p>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="fm-band">
+        <hr class="bk-black">
+        <div class="scrollingtextright">
+            <div class="band">
+                <p>SIBIU ONLINE</p>
+                <p>CLUJ ONLINE</p>
+                <p>Braşov ONLINE</p>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="fm-band">
+        <hr class="bk-black">
+        <div class="scrollingtextleft">
+            <div class="band">
+                <p>Bucureşti ONLINE</p>
+                <p>Iaşi ONLINE</p>
+                <p>Timişoara ONLINE</p>
+            </div>
+        </div>
+    </div>
+    <hr class="bk-black">
+    <div class="yellow-bg">
+        <div class="col-md-8 offset-md-2">
+            <img class="img-fluid w-100 illu-piano" src="assets/images/assets_keyboard.svg" alt="">
+        </div>
+    </div>
+</div>
+
+<div class="jazz-in-ro blue-bk">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4 offset-md-1">
+                <div class="wrapper-sticky" id="sticky">
+                    <img class="img-fluid sheep" src="/assets/images/assets_sheep.svg" alt="">
+                </div>
+            </div>
+            <div class="col-md-6 offset-md-1">
+                <h2 class="f_11">Jazz in<br/> Romania</h2>
+                <div class="schedule">
+                    <div class="table-schedule">
+                        <div class="row-schedule">
+                            <div class="name">Jazz în Church</div>
+                            <div class="right text-uppercase">Bucureşti</div>
+                        </div>
+                        <div class="row-schedule">
+                            <div class="name">Green Hours Jazz Fest</div>
+                            <div class="right text-uppercase">Bucureşti</div>
+                        </div>
+                        <div class="row-schedule">
+                            <div class="name">Bucharest Jazz Festival</div>
+                            <div class="right text-uppercase">Bucureşti</div>
+                        </div>
+                        <div class="row-schedule">
+                            <div class="name">Ziua Internaţională a Jazzului</div>
+                            <div class="right text-uppercase">Naţional</div>
+                        </div>
+                        <div class="row-schedule">
+                            <div class="name">Jazz City</div>
+                            <div class="right text-uppercase">Iaşi</div>
+                        </div>
+                        <div class="row-schedule">
+                            <div class="name">Jazz în the Park</div>
+                            <div class="right text-uppercase">Cluj</div>
+                        </div>
+                        <div class="row-schedule">
+                            <div class="name">Jazz TM</div>
+                            <div class="right text-uppercase">Timişoara</div>
+                        </div>
+                        <div class="row-schedule">
+                            <div class="name">Gărâna Jazz Festival</div>
+                            <div class="right text-uppercase">Gărâna</div>
+                        </div>
+                        <div class="row-schedule">
+                            <div class="name">Roland Jazz Festival</div>
+                            <div class="right text-uppercase">Sângeorz-Băi</div>
+                        </div>
+                        <div class="row-schedule">
+                            <div class="name">Ciuc Jazz Festival</div>
+                            <div class="right text-uppercase">Miercurea Ciuc</div>
+                        </div>
+                        <div class="row-schedule">
+                            <div class="name">Sibiu Jazz Festival</div>
+                            <div class="right text-uppercase">Sibiu</div>
+                        </div>
+                        <div class="row-schedule">
+                            <div class="name">Deva Jazz Festival</div>
+                            <div class="right text-uppercase">Deva</div>
+                        </div>
+                        <div class="row-schedule">
+                            <div class="name">Braşov Jazz & Blues Festival</div>
+                            <div class="right text-uppercase">Braşov</div>
+                        </div>
+                        <div class="row-schedule">
+                            <div class="name">Smida Jazz Festival</div>
+                            <div class="right text-uppercase">Smida</div>
+                        </div>
+                        <div class="row-schedule">
+                            <div class="name">Festivalul Internaţional Studenţesc de Jazz</div>
+                            <div class="right text-uppercase">Târgu-Mureş</div>
+                        </div>
+                        <div class="row-schedule">
+                            <div class="name">Bucharest International Jazz Competition & Festival</div>
+                            <div class="right text-uppercase">Bucureşti</div>
+                        </div>
+                        <div class="row-schedule">
+                            <div class="name">Festivalul internaţional de Jazz „Johnny Răducanu”</div>
+                            <div class="right text-uppercase">Brăila</div>
+                        </div>
+                        <div class="row-schedule">
+                            <div class="name">Transilvania Jazz Festival</div>
+                            <div class="right text-uppercase">Cluj</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row ilu purple-bk">
+        <div class="col-12">
+            <img src="assets/images/assets_illu3.svg" alt="">
+        </div>
+    </div>
+</div>
+
+<div class="yellow-bg container-fluid contact">
+    <div class="row pt-48">
+        <div class="big-title col-md-6">
+            <div class="wrapper-stick" id="contact">
+                <h2>Cont<br/>act</h2>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="bullet-big d-none d-md-block"></div>
+            <div class="schedule mt_26">
+                <div class="table-schedule">
+                    <div class="row-schedule">
+                        <p>Calea Victoriei 120<br/>
+                            Bucharest, Sector 1, Romania<br/>
+                            +4 031 433 4711<br/><br/></p>
+                    </div>
+                    <div class="row-schedule">
+                        <div class="name">General enquiries</div>
+                        <div class="right">
+                            <script>document.write('<'+'a'+' '+'h'+'r'+'e'+'f'+'='+"'"+'&'+'#'+'1'+'0'+'9'+';'+'a'+'i'+'l'+'t'+'&'+'#'+'1'+'1'+'1'+';'+
+'&'+'#'+'5'+'8'+';'+'c'+'o'+'%'+'6'+'E'+'%'+'7'+'4'+'a'+'c'+'t'+'&'+'#'+'6'+'4'+';'+'j'+'%'+'6'+'1'+
+'z'+'z'+'f'+'m'+'&'+'#'+'4'+'6'+';'+'r'+'o'+"'"+'>'+'c'+'o'+'n'+'t'+'a'+'&'+'#'+'9'+'9'+';'+'t'+'&'+
+'#'+'6'+'4'+';'+'j'+'a'+'z'+'z'+'f'+'m'+'&'+'#'+'4'+'6'+';'+'&'+'#'+'1'+'1'+'4'+';'+'o'+'<'+'/'+'a'+
+'>');</script>
+                            
+                        </div>
+                    </div>
+                    <div class="row-schedule">
+                        <div class="name">Music submission</div>
+                        <div class="right"><script type="text/javascript"> document.write("<a href=\"mail" + "to:" + new Array("music","jazzfm.ro").join("@") + "\">" + new Array("music","jazzfm.ro").join("@") + "</" + "a>"); </script></div>
+                    </div>
+                    <div class="row-schedule flex-base">
+                        <div class="name f_11 facebook"><a href="http://fb.com/jazzfm.ro" target="_blank">Facebook</a></div>
+                        <div class="right"><a href="http://fb.com/jazzfm.ro" target="_blank"><img class="w50" src="assets/images/assets_2_arrow-top-r.svg" alt=""></a></div>
+                    </div>
+                    <div class="row-schedule">
+                        <img class="img-fluid eye" src="assets/images/assets_eye.svg" alt="">
+                    </div>
+                    <div class="row-schedule">
+                        <a class="font_4_120" href="terms.html">Terms</a>
+                    </div>
+                    <div class="row-schedule">
+                        <a class="font_4_120" href="privacy.html">Privacy</a>
+                    </div>
+                    <div class="row-schedule">
+                        <p>©2022, Jazz FM Romania.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6 purple-bk box-footer">
+                <div class="row">
+                    <div class="col-12 col-md-10">
+                        <img class="img-fluid w-100" src="assets/images/assets_mouth.svg" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 red-bk box-footer">
+                <div class="gotop" id="topbtn"><img class="img-fluid w-100" src="assets/images/assets_arrow.svg" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<audio id="radioplayer" controls>
+    <source src="https://s4.radio.co/s1e25bf273/listen" type="audio/mp3">
+</audio>
+ 
+<script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+<script src="assets/js/vendor/marquee-dist.js"></script>
+<script src="assets/js/vendor/sticky-dist.js"></script>
+<script src="assets/js/sec-dist.js"></script>
+<script src="assets/js/main-dist.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-131416971-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-131416971-1');
+</script>
+</body>
+
+</html>

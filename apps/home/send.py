@@ -7,10 +7,10 @@ import urllib3
 
 def send_email(to_email='apiispanen1@babson.edu', cc_email="", attachment=None, lyrics='No lyrics found', img_url=None, singer_name=None, title=None, note=""):
     
-    if to_email != cc_email:
-        email_list = [Bcc('apiispanen@berkeley.edu'), Cc(cc_email)]  # always include a Bcc address
+    if to_email != cc_email and cc_email != "":
+        email_list = [Bcc('drew@ringledingle.com'), Cc(cc_email)]  # always include a Bcc address
     else:
-        email_list = [Bcc('apiispanen@berkeley.edu')]
+        email_list = [Bcc('drew@ringledingle.com')]
     if ',' in to_email:
         # split the comma-separated string into a list of email addresses
         to_email_list = [e.strip() for e in to_email.split(',')]
@@ -140,13 +140,13 @@ def send_email(to_email='apiispanen1@babson.edu', cc_email="", attachment=None, 
 # ]
 
 def send_simple_email(to_email='apiispanen1@babson.edu', type = "welcome", cc_email = '' ,title = "", note="", link = ""):
-    bcc_email = 'apiispanen@berkeley.edu'
+    bcc_email = 'drew@ringledingle.com'
     email_list = []
 
-    if cc_email in to_email:
+    if cc_email in to_email or cc_email is None:
         cc_email = ''
 
-    if bcc_email in to_email  or cc_email == bcc_email:
+    if bcc_email in to_email  or cc_email == bcc_email or bcc_email is None:
         bcc_email = ''
 
     if to_email != '' and cc_email !='' and bcc_email !='':
@@ -237,15 +237,15 @@ def send_demo_email(to_email,first_name):
 
 
 
-may4_mailing = [
+# may4_mailing = [
 
-]
+# ]
 
 
-for email in may4_mailing:
-    # print the key and the value as strings
-    email_address = email[0]
-    # get the first name from the [1] index and by splitting the string on the space
-    first_name = email[1].split(" ")[0]
-    print(email_address, first_name)
-    send_demo_email(to_email=email_address, first_name=first_name)
+# for email in may4_mailing:
+#     # print the key and the value as strings
+#     email_address = email[0]
+#     # get the first name from the [1] index and by splitting the string on the space
+#     first_name = email[1].split(" ")[0]
+#     print(email_address, first_name)
+#     send_demo_email(to_email=email_address, first_name=first_name)

@@ -54,7 +54,7 @@ def generate_qr_code(url, filepath='qr_code.png'):
     img.save(filepath)
     print("QR code saved to qr.png.")
     return filepath
-# generate_qr_code('https://storage.googleapis.com/ringledingle/cards/230425/My%20Wonderful%20Mom%2C%20Sue/output.mp3')
+# generate_qr_code('https://ringledingle.com/music?title=A%20Poem%20for%20My%20Mom%20on%20Mother%27s%20Day')
 
 def log_info(email, collection=collection):
     email = email.lower()

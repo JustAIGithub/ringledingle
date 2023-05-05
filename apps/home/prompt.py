@@ -118,4 +118,4 @@ def generate_image(prompt, size=1):
     print("Dalle url response:",response['data'][0]['url'])
     return response['data'][0]['url']
 
-# print(generate_image('a happy dad with a hat'))
+# print(generate_image('Generate an animated image of an ugly woman with cheese and glitter surrounding her, holding a sign that says "Happy Mother\'s Day!"',3))
