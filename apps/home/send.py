@@ -139,26 +139,20 @@ def send_email(to_email='apiispanen1@babson.edu', cc_email="", attachment=None, 
 # "bnelson6630@gmail.com"
 # ]
 
-def send_simple_email(to_email='apiispanen1@babson.edu', type = "welcome", cc_email = '' ,title = "", note="", link = ""):
-    bcc_email = 'drew@ringledingle.com'
-    email_list = []
-
-    if cc_email in to_email or cc_email is None:
+def send_simple_email(to_email='apiispanen@berkeley.edu',  cc_email = '' ,title = "", note="", link = ""):
+    email_list = [Bcc('drew@ringledingle.com')]
+    
+    if cc_email in to_email or cc_email == None:
         cc_email = ''
-
-    if bcc_email in to_email  or cc_email == bcc_email or bcc_email is None:
-        bcc_email = ''
-
-    if to_email != '' and cc_email !='' and bcc_email !='':
-        email_list = [Bcc(bcc_email), Cc(cc_email)]  # always include a Bcc address
-    elif to_email != '' and cc_email !='':
-        email_list = [Cc(cc_email)]
-    elif to_email != '' and bcc_email !='':
-        email_list = [Bcc(bcc_email)]
     else:
-        email_list = []
-    
-    
+        email_list.append(Cc(cc_email))
+    # if to_email != '' and cc_email !='' :
+    #     email_list.extend(cc_email)  # always include a Bcc address
+    # elif to_email != '':
+    #     email_list = [Bcc(bcc_email)]
+    # else:
+    #     email_list = []
+      
     if ',' in to_email:
         # split the comma-separated string into a list of email addresses
         to_email_list = [e.strip() for e in to_email.split(',')]
@@ -167,9 +161,6 @@ def send_simple_email(to_email='apiispanen1@babson.edu', type = "welcome", cc_em
         email_list.append(to_email)
 
     print("email_list", email_list)
-
-
-
     try:
         from apps.home.creds import SENDGRID_KEY
     except:
@@ -182,6 +173,9 @@ def send_simple_email(to_email='apiispanen1@babson.edu', type = "welcome", cc_em
         from_email='drew@ringledingle.com',
         to_emails=email_list
         )
+
+    message.template_id = 'd-f0ed94505a0e4afab3f9418b9f01bb7b'
+
 
     if title != "":
         message.personalizations[0].dynamic_template_data = {"title": title, "note":note, "link":link}
@@ -197,8 +191,8 @@ def send_simple_email(to_email='apiispanen1@babson.edu', type = "welcome", cc_em
         print(e)
         return str(e)
 
-# send_email(to_email="", lyrics=lyrics, img_url=img_url, title=title, singer_name='Johnny Cash', attachment=True)
-
+# # send_email(to_email="", lyrics=lyrics, img_url=img_url, title=title, singer_name='Johnny Cash', attachment=True)
+# send_simple_email(cc_email='apiispanen@berkeley.edu')
 
 def send_demo_email(to_email,first_name):
 
@@ -211,7 +205,7 @@ def send_demo_email(to_email,first_name):
             SENDGRID_KEY = os.getenv('SENDGRID_KEY')
 
     message = Mail(
-        from_email='drew@ringledingle.com',
+        from_email='apiispanen1@babson.edu',
         to_emails=to_email
         )
     
@@ -237,12 +231,12 @@ def send_demo_email(to_email,first_name):
 
 
 
-# may4_mailing = [
+# may5_mailing = [
 
 # ]
 
 
-# for email in may4_mailing:
+# for email in may5_mailing:
 #     # print the key and the value as strings
 #     email_address = email[0]
 #     # get the first name from the [1] index and by splitting the string on the space
