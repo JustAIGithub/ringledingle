@@ -221,6 +221,47 @@ def email_share():
     # send_email(to_email=recipient_email, cc_email=email, attachment=f'apps/static/temp/{output_file}', lyrics=lyrics, img_url=img_url, singer_name=singer_name, title=title, note=note) 
     return jsonify(success=simple_email_response)
 
+@blueprint.route('/sitemap.xml', methods=['GET'])
+def sitemap():
+    sitemap_xml = generate_sitemap(URLS)
+    response = Response(sitemap_xml, content_type='application/xml')
+    return response
+
+
+
+URLS = [
+    {
+        'loc': 'https://ringledingle.com/home',
+        'lastmod': '2023-05-04',
+        'priority': '1.00'
+    },
+    {
+        'loc': 'https://ringledingle.com/demo',
+        'lastmod': '2023-05-04',
+        'priority': '0.80'
+    },
+    {
+        'loc': 'https://ringledingle.com/music',
+        'lastmod': '2023-05-04',
+        'priority': '0.40'
+    }
+
+]
+
+def generate_sitemap(urls):
+    sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n'
+    sitemap += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    
+    for url in urls:
+        sitemap += '  <url>\n'
+        sitemap += '    <loc>{}</loc>\n'.format(url['loc'])
+        sitemap += '    <lastmod>{}</lastmod>\n'.format(url['lastmod'])
+        sitemap += '    <priority>{}</priority>\n'.format(url['priority'])
+        sitemap += '  </url>\n'
+    
+    sitemap += '</urlset>'
+    return sitemap
+
 
 
 if __name__ == '__main__':

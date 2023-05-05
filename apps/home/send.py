@@ -182,11 +182,6 @@ def send_simple_email(to_email='apiispanen1@babson.edu', type = "welcome", cc_em
         from_email='drew@ringledingle.com',
         to_emails=email_list
         )
-    # message.reply_to = 'apiispanen@berkeley.edu'
-    if type == "welcome":
-        message.template_id = 'd-1864a74d28434f958cfd2e6c5c79ff39'
-    if type == "dingle":
-        message.template_id = 'd-f0ed94505a0e4afab3f9418b9f01bb7b'
 
     if title != "":
         message.personalizations[0].dynamic_template_data = {"title": title, "note":note, "link":link}
@@ -202,5 +197,55 @@ def send_simple_email(to_email='apiispanen1@babson.edu', type = "welcome", cc_em
         print(e)
         return str(e)
 
-
 # send_email(to_email="", lyrics=lyrics, img_url=img_url, title=title, singer_name='Johnny Cash', attachment=True)
+
+
+def send_demo_email(to_email,first_name):
+
+    try:
+        from apps.home.creds import SENDGRID_KEY
+    except:
+        try:
+            from creds import SENDGRID_KEY
+        except:
+            SENDGRID_KEY = os.getenv('SENDGRID_KEY')
+
+    message = Mail(
+        from_email='drew@ringledingle.com',
+        to_emails=to_email
+        )
+    
+
+    message.template_id = 'd-98ed6819d1924c9f87cbbc34c517d112'
+
+
+    message.personalizations[0].dynamic_template_data =     {
+        "first_name": first_name
+    }
+
+
+    try:
+        sg = SendGridAPIClient(SENDGRID_KEY)
+        response = sg.send(message)
+        print(response.status_code)
+        print(response.body)
+        print(response.headers)
+        return "Success"
+    except Exception as e:
+        print(e)
+        return str(e)
+
+
+
+may4_mailing = [
+
+]
+
+
+for email in may4_mailing:
+    # print the key and the value as strings
+    email_address = email[0]
+    # get the first name from the [1] index and by splitting the string on the space
+    first_name = email[1].split(" ")[0]
+    print(email_address, first_name)
+    send_demo_email(to_email=email_address, first_name=first_name)
