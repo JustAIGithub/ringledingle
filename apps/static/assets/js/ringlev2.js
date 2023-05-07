@@ -525,9 +525,9 @@ $('#send-button').on('click', function () {
       data: JSON.stringify(data),
       contentType: 'application/json',
       success: function (data) {
-        console.log(data);
+      console.log(data);
 
-        showMessageModal(data.success.concat(`! \nIf an error occurred, try resending the email, or press 'Start Over' to try to Ringle another Dingle.`), false);
+        showMessageModal(data.success.concat(`! \n\nIf an error occurred, try resending the email, or press 'Start Over' to try to Ringle another Dingle.`), false);
         document.getElementById('send-button').innerText = 'Send Email';
 
         $('#email-spinner').hide();

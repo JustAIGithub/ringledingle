@@ -188,11 +188,26 @@ def send_simple_email(to_email='apiispanen@berkeley.edu',  cc_email = '' ,title 
         print(response.headers)
         return "Success"
     except Exception as e:
-        print(e)
-        return str(e)
+        try:            
+            message = Mail(
+                from_email='drew@ringledingle.com',
+                to_emails=to_email_list
+                )
+            message.template_id = 'd-f0ed94505a0e4afab3f9418b9f01bb7b'
+            if title != "":
+                message.personalizations[0].dynamic_template_data = {"title": title, "note":note, "link":link}
+            sg = SendGridAPIClient(SENDGRID_KEY)
+            response = sg.send(message)
+            print(response.status_code)
+            print(response.body)
+            print(response.headers)
+            return "Success"
+        except Exception as e:
+            print(e)
+            return str(e)
 
 # # send_email(to_email="", lyrics=lyrics, img_url=img_url, title=title, singer_name='Johnny Cash', attachment=True)
-# send_simple_email(cc_email='apiispanen@berkeley.edu')
+# send_simple_email(cc_email='')
 
 def send_demo_email(to_email,first_name):
 
@@ -231,9 +246,7 @@ def send_demo_email(to_email,first_name):
 
 
 
-# may5_mailing = [
-
-# ]
+# may5_mailing = []
 
 
 # for email in may5_mailing:
