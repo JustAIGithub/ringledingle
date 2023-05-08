@@ -158,6 +158,7 @@ def send_simple_email(to_email='apiispanen@berkeley.edu',  cc_email = '' ,title 
         to_email_list = [e.strip() for e in to_email.split(',')]
         email_list.extend(to_email_list)
     else:
+        to_email_list = [to_email]
         email_list.append(to_email)
 
     print("email_list", email_list)
