@@ -173,8 +173,8 @@ $(document).ready(function() {
     const data = await response.json();
     const airesponse = data.airesponse;
     var title = data.title;
-    var img_url = data.img_url;
-    var lrc_lyrics = data.lrc_lyrics;
+    // var img_url = data.img_url;
+    // var lrc_lyrics = data.lrc_lyrics;
 
     ask_question_running = false;
 
@@ -299,7 +299,7 @@ $(document).ready(function() {
       var lyrics = encodeURIComponent(document.getElementById("edit-lyrics").value);
       var recipient_email = encodeURIComponent(document.getElementById("recipient-email").value.trim());
       var cc_email = encodeURIComponent(document.getElementById("email").value.trim());  
-      var title = document.getElementById("title").innerHTML;
+      var title = encodeURIComponent(document.getElementById("title").innerHTML);
       generateDingle(lyrics, title, singer, input_file, recipient_email, cc_email, singer_name);
     }
 

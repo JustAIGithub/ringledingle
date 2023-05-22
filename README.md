@@ -24,3 +24,5 @@ RingleDingle was coded by Professor Doctor Scholar Drew Piispanen in 2023.<br><b
 - April 18: Email templates and AI image generation with DALLE added.
 - April 24: Etsy site for physical products!
 - May 2nd: V2 Released! Now with customizable music player.
+- May 11th: V2 Debugs, minor changes
+- May 18th: Homepage revived

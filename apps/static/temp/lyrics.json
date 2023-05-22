@@ -1,84 +1,68 @@
 {
     "lyrics": [
         {
-            "line": "Counting is fun!",
+            "line": "Boy, this was hard,",
             "time": 8000
         },
         {
-            "line": "Said Pooh with a grin,",
-            "time": 10056
+            "line": "Six weeks of coding non-stop,",
+            "time": 10544
         },
         {
-            "line": "As he hopped through the meadow,",
-            "time": 12240
+            "line": "But I made it through,",
+            "time": 13819
         },
         {
-            "line": "And started to begin",
-            "time": 14773
+            "line": "And now my website's a top shop",
+            "time": 16421
         },
         {
-            "line": "One, two, three,",
-            "time": 17061
+            "line": "I learned so much here,",
+            "time": 19848
         },
         {
-            "line": "He counted the flowers,",
-            "time": 19153
+            "line": "From HTML to CSS,",
+            "time": 22752
         },
         {
-            "line": "Yellow and pink,",
-            "time": 21372
+            "line": "My skills are honed now,",
+            "time": 24959
         },
         {
-            "line": "In the warm sun for hours",
-            "time": 23196
+            "line": "And I couldn't be more impressed",
+            "time": 27875
         },
         {
-            "line": "Four, five, six,",
-            "time": 25775
+            "line": "Buildspace was intense,",
+            "time": 30767
         },
         {
-            "line": "He counted the bees,",
-            "time": 28041
+            "line": "But the payoff is so great",
+            "time": 33520
         },
         {
-            "line": "Buzzing around him,",
-            "time": 30097
+            "line": "I built my own site now,",
+            "time": 36308
         },
         {
-            "line": "Collecting honey with ease",
-            "time": 32200
+            "line": "My future's looking first-rate",
+            "time": 39677
         },
         {
-            "line": "Seven, eight, nine,",
-            "time": 34651
+            "line": "Thank you, Buildspace team,",
+            "time": 42778
         },
         {
-            "line": "He counted his friends,",
-            "time": 37137
+            "line": "For challenging me each day",
+            "time": 45624
         },
         {
-            "line": "Tigger and Piglet and Eeyore too,",
-            "time": 39356
+            "line": "I'm ready for the world now;",
+            "time": 48552
         },
         {
-            "line": "Their friendship never ends",
-            "time": 42319
-        },
-        {
-            "line": "Ten! He exclaimed",
-            "time": 44758
-        },
-        {
-            "line": "With a jump in the air",
-            "time": 46908
-        },
-        {
-            "line": "Counting is fun!",
-            "time": 49243
-        },
-        {
-            "line": "Said Pooh without a care",
-            "time": 51288
+            "line": "Watch out, because I'm on my way",
+            "time": 51676
         }
     ]
 }

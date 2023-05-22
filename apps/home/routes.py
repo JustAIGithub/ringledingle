@@ -31,16 +31,20 @@ import json
 
 @blueprint.route('/')
 def index():
-    return render_template('home/home.html', segment='index')
+    return render_template('home/home.html', segment='home')
+
+@blueprint.route('/home')
+def home():
+    return render_template('home/home.html', segment='home')
 
 
 @blueprint.route('/demo')
 def demo():
     return render_template('home/index.html', segment='demo')
 
-@blueprint.route('/home')
-def home():
-    return render_template('home/home.html', segment='home')
+@blueprint.route('/rome')
+def rome():
+    return render_template('home/romainian.html', segment='rome')
 
 @blueprint.route('/music')
 def music():
@@ -98,7 +102,7 @@ def generate_lyrics():
     words = unquote(request.json['words'])
     singer_name = request.json['singer_name']
     email = unquote(request.json['email'])
-    session['cc_email'] = email
+    # session['cc_email'] = email
 
     print("MAKING POEM", words, "Singer Name:", singer_name)
     lyrics = ai_response(words)
@@ -152,7 +156,7 @@ def generate_dingle():
     # print(f"title: {title}, lyrics: {rap_lyrics}, img_url: {img_url}, singer_name: {singer_name}")
     
     # save email to a flask session
-    session['cc_email'] = cc_email
+    # session['cc_email'] = cc_email
     store_song(cc_email=cc_email, title=title, json_lyrics=json_lyrics, imgsrc=img_path, audiopath=output_path, singer_name=singer_name)
     
     # send_email(to_email=email, attachment=f'apps/static/media/{output_file}', lyrics=words, img_url=img_url, singer_name=singer_name, title=title) 
@@ -166,10 +170,7 @@ def get_json():
     print("GETTING JSON")
     cc_email = request.args.get('email')
     if cc_email is None:
-        try: 
-            cc_email = session['cc_email']
-        except:
-            cc_email = 'apiispanen@berkeley.edu'
+        cc_email = ''
     title = request.args.get('title')
         
 

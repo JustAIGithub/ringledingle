@@ -6,7 +6,6 @@ import datetime
 import os
 from flask import request
 
-
 from pymongo import MongoClient
 
 # connect to the database
@@ -54,7 +53,7 @@ def generate_qr_code(url, filepath='qr_code.png'):
     img.save(filepath)
     print("QR code saved to qr.png.")
     return filepath
-# generate_qr_code('https://ringledingle.com/music?title=A%20Poem%20for%20My%20Mom%20on%20Mother%27s%20Day')
+# generate_qr_code('https://dolphinconsults.com/want-to-try-contextual-ai-in-your-business/')
 
 def log_info(email, collection=collection):
     email = email.lower()

@@ -121,8 +121,28 @@ def make_narration(input_file, output_file, lyrics, start_lag=8, music_volume=20
     return json_lyrics_filepath
 
 
+lyrics = """
+
+ my mom's name is maddew,
+a woman so giving and true
+she loves to watch TeeVee,
+and spend time with her family
+
+her hart is peir gold,
+a kindness that never grows old
+she gives without expecting return,
+her love for others truly does burn
+
+maddew is a special kind of person,
+one who brightens up the darkest of curtains
+i am blessed to call her my mother,
+and i will always cherish her like no other,
+
+Happy Mother's Day, with love from Ronnie and Drew
 
 
+"""
+# make_narration("apps/static/media/pensive.mp3", "output_audio.mp3", lyrics, voice="betty-white")
 
 # # # # Usage
 # input_file = "apps/static/media/magic.mp3"

@@ -10,144 +10,44 @@
     <meta name="description" content="RingleDingle offers AI narrated e-greeting cards, personalized poems, and custom images for a fun and friendly experience. Choose from celebrity voices like Johnny Cash and Betty White.">
     <meta name="keywords" content="RingleDingle, AI narrated, e-greeting cards, personalized poems, custom images, celebrity voices, Johnny Cash, Betty White">
     <title>RingleDingle - AI Narrated E-Greeting Cards</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: var(--fourth-color);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
-        }
-        .container *{
-            color:var(--white-color);
-        }
-    .header {
-        text-align: center;
-        margin-bottom: 30px;
-    }
-    .celebrity-image {
-        max-width: 40%;
-        height: auto;
-        margin: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
- 
-      }
-
-    .content-box {
-        background-color: rgba(243, 234, 155, 0.61);
-        padding: 20px;
-        margin: 10px 0;
-        border-radius: 4px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
-    }
-    h1{
-      font-family: 'Courier New', Courier, monospace;
-    }
-    .call-to-action {
-    margin: 30px 0;
-}
-
-.btn-primary {
-    background-color: var(--fifth-color);
-    border-color: transparent;
-    color: #ffffff;
-    font-weight: bold;
-    font-family: "Virgil";
-    padding: 12px 24px;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: background-color 0.3s, border-color 0.3s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
-}
-
-.btn-primary:hover,
-.btn-primary:focus {
-    background-color: var(--third-color);
-    border-color: transparent;
-    text-decoration: none;
-    /* transform the button to grow, but slowly */
-    transform: scale(1.25);
-
-    
-}
-#iframe {
-  position: relative; /* position the iframe absolutely within the container */
-  top: 0; /* position the iframe at the top of the container */
-  /* right: 20px; position the iframe at the left of the container */
-  width: 200px; /* set the width of the container */
-  height: 30vh; /* set the height of the container */
-  z-index: 5000;
-  text-align: center;
-  padding:20px
-}
-
-#iframe iframe {
-  position: relative; /* make the container a positioned element for absolute positioning of the iframe */
-  width: 300px; /* set the width of the container */
-  height: 30vh; /* set the height of the container */
-  overflow: hidden; /* hide the overflowing content */
-  text-align: right;
-  float:right;
-  min-height:500px;
-  border-radius: 25px;
-  /* do not show scrollbar in iframe */
-  
-
-}
-
-
-footer *{
-    text-decoration: none;
-    color:var(--white-color);
-}
-
-
-    @media screen and (max-width: 768px) {
-        .celebrity-image {
-            margin-bottom: 20px;
-        }
-    }
-  </style>
   </head>
-  <body>
-    <div class="container" id="home">
-        <div class="header">
+
+    <a class="hover:no-underline" href="/demo"><div class="container w-screen text-left border-white" id="home">
+        <div class="header p-12 font-bold block w-screen">
           <img src="static/media/ringledingle_logo.png" alt="" style="max-height: 10vh; float:left; ">
-            <h1>Welcome to RingleDingle!</h1>
-            <h2>AI Narrated E-Greeting Cards with a Personal Touch</h2>
-        </div>
-    <div class="row">
-        <div class="col-md-6">
+            <h1 class="text-xlg block">Welcome to RingleDingle!</h1>
+            <h2 class="text-lg p-8 block">AI Narrated E-Greeting Cards with a Personal Touch</h2><p class="text-slate-600	">(click to try)</p>
+        </div></a>
+        
+        
+    <div class="row md">
+        <div class="flex-col p-8 m-5 mt-10 w-100">
             <h2>About RingleDingle</h2>
-            <p>RingleDingle is a fun and friendly e-greeting card service that uses advanced AI technology to generate personalized poems for your loved ones. Choose from a variety of celebrity voices, such as Johnny Cash and Betty White, to narrate the poem in an audio file with a backing track. An image of the poem, as interpreted by DALLE, will also be included in the card.</p>
+            <p class="text-left w-100">RingleDingle is a fun and friendly e-greeting card service that uses advanced AI technology to generate personalized poems for your loved ones. Choose from a variety of celebrity voices, such as Johnny Cash and Betty White, to narrate the poem in an audio file with a backing track. An image of the poem, as interpreted by DALLE, will also be included in the card.</p>
         </div>
-        <div class="col" id="iframe">
-            <iframe src="https://ringledingle.com/music" alt="RingleDingle AI Poem Reader" frameborder="0" style="height:60vh;"></iframe>
+        <div class="col flex border-1 text-right p-8 " id="iframe">
+            <iframe class="w-80" src="https://ringledingle.com/music" alt="RingleDingle AI Poem Reader" frameborder="0" style="height:100vh;"></iframe>
             <!-- <img src="/static/media/image.png" alt="RingleDingle Sample Card" class="celebrity-image"> -->
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6">
+        <div class="col p-8 m-5 mt-10 w-100">
             <h2>How it Works</h2>
-            <ol>
+            <ol class="text-left list-[square]">
                 <li>Enter your email and information about the recipient of the RingleDingle.</li>
                 <li>Select a celebrity voice to narrate your poem.</li>
                 <li>Our AI technology will generate a personalized poem that describes the recipient.</li>
                 <li>Choose the poem you like, and our system will generate the full card and/or email, complete with an audio file, AI narration, and an image of the poem as interpreted by DALLE.</li>
             </ol>
         </div>
-        <div class="col-md-12">        <div class="call-to-action text-center">
-            <a href="/demo" class="btn btn-primary" role="button">Try RingleDingle E-Greeting Cards Now!</a>
-            <label for="" style="display:block">Did we mention it's free?</label>
+        <div class="p-10 my-10 w-100">        
+            <div class="call-to-action text-center">
+            <a href="/demo" class="bg-blue-500 hover:bg-blue-400 text-white p-3 font-bold border-b-4 w-100 hover:no-underline border-blue-700 hover:border-blue-500 leading-6 rounded" role="button">Try RingleDingle Now!</a>
+            <label class="p-4" for="" style="display:block">Did we mention it's free?</label>
       </div></div>
     </div>
 
-    <div class="footer text-center">
-        <p>&copy; 2023 RingleDingle. All rights reserved.</p>
-    </div>
 </div>
 
 {% endblock content %}
