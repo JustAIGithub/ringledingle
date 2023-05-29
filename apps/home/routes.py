@@ -130,7 +130,9 @@ def generate_dingle():
     # dalle_request = request.json['dalle_request']
     dalle_request = ai_response(f"Describe in one sentence what a cover photo would be for the poem (i.e. the string will get processed in DALLE for AI image rendering), and put that prompt string in between the delimiters STARTDALLE and ENDDALLE.\n{words}")
     dalle_request = dalle_request[dalle_request.find("STARTDALLE") + len("STARTDALLE:"):dalle_request.find("ENDDALLE")].strip()
-    dalle_request = "A funny cartoon of "+dalle_request
+    # remove the words "cartoon" from the request
+    dalle_request = dalle_request.replace("cartoon", "").replace(".", "").replace("?", "").replace("!", "").replace(":", "").replace(";", "").replace(",", "")
+    dalle_request = dalle_request + ", digital art"
 
     print(f'Dalle request: {dalle_request}')
     input_file = request.json['input_file']

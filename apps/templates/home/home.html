@@ -15,21 +15,25 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   </head>
 
-    <a class="hover:no-underline" href="/demo"><div class="container w-screen text-left border-white" id="home">
-        <div class="header p-12 font-bold block w-screen">
-          <img src="static/media/ringledingle_logo.png" alt="" style="max-height: 10vh; float:left; ">
-            <h1 class="text-xlg block">Welcome to RingleDingle!</h1>
-            <h2 class="text-lg p-8 block">AI Narrated E-Greeting Cards with a Personal Touch</h2><p class="text-slate-600	">(click to try)</p>
-        </div></a>
+  <div class="container w-full text-left border-white bg-white" id="home">
+    <a class="hover:no-underline text-black" href="/demo">
+      <div class="p-12 font-bold block w-full">
+        <img src="static/media/ringledingle_logo.png" alt="" style="max-height: 10vh; display: inline;">
+      </div>
+      <div class="header p-12 font-bold block">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-9xl block text-black">Welcome to RingleDingle!</h1>
+        <h2 class="text-lg p-8 block w-full">AI Narrated E-Greeting Cards with a Personal Touch</h2><p class="text-slate-600 text-black">(click to try)</p>
+      </div>
+    </a>
         
         
-    <div class="row md">
+    <div class="row md w-100">
         <div class="flex-col p-8 m-5 mt-10 w-100">
             <h2>About RingleDingle</h2>
             <p class="text-left w-100">RingleDingle is a fun and friendly e-greeting card service that uses advanced AI technology to generate personalized poems for your loved ones. Choose from a variety of celebrity voices, such as Johnny Cash and Betty White, to narrate the poem in an audio file with a backing track. An image of the poem, as interpreted by DALLE, will also be included in the card.</p>
         </div>
-        <div class="col flex border-1 text-right p-8 " id="iframe">
-            <iframe class="w-80" src="https://ringledingle.com/music" alt="RingleDingle AI Poem Reader" frameborder="0" style="height:100vh;"></iframe>
+        <div class="col flex border-1 text-right p-8 w-full " id="iframe">
+            <iframe class="w-full" src="https://ringledingle.com/music" alt="RingleDingle AI Poem Reader" frameborder="0" style="height:100vh; width:100vw; text-align:center; justify-content: center;"></iframe>
             <!-- <img src="/static/media/image.png" alt="RingleDingle Sample Card" class="celebrity-image"> -->
         </div>
         <div class="col p-8 m-5 mt-10 w-100">
@@ -47,7 +51,6 @@
             <label class="p-4" for="" style="display:block">Did we mention it's free?</label>
       </div></div>
     </div>
-
 </div>
 
 {% endblock content %}
