@@ -55,12 +55,16 @@ def get_voice_id(voice, auth=auth):
     return response.text
 
 # print(get_voice_id('eminem'))
-
+import pydub
 def uberduck_audio_segment(speech, voice, auth=auth):
     # auth = (os.getenv('DUCK_KEY'), os.getenv('DUCK_SECRET'))
     # print("AUTH:",auth)
 
     url = "https://api.uberduck.ai/speak-synchronous"
+    headers = {
+        "accept": "application/json",
+        "authorization": "Basic cHViX3lwdWxvZmtkeGZjYm9lcG5jaTpwa182MDk4NTJjNi02YTQxLTQ3NzYtYjRmYi0zZjljNjRkZDViOWE="
+    }
     payload = {
         "speech": speech,
         "voice": voice,
@@ -68,14 +72,20 @@ def uberduck_audio_segment(speech, voice, auth=auth):
         # "pace":12,
         # "duration": [duration]
     }
-    response = requests.post(url, json=payload, auth=auth)
+    response = requests.post(url, json=payload, auth=auth,headers=headers)
 
-    # REMOVE IF NOT LOCAL
-    # AudioSegment.converter = "ffmpeg.exe"
-
-
-    audio_segment = AudioSegment.from_file(BytesIO(response.content), format="wav")
-    return audio_segment
+    if response.status_code == 200:
+        try:
+            audio_segment = AudioSegment.from_file(BytesIO(response.content), format="wav")
+            return audio_segment
+        except pydub.exceptions.CouldntDecodeError:
+            print("Could not decode the response content as WAV. Dumping content to file for analysis.")
+            with open('response_content.txt', 'wb') as f:
+                f.write(response.content)
+            return None
+    else:
+        print(f"Request failed with status code {response.status_code}, message {response.text}.")
+        return None
 
 # audio = speak("""I'm feeling way too sentimental,
 # Things that used to be so simple,
@@ -148,9 +158,9 @@ def uberduck_audio_segment(speech, voice, auth=auth):
 #     return audio_segment
 
 # Example usage
-# voice = 'spongebob'  # Replace with a voice from the list of available voices
+# voice = 'alan-rickman'  # Replace with a voice from the list of available voices
 # speech = 'Hello, world!'
 # audio_segment = uberduck_audio_segment(speech, voice, 0)
-# audio_segment = speak(speech, voice)
+# # audio_segment = speak(speech, voice)
 
 # print(audio_segment)

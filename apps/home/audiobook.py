@@ -3,10 +3,8 @@ from pydub import AudioSegment
 from pydub.generators import Sine
 import pyphen
 # from apps.home.azure_test import azure_audio_segment
-try:
-    from apps.home.uber import uberduck_audio_segment
-except:
-    from uber import uberduck_audio_segment
+
+from apps.home.uber import uberduck_audio_segment
 from pydub.effects import speedup
 from pydub.silence import detect_nonsilent
 from pydub import AudioSegment
@@ -73,10 +71,10 @@ def make_narration(input_file, output_file, lyrics, start_lag=8, music_volume=20
             try:
                 spoken_phrase = uberduck_audio_segment(phrase, voice=voice)
                 break
-            except:
-                print(f"Error with Uberduck - trial {i}")
-                # spoken_phrase = AudioSegment.silent(duration=1000)
-                continue        
+            except Exception as e:
+                print(f"Error with Uberduck - trial {i}, error {e}")
+                spoken_phrase = AudioSegment.silent(duration=1)
+                continue  
         
         # try:
         #     spoken_phrase = strip_silence(spoken_phrase, silence_thresh=silence_thresh)
@@ -121,27 +119,27 @@ def make_narration(input_file, output_file, lyrics, start_lag=8, music_volume=20
     return json_lyrics_filepath
 
 
-lyrics = """
+# lyrics = """
 
- my mom's name is maddew,
-a woman so giving and true
-she loves to watch TeeVee,
-and spend time with her family
+#  my mom's name is maddew,
+# a woman so giving and true
+# she loves to watch TeeVee,
+# and spend time with her family
 
-her hart is peir gold,
-a kindness that never grows old
-she gives without expecting return,
-her love for others truly does burn
+# her hart is peir gold,
+# a kindness that never grows old
+# she gives without expecting return,
+# her love for others truly does burn
 
-maddew is a special kind of person,
-one who brightens up the darkest of curtains
-i am blessed to call her my mother,
-and i will always cherish her like no other,
+# maddew is a special kind of person,
+# one who brightens up the darkest of curtains
+# i am blessed to call her my mother,
+# and i will always cherish her like no other,
 
-Happy Mother's Day, with love from Ronnie and Drew
+# Happy Mother's Day, with love from Ronnie and Drew
 
 
-"""
+# """
 # make_narration("apps/static/media/pensive.mp3", "output_audio.mp3", lyrics, voice="betty-white")
 
 # # # # Usage

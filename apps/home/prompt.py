@@ -31,7 +31,7 @@ def ai_response(prompt, temperature =.5):
     messages = [{"role": "user", "content": prompt}]
     # NOW RUN THE PROMPT:
     response = openai.ChatCompletion.create( 
-    model="gpt-3.5-turbo-0301",
+    model="gpt-3.5-turbo",
     messages=messages,
         max_tokens=300,
         n=1,
