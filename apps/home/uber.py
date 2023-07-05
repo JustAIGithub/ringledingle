@@ -104,16 +104,23 @@ def uberduck_audio_segment(speech, voice, auth=auth):
 
 
 # print(get_reference_audio(uuid))
-# # LIST ALL VOICES
+# LIST ALL VOICES
 # url = "https://api.uberduck.ai/voices?mode=tts-all&language=english"
-# # params = {
-# #     "mode": "tts-",
-# # }
+# params = {
+#     "mode": "tts-",
+# }
 
 # headers = {
 #     "accept": "application/json",
 #     "content-type": "application/json"
 # }
+# import requests
+# import json
+# response = requests.get(url, auth=(api_key, api_secret), headers=headers)
+# print([voice['name'] for voice in response.json()])
+# # save the list in voice-names.txt
+# with open('voice-names.txt', 'w') as f:
+#     f.write(json.dumps([voice['name'] for voice in response.json()]))
 
 # url = "https://api.uberduck.ai/speak"
 

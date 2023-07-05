@@ -42,16 +42,14 @@ def home():
 def demo():
     return render_template('home/index.html', segment='demo')
 
-@blueprint.route('/rome')
-def rome():
-    return render_template('home/romainian.html', segment='rome')
+# @blueprint.route('/rome')
+# def rome():
+#     return render_template('home/romainian.html', segment='rome')
 
 @blueprint.route('/music')
 def music():
     # get parameter email from url
     user_email = request.args.get('email')
-    session['cc_email'] = user_email
-
     recipient_email = request.args.get('recipient_email')
     print("USER EMAIL: ", user_email)
     return render_template('home/music.html', segment='music', user_email=user_email, recipient_email=recipient_email)
@@ -103,7 +101,6 @@ def generate_lyrics():
     singer_name = request.json['singer_name']
     email = unquote(request.json['email'])
     # session['cc_email'] = email
-
     print("MAKING POEM", words, "Singer Name:", singer_name)
     lyrics = ai_response(words)
     if "verse" in lyrics.lower():
@@ -113,11 +110,10 @@ def generate_lyrics():
     # dalle_request = lyrics[lyrics.find("STARTDALLE") + len("STARTDALLE:"):lyrics.find("ENDDALLE")].strip()
     # print("DALLE REQUEST: ", dalle_request)
     title = lyrics[lyrics.find("STARTTITLE") + len("STARTTITLE:"):lyrics.find("ENDTITLE")].strip()
-
     if log_info(email):
         # If new user, send them email:
+        print("NOT IN DB: SENDING WELCOME EMAIL TO NEW USER", email)
         send_simple_email(email)
-    
     return jsonify({  "lyrics":poem_lyrics, "title":title, "singer_name":singer_name})
 
 @blueprint.route('/generate-dingle', methods=['POST', 'GET'])

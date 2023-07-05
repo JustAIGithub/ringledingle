@@ -7,7 +7,7 @@ function loadCode() {
     return;
   }
 
-
+var recipient_email = ''
 
 
 $(document).ready(function() {
@@ -23,7 +23,6 @@ $(document).ready(function() {
     
     // if #email is present, put the email in the box
     
-    recipient_email = urlParams.get('recipient_email');
     title = urlParams.get('title');
     document.getElementById("share-email").value = recipient_email;
 
@@ -256,10 +255,10 @@ $(document).ready(function() {
     if (currentStep == 1) {
       console.log("FIRST STEP");
     var cc_email = document.getElementById("email").value.trim();
-    var recipient_email = document.getElementById("recipient-email").value.trim();
+    // var recipient_email = document.getElementById("recipient-email").value.trim();
       // EMAIL VALIDATION
     var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(recipient_email) || !emailRegex.test(cc_email)) {
+    if ( !emailRegex.test(cc_email)) {
       showMessageModal('Please enter valid email addresses.');
       $('.carousel').carousel('prev');
       return; // Exit the function if the email is not valid
@@ -297,19 +296,19 @@ $(document).ready(function() {
     if (currentStep == 6) {
       $('.back-button').slideToggle();
       var lyrics = encodeURIComponent(document.getElementById("edit-lyrics").value);
-      var recipient_email = encodeURIComponent(document.getElementById("recipient-email").value.trim());
+      // var recipient_email = encodeURIComponent(document.getElementById("recipient-email").value.trim());
       var cc_email = encodeURIComponent(document.getElementById("email").value.trim());  
       var title = encodeURIComponent(document.getElementById("title").innerHTML);
-      generateDingle(lyrics, title, singer, input_file, recipient_email, cc_email, singer_name);
+      generateDingle(lyrics, title, singer, input_file, "null@null.com", cc_email, singer_name);
     }
 
   
   if (currentStep == 7) {
     var cc_email = document.getElementById("email").value.trim();
-    var recipient_email = document.getElementById("recipient-email").value.trim();
-    console.log( "EMAIL", cc_email, "RECIPIENT EMAIL", recipient_email, "TITLE", title, "SINGER", singer, "INPUT FILE", input_file);
+    // var recipient_email = document.getElementById("recipient-email").value.trim();
+    console.log( "EMAIL", cc_email, "RECIPIENT EMAIL", 'null@null.com', "TITLE", title, "SINGER", singer, "INPUT FILE", input_file);
     // Go to /music?email=email&cc_email=cc_email&title=title
-    window.location.href = '/music?email=' + cc_email + '&recipient_email=' + recipient_email +'&title=' + title;
+    window.location.href = '/music?email=' + cc_email + '&title=' + title;
 
     }
 
