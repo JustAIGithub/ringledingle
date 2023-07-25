@@ -87,6 +87,9 @@ def uberduck_audio_segment(speech, voice, auth=auth):
         print(f"Request failed with status code {response.status_code}, message {response.text}.")
         return None
 
+# print(get_voices())
+
+
 # audio = speak("""I'm feeling way too sentimental,
 # Things that used to be so simple,
 # Now they're causing me to tremble,
@@ -128,19 +131,19 @@ def uberduck_audio_segment(speech, voice, auth=auth):
 # # client = uberduck.UberDuck(os.getenv("DUCK_KEY"), os.getenv("DUCK_SECRET"))
 
 
-# # client = uberduck.UberDuck(DUCK_KEY,DUCK_SECRET)
+# client = uberduck.UberDuck(DUCK_KEY,DUCK_SECRET)
 
 
-# # voices = uberduck.get_voices(return_only_names = True)
+# voices = uberduck.get_voices(return_only_names = True)
 
-# # speech = input('Enter speech: ')
-# # voice = input('Enter voice or enter "LIST" to see list of voices: ')
+# speech = input('Enter speech: ')
+# voice = input('Enter voice or enter "LIST" to see list of voices: ')
 
-# # if voice == 'LIST':
-# #     print('Available voices:\n')
-# #     for voice in sorted(voices): # sorting the voice list in alphabetical order
-# #         print(voice)
-# #     exit()
+# if voice == 'LIST':
+#     print('Available voices:\n')
+#     for voice in sorted(voices): # sorting the voice list in alphabetical order
+#         print(voice)
+#     exit()
 
 # # if voice not in voices:
 # #     print('Invalid voice')
@@ -164,7 +167,7 @@ def uberduck_audio_segment(speech, voice, auth=auth):
 
 #     return audio_segment
 
-# Example usage
+# # Example usage
 # voice = 'alan-rickman'  # Replace with a voice from the list of available voices
 # speech = 'Hello, world!'
 # audio_segment = uberduck_audio_segment(speech, voice, 0)
