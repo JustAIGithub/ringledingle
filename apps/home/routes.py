@@ -113,7 +113,7 @@ def generate_lyrics():
     if log_info(email):
         # If new user, send them email:
         print("NOT IN DB: SENDING WELCOME EMAIL TO NEW USER", email)
-        send_simple_email(email)
+        send_simple_email(email, template_id='d-1864a74d28434f958cfd2e6c5c79ff39')
     return jsonify({  "lyrics":poem_lyrics, "title":title, "singer_name":singer_name})
 
 @blueprint.route('/generate-dingle', methods=['POST', 'GET'])

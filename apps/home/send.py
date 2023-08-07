@@ -139,7 +139,7 @@ def send_email(to_email='apiispanen1@babson.edu', cc_email="", attachment=None, 
 # "bnelson6630@gmail.com"
 # ]
 
-def send_simple_email(to_email='apiispanen@berkeley.edu',  cc_email = '' ,title = "", note="", link = ""):
+def send_simple_email(to_email='apiispanen@berkeley.edu',  cc_email = '' ,title = "", note="", link = "" , template_id = 'd-f0ed94505a0e4afab3f9418b9f01bb7b'):
     email_list = [Bcc('drew@ringledingle.com')]
     
     if cc_email in to_email or cc_email == None:
@@ -175,7 +175,7 @@ def send_simple_email(to_email='apiispanen@berkeley.edu',  cc_email = '' ,title 
         to_emails=email_list
         )
 
-    message.template_id = 'd-f0ed94505a0e4afab3f9418b9f01bb7b'
+    message.template_id = template_id
 
 
     if title != "":
@@ -190,11 +190,11 @@ def send_simple_email(to_email='apiispanen@berkeley.edu',  cc_email = '' ,title 
         return "Success"
     except Exception as e:
         try:            
-            message = Mail(
+            message = Mail( 
                 from_email='drew@ringledingle.com',
                 to_emails=to_email_list
-                )
-            message.template_id = 'd-f0ed94505a0e4afab3f9418b9f01bb7b'
+                ) 
+            message.template_id = template_id
             if title != "":
                 message.personalizations[0].dynamic_template_data = {"title": title, "note":note, "link":link}
             sg = SendGridAPIClient(SENDGRID_KEY)
