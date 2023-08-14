@@ -169,9 +169,10 @@ def uberduck_audio_segment(speech, voice, auth=auth):
 
 # # Example usage
 # voice = 'alan-rickman'  # Replace with a voice from the list of available voices
-voice = 'loser-boy-upbeat'
-speech = 'Hello, world!'
-audio_segment = uberduck_audio_segment(speech, voice, 0)
+# voice = 'loser-boy-upbeat'
+# speech = 'Hello, world!'
+# audio_segment = uberduck_audio_segment(speech, voice, 0)
+# print(audio_segment)
 # audio_segment = speak(speech, voice)
 
 # print(audio_segment)
